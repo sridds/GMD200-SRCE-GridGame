@@ -183,8 +183,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7bb9c1da2b387547a5595a37dc4e9fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 85
-  gridHeight: 85
+  gridWidth: 256
+  gridHeight: 256
   offsetX: 0
   offsetY: 0
   magnification: 13
@@ -195,10 +195,10 @@ MonoBehaviour:
   sandBorderDensity: 1
   isRandomDensity: 1
   randomMin: 1
-  randomMax: 3
-  waterAmount: 0.5
-  cleanRougeParticles: 0
-  rougeParticleSize: 1
+  randomMax: 2
+  waterAmount: 0.47
+  cleanRougeParticles: 1
+  rougeParticleThreshold: 4
   groundLayer:
     serializedVersion: 2
     m_Bits: 8

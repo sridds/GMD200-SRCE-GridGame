@@ -49,7 +49,8 @@ public class TileManager : MonoBehaviour
     [SerializeField] private bool cleanRougeParticles;
 
     [ShowIf(nameof(cleanRougeParticles))]
-    [SerializeField] private int rougeParticleSize = 1;
+    [Tooltip("The amount of tiles that need to be isolated to delete")]
+    [SerializeField] private int rougeParticleThreshold = 4;
 
     [Header("Misc Settings")]
 
@@ -72,11 +73,12 @@ public class TileManager : MonoBehaviour
         GenerateDictionary();
         GenerateTileGroups();
         GenerateTerrain();
-        GenerateSandTiles();
-        
+
         //Clean up lone terrain particles
         if (cleanRougeParticles)
             CleanRougeParticles();
+
+        GenerateSandTiles();
     }
 
     /// <summary>
@@ -245,7 +247,59 @@ public class TileManager : MonoBehaviour
     /// </summary>
     void CleanRougeParticles()
     {
+        //Iterate though matrix
+        for (int x = 0; x < gridWidth; x++)
+        {
+            for (int y = 0; y < gridHeight; y++)
+            {
+                //Check if current tile is water
+                if (currentGrid[x, y].layer == 4)
+                {
+                    CalculateGroupTiles(x, y);
+                }
+            }
+        }
+    }
+    void CalculateGroupTiles(int x, int y)
+    {
+        int tileCount = 0;
+        int[] waterTilesX = new int[10];
+        int[] waterTilesY = new int[10];
 
+        //Iterate from left to right and from up to down to get adjacent tiles
+        for (int adjacentX = -1; adjacentX <= 1; adjacentX++)
+        {
+            for (int adjacentY = -1; adjacentY <= 1; adjacentY++)
+            {
+                int currentX = x + adjacentX;
+                int currentY = y + adjacentY;
+
+                //Out of bounds check
+                if (InBounds(currentX, currentY))
+                {
+                    //If the current tile is ground, replace it
+                    if (currentGrid[currentX, currentY].layer == 4)
+                    {
+                        waterTilesX[tileCount] = currentX;
+                        waterTilesY[tileCount] = currentY;
+                        tileCount++;
+                    }
+                }
+            }
+        }
+
+        //Replace tiles with ground tiles
+        if (tileCount <= rougeParticleThreshold)
+        {
+            for (int i = 0; i < tileCount; i++)
+            {
+                int currentX = waterTilesX[i];
+                int currentY = waterTilesY[i];
+
+                Destroy(currentGrid[currentX, currentY]);
+                GenerateTile(0, currentX, currentY);
+            }
+        }
     }
     /// <summary>
     /// Returns whether the input cordinates are in the arrays bounds
