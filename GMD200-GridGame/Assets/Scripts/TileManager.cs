@@ -164,6 +164,11 @@ public class TileManager : MonoBehaviour
         currentGrid[x, y] = tile;
     }
 
+    void GetCordinate(int x, int y)
+    {
+
+    }
+
     /// <summary>
     /// Search for water tiles, and if surrounding tiles are grass, replace with sand
     /// </summary>
