@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 public class TileManager : MonoBehaviour
 {
@@ -8,10 +9,10 @@ public class TileManager : MonoBehaviour
     [Header("Map Settings")]
 
     [Tooltip("The x or width or the map generated")]
-    [SerializeField] private int gridWidth= 9;
+    [SerializeField] private int gridWidth;
 
     [Tooltip("The y or height of the map generated")]
-    [SerializeField] private int gridHeight = 9;
+    [SerializeField] private int gridHeight;
 
     [Tooltip("Offset the generated tiles on the x-axis")]
     [SerializeField] private int offsetX;
@@ -27,17 +28,28 @@ public class TileManager : MonoBehaviour
 
     [Header("Sand Settings")]
 
-    [SerializeField] private GameObject sandTile;
-
+    [Tooltip("The density of sand generated around water")]
     [SerializeField] private int sandBorderDensity = 2;
+
+    [Tooltip("If Enabled, randomizes the density of each sand generation")]
+    [SerializeField] private bool isRandomDensity;
+
+    [ShowIf(nameof(isRandomDensity))]
+    [SerializeField] private int randomMin = 1;
+
+    [ShowIf(nameof(isRandomDensity))]
+    [SerializeField] private int randomMax = 3;
 
 
     [Header("Water Settings")]
 
-    [Range(0.5f, 1f)]
+    [Range(0.3f, 1f)]
     [SerializeField] private float waterAmount;
 
     [SerializeField] private bool cleanRougeParticles;
+
+    [ShowIf(nameof(cleanRougeParticles))]
+    [SerializeField] private int rougeParticleSize = 1;
 
     [Header("Misc Settings")]
 
@@ -56,11 +68,13 @@ public class TileManager : MonoBehaviour
         offsetX = Random.Range(0, MAX_RANDOM_RANGE);
         offsetY = Random.Range(0, MAX_RANDOM_RANGE);
 
+        //Create Terrain
         GenerateDictionary();
         GenerateTileGroups();
         GenerateTerrain();
-        //GenerateSandTiles();
-
+        GenerateSandTiles();
+        
+        //Clean up lone terrain particles
         if (cleanRougeParticles)
             CleanRougeParticles();
     }
@@ -84,7 +98,7 @@ public class TileManager : MonoBehaviour
         tilesetGroups = new Dictionary<int, GameObject>();
 
         //Create an empty parent for each category of terrain
-        foreach(KeyValuePair<int, GameObject> prefabPair in tileset)
+        foreach (KeyValuePair<int, GameObject> prefabPair in tileset)
         {
             GameObject tileGroupInstance = new(prefabPair.Value.name);
 
@@ -135,8 +149,9 @@ public class TileManager : MonoBehaviour
         //Scale it by number of entries in dictionary
         float scaledPerlin = clampedPerlin * tileset.Count;
 
+        //Water needs to be second in the array for this to work
         scaledPerlin *= waterAmount;
-        
+
         //If number out of bounds comes up, set it to highest value in dictionary
         if (scaledPerlin == tileset.Count)
             scaledPerlin = tileset.Count - 1;
@@ -151,72 +166,114 @@ public class TileManager : MonoBehaviour
     /// <param name="y"></param>
     void GenerateTile(int tileID, int x, int y)
     {
+        //Create the correct tile prefab from dictionary
         GameObject tilePrefab = tileset[tileID];
-
+        
+        //Set tile to correct parent group
         GameObject tileGroup = tilesetGroups[tileID];
 
         GameObject tile = Instantiate(tilePrefab, tileGroup.transform);
 
         tile.transform.localPosition = new Vector3(x, y, 0);
 
+        //Rename to cordinates in matrix
         tile.name = $"Tile_{x}_{y}";
-        
+
+        //Set position
         currentGrid[x, y] = tile;
     }
 
-    void GetCordinate(int x, int y)
+    /// <summary>
+    /// Iterates through grid of tiles to find water tiles
+    /// </summary>
+    void GenerateSandTiles()
     {
 
-    }
-
-    /// <summary>
-    /// Search for water tiles, and if surrounding tiles are grass, replace with sand
-    /// </summary>
-   /* void GenerateSandTiles()
-     {
-        for (int rows = 0; rows < gridWidth; rows++)
+        //Iterate though matrix
+        for (int x = 0; x < gridWidth; x++)
         {
-            for (int columns = 0; columns < gridHeight; columns++)
+            for (int y = 0; y < gridHeight; y++)
             {
-                if (currentGrid[rows, columns].layer == 4)
+                //Check if current tile is water
+                if (currentGrid[x, y].layer == 4)
                 {
-                    for (int sandIncrement = 1; sandIncrement <= sandBorderDensity; sandIncrement++)
+                    //Set random sizes for each beach
+                    if (isRandomDensity)
+                        sandBorderDensity = Random.Range(randomMin, randomMax);
+
+                    //Adds to border amount
+                    for (int sandIncrement = 0; sandIncrement <= sandBorderDensity; sandIncrement++)
                     {
-                        if (IsEdge(rows, columns, sandIncrement))
-                        {
-                            Debug.Log("sand Placed");
-
-                            if (currentGrid[rows + sandIncrement, columns + sandIncrement].layer == groundLayer)
-                                currentGrid[rows + sandIncrement, columns + sandIncrement] = sandTile;
-
-                            if (currentGrid[rows - sandIncrement, columns + sandIncrement].layer == groundLayer)
-                                currentGrid[rows - sandIncrement, columns + sandIncrement] = sandTile;
-
-                            if (currentGrid[rows + sandIncrement, columns - sandIncrement].layer == groundLayer)
-                                currentGrid[rows + sandIncrement, columns - sandIncrement] = sandTile;
-
-                            if (currentGrid[rows - sandIncrement, columns - sandIncrement].layer == groundLayer)
-                                currentGrid[rows - sandIncrement, columns - sandIncrement] = sandTile;
-                        }
-
-                        
+                        CalculateSandBorder(x, y, sandIncrement);
                     }
                 }
-                
+
             }
         }
-     }
-
-    bool IsEdge(int x, int y, int increment)
+    }
+    /// <summary>
+    /// Calculates where to replace ground tiles with sand tiles
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="increment"></param>
+    void CalculateSandBorder(int x, int y, int increment)
     {
-        if (x == 0 || y == 0)
-            return false;
+        //Iterate from left to right and from up to down to get adjacent tiles
+        for (int adjacentX = -increment; adjacentX <= increment; adjacentX++)
+        {
+            for (int adjacentY = -increment; adjacentY <= increment; adjacentY++)
+            {
+                int currentX = x + adjacentX;
+                int currentY = y + adjacentY;
 
-        return true;
-    }*/
-
+                //Out of bounds check
+                if (InBounds(currentX, currentY))
+                {
+                    //If the current tile is ground, replace it
+                    if (currentGrid[currentX, currentY].layer == 3)
+                    {
+                        Destroy(currentGrid[currentX, currentY]);
+                        GenerateTile(2, currentX, currentY);
+                    }
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// Searches for lone terrain instances and sets to surrounding terrain
+    /// </summary>
     void CleanRougeParticles()
     {
 
+    }
+    /// <summary>
+    /// Returns whether the input cordinates are in the arrays bounds
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
+    bool InBounds(int x, int y)
+    {
+        if (x < 0 || x >= gridWidth || y < 0 || y >= gridHeight)
+            return false;
+        else
+            return true;
+    }
+
+    /// <summary>
+    /// Returns the world position of a tile when given the position in the index
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
+    public Vector2 GetTileCordinate(int x, int y)
+    {
+        return currentGrid[x, y].transform.position;
+    }
+
+    public GameObject GetTile(int x, int y)
+    {
+        return currentGrid[x, y];
     }
 }
