@@ -183,22 +183,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7bb9c1da2b387547a5595a37dc4e9fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 256
-  gridHeight: 256
+  gridWidth: 85
+  gridHeight: 85
+  randomOffset: 1
   offsetX: 0
   offsetY: 0
-  magnification: 13
+  magnification: 10
   tilePrefabsArray:
   - {fileID: 843573436798256781, guid: 13ab991326faedb45ad3d305f76d7f09, type: 3}
   - {fileID: 8443830643851865137, guid: 668b8f2435a5c0d4bb1876bd1f35c2f3, type: 3}
   - {fileID: 8443830643851865137, guid: a6a54bf9fe486c04eae651baacf069b5, type: 3}
   sandBorderDensity: 1
-  isRandomDensity: 1
+  isRandomDensity: 0
   randomMin: 1
   randomMax: 2
-  waterAmount: 0.47
+  waterAmount: 0.5
   cleanRougeParticles: 1
-  rougeParticleThreshold: 4
+  rougeParticleThreshold: 2
   groundLayer:
     serializedVersion: 2
     m_Bits: 8

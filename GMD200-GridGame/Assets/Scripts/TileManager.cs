@@ -14,9 +14,14 @@ public class TileManager : MonoBehaviour
     [Tooltip("The y or height of the map generated")]
     [SerializeField] private int gridHeight;
 
+    [Tooltip("If Enabled, will generate a random position on load")]
+    [SerializeField] private bool randomOffset = true;
+
+    [HideIf(nameof(randomOffset))]
     [Tooltip("Offset the generated tiles on the x-axis")]
     [SerializeField] private int offsetX;
 
+    [HideIf(nameof(randomOffset))]
     [Tooltip("Offset the generated tiles on the y-axis")]
     [SerializeField] private int offsetY;
 
