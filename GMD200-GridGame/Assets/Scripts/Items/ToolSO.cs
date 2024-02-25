@@ -4,6 +4,17 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "Tool_SO", menuName = "Items/Tool", order = 1)]
 public class ToolSO : ItemSO
 {
-    // In the future, this will be replaced with the corresponding class that this will break. Tiles will fill this list and be compared
-    public List<GameObject> Breakables;
+    public List<BreakableData> Breakables;
+
+    public DurabilityData Durability;
+}
+
+[System.Serializable]
+public struct BreakableData
+{
+    // All tiles should have a tile tier which can be compared with the breakable data
+    public int Tier;
+
+    // Certain tiers may be slower than others to break
+    public int RequiredHits;
 }
