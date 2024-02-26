@@ -58,6 +58,7 @@ public class Inventory : MonoBehaviour
                     // increase the stack if one was found
                     i.count++;
                     index = items.IndexOf(i);
+                    Debug.Log($"Added {item.ItemName} to item stack at index {index}. Stack count: {i.count}");
 
                     found = true;
                     break;
@@ -76,6 +77,8 @@ public class Inventory : MonoBehaviour
 
         // invoke the successful item add event and return true
         OnItemAdded?.Invoke(item, index);
+        Debug.Log($"Added new {item.ItemName} to inventory at index {index}");
+
         return true;
     }
 
@@ -93,6 +96,7 @@ public class Inventory : MonoBehaviour
         if (item.count > 1)
         {
             item.count--;
+            Debug.Log($"Decreased stack of {item.item.ItemName} at index {index}");
 
             // call the remove event
             OnItemRemoved?.Invoke(item.item, index);
@@ -101,10 +105,11 @@ public class Inventory : MonoBehaviour
         else
         {
             ItemSO itemSO = items[index].item;
+            Debug.Log($"Removed item {itemSO.ItemName} at index {index}");
 
             // remove item and call event
-            items.RemoveAt(index);
             OnItemRemoved?.Invoke(itemSO, index);
+            items.RemoveAt(index);
         }
     }
 
@@ -152,8 +157,7 @@ public class Inventory : MonoBehaviour
             T type = items[index].item as T;
 
             if(type != null) {
-                OnItemRemoved?.Invoke(items[index].item, index);
-                items.RemoveAt(index);
+                RemoveItem(index);
 
                 // if there anything in the slot, swap
                 if (slot != null) {

@@ -58,19 +58,20 @@ public class InventoryDebug : MonoBehaviour
 
     private void ItemRemoved(ItemSO item, int index)
     {
-        if (textIndexPair.ContainsKey(index))
-        {
-            if(inv.TryGetSlot(index, out Slot slot) && slot.count > 1) {
-                string count = inv.Items[index].count > 1 ? $" {inv.Items[index].count}" : "";
-                string text = item.ItemName + count;
+        // something is bugged with this
+        if (!textIndexPair.ContainsKey(index)) return;
+        // try to get the slot
+        if (!inv.TryGetSlot(index, out Slot slot)) return;
 
-                textIndexPair[index].text = text;
-            }
-            else
-            {
-                Destroy(textIndexPair[index].gameObject);
-                textIndexPair.Remove(index);
-            }
+        if(slot.count > 1) {
+            string count = inv.Items[index].count > 1 ? $" {inv.Items[index].count}" : "";
+            string text = item.ItemName + count;
+
+            textIndexPair[index].text = text;
+        }
+        else {
+            Destroy(textIndexPair[index].gameObject);
+            textIndexPair.Remove(index);
         }
 
         SortHierarchy();
