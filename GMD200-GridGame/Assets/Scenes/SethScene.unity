@@ -134,6 +134,8 @@ GameObject:
   - component: {fileID: 1196790108}
   - component: {fileID: 1196790107}
   - component: {fileID: 1196790106}
+  - component: {fileID: 1196790110}
+  - component: {fileID: 1196790109}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -159,7 +161,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -215,6 +217,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1196790109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196790105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 569bfbb46b3724376aec90a8c7d27fa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testItem:
+  - {fileID: 11400000, guid: ab89d4c6a2eec4f889b6c049a3bc12a9, type: 2}
+  - {fileID: 11400000, guid: a8945b748293c4146b5c03186c5324d7, type: 2}
+  - {fileID: 11400000, guid: 51a79639984d54f1198d905ea838fed1, type: 2}
+  - {fileID: 11400000, guid: 51a79639984d54f1198d905ea838fed1, type: 2}
+  - {fileID: 11400000, guid: 51a79639984d54f1198d905ea838fed1, type: 2}
+  - {fileID: 11400000, guid: 51a79639984d54f1198d905ea838fed1, type: 2}
+  - {fileID: 11400000, guid: 3767006759f99439ca8b5fef1643418d, type: 2}
+  testWeapon: {fileID: 11400000, guid: 005df84d95040444a97ba8eadd21ecb4, type: 2}
+  testArmor: {fileID: 11400000, guid: 3767006759f99439ca8b5fef1643418d, type: 2}
+--- !u!114 &1196790110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196790105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172a5c14bc98b4795a6a4093cf5c1681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxInventorySize: 16
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

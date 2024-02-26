@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Reflection;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 
 public class Inventory : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class Inventory : MonoBehaviour
     private int _maxInventorySize = 16;
 
     // the list of items
-    private List<Slot> items;
+    private List<Slot> items = new List<Slot>();
 
     // equiped items. equipped items are not recorded in the item list
     private ArmorSO equippedArmor;
@@ -19,6 +20,7 @@ public class Inventory : MonoBehaviour
     // accessors
     public ArmorSO EquippedArmor { get { return equippedArmor; } }
     public WeaponSO EquippedWeapon { get { return equippedWeapon; } }
+    public List<Slot> Items { get { return items; } }
 
     // delegates
     public delegate void ArmorChanged(ArmorSO oldArmor, ArmorSO newArmor);
@@ -46,21 +48,25 @@ public class Inventory : MonoBehaviour
             bool found = false;
 
             // iterate through each item and check if the items match
-            foreach(Slot i in items)
+            foreach (Slot i in items)
             {
-                if (i.item == item) {
+                // if items match
+                if (i.item.ItemID == item.ItemID) {
                     // cannot exceed the maximum stack
                     if (i.count >= i.item.Stack.MaxStack) continue;
 
                     // increase the stack if one was found
                     i.count++;
+
                     found = true;
                     break;
                 }
             }
 
             // try to add the item without stacking
-            if (!found && !TryAddItem(new Slot(item, 1))) return false;
+            if (!found)
+                if (!TryAddItem(new Slot(item, 1)))
+                    return false;
         }
         else {
             // try to add the item without stacking
@@ -105,57 +111,48 @@ public class Inventory : MonoBehaviour
     /// Equips weapon at corresponding index
     /// </summary>
     /// <param name="index"></param>
-    public void EquipWeapon(int index)
-    {
-        // try to equip the weapon
-        if(!TryEquip<WeaponSO>(index, out WeaponSO weapon)) return;
-
-        // set equipped weapon
-        equippedWeapon = weapon;
-    }
+    public void EquipWeapon(int index) => Equip<WeaponSO>(index, ref equippedWeapon);
 
     /// <summary>
     /// Equips armor at the corresponding index
     /// </summary>
     /// <param name="index"></param>
-    public void EquipArmor(int index)
-    {
-        // try to equip the armor
-        if (!TryEquip<ArmorSO>(index, out ArmorSO armor)) return;
-
-        // set equip
-        equippedArmor = armor;
-    }
+    public void EquipArmor(int index) => Equip<ArmorSO>(index, ref equippedArmor);
 
     /// <summary>
-    /// Generic method which handles the equipping of an equippable item
+    /// You pass through the slot to handle the newly equipped item. Handles both the removal and/or swapping of the item in the equipment slot
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="index"></param>
-    /// <param name="variable"></param>
-    /// <returns></returns>
-    private bool TryEquip<T>(int index, out T variable) where T : ItemSO
+    /// <param name="slot"></param>
+    private void Equip<T>(int index, ref T slot) where T : ItemSO
     {
-        variable = null;
-
         // first check if valid
-        if (!IsIndexValid(index)) return false;
+        if (!IsIndexValid(index)) return;
         // type must be a subclass
-        if (!typeof(T).IsSubclassOf(typeof(ItemSO))) return false;
+        if (!typeof(T).IsSubclassOf(typeof(ItemSO))) return;
 
         // validate type
         if (items[index].item is T) {
             T type = items[index].item as T;
 
             if(type != null) {
-                variable = type;
                 items.RemoveAt(index);
 
-                return true;
+                // if there anything in the slot, swap
+                if(slot != null) {
+                    T temp = slot;
+                    slot = type;
+
+                    // insert the item at the previous index
+                    items.Insert(index, new Slot(temp, 1));
+                }
+                // if there is nothing in the slot, occupy slot
+                else {
+                    slot = type;
+                }
             }
         }
-
-        return false;
     }
 
     /// <summary>
@@ -183,11 +180,17 @@ public class Inventory : MonoBehaviour
     }
 }
 
+/// <summary>
+/// Stores the data for each item slot
+/// </summary>
+///
+[System.Serializable]
 public class Slot
 {
     public ItemSO item;
     public int count;
 
+    // constructor for an item
     public Slot(ItemSO item, int count)
     {
         this.item = item;

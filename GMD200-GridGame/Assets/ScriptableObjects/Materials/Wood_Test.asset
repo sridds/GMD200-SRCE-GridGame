@@ -9,15 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a68cbe5e93d3147faa406031520a6dbd, type: 3}
-  m_Name: Chainmail
+  m_Script: {fileID: 11500000, guid: 3435a8e65f7fb47b68492b1c4cbb4b8c, type: 3}
+  m_Name: Wood_Test
   m_EditorClassIdentifier: 
-  ItemID: 5
-  ItemName: Chainmail
-  SellPrice: 25
+  ItemName: Wood
+  SellPrice: 15
   Stack:
-    CanStack: 0
-    MaxStack: 0
-  Durability:
-    HasDurability: 0
-    MaxDurability: 0
+    CanStack: 1
+    MaxStack: 16

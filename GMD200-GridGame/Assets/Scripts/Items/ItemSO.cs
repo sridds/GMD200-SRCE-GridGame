@@ -3,6 +3,8 @@ using UnityEngine;
 
 public abstract class ItemSO : ScriptableObject
 {
+    public int ItemID;
+
     [Tooltip("This is the name that will be shown in the inventory, shops, etc")]
     public string ItemName;
 
@@ -11,6 +13,16 @@ public abstract class ItemSO : ScriptableObject
     public int SellPrice;
 
     public StackableData Stack;
+
+    /*
+    public static T CreateItemInstance<T>(ItemSO item) where T : ItemSO
+    {
+        var data = ScriptableObject.CreateInstance<T>();
+        T copy = item as T;
+        data = copy;
+
+        return data;
+    }*/
 }
 
 [System.Serializable]
