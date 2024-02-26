@@ -35,6 +35,7 @@ public class InventoryDebug : MonoBehaviour
         inv.OnItemAdded += UpdateList;
         inv.OnArmorChanged += UpdateArmor;
         inv.OnItemRemoved += ItemRemoved;
+        inv.OnWeaponChanged += UpdateWeapon;
     }
 
     private void UpdateList(ItemSO item, int index)
@@ -89,6 +90,11 @@ public class InventoryDebug : MonoBehaviour
         _armorText.text = $"Equipped Armor: {newArmor.ItemName}";
     }
 
+    private void UpdateWeapon(WeaponSO newWeapon)
+    {
+        _weaponText.text = $"Equipped Armor: {newWeapon.ItemName}";
+    }
+
     public void AddMaterial() => inv.AddItem(_testMaterials[Random.Range(0, _testMaterials.Length)]);
     public void AddTool() => inv.AddItem(_testTools[Random.Range(0, _testTools.Length)]);
     public void AddWeapon() => inv.AddItem(_testWeapons[Random.Range(0, _testWeapons.Length)]);
@@ -115,6 +121,20 @@ public class InventoryDebug : MonoBehaviour
 
     public void EquipAnyWeapon()
     {
+        List<Slot> weapons = new List<Slot>();
 
+        foreach (Slot slot in inv.Items)
+        {
+            if (slot.item is WeaponSO)
+            {
+                weapons.Add(slot);
+            }
+        }
+
+        if (weapons.Count == 0) return;
+
+        inv.EquipWeapon(inv.Items.IndexOf(weapons[Random.Range(0, weapons.Count)]));
+
+        SortHierarchy();
     }
 }
