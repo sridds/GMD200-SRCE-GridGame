@@ -21,10 +21,11 @@ public class Inventory : MonoBehaviour
     public List<Slot> Items { get { return items; } }
 
     // delegates
-    public delegate void ArmorChanged(ArmorSO oldArmor, ArmorSO newArmor);
-    public delegate void WeaponChanged(WeaponSO oldWeapon, WeaponSO newWeapon);
+
+    public delegate void ArmorChanged(ArmorSO newArmor);
+    public delegate void WeaponChanged(WeaponSO newWeapon);
     public delegate void ItemAdded(ItemSO item, int index);
-    public delegate void ItemRemoved(ItemSO item);
+    public delegate void ItemRemoved(ItemSO item, int index);
 
     public ArmorChanged OnArmorChanged;
     public WeaponChanged OnWeaponChanged;
@@ -94,7 +95,7 @@ public class Inventory : MonoBehaviour
             item.count--;
 
             // call the remove event
-            OnItemRemoved?.Invoke(item.item);
+            OnItemRemoved?.Invoke(item.item, index);
         }
         // otherwise, remove the item at the index
         else
@@ -103,7 +104,7 @@ public class Inventory : MonoBehaviour
 
             // remove item and call event
             items.RemoveAt(index);
-            OnItemRemoved?.Invoke(itemSO);
+            OnItemRemoved?.Invoke(itemSO, index);
         }
     }
 
@@ -117,7 +118,7 @@ public class Inventory : MonoBehaviour
         if (!Equip<WeaponSO>(index, ref equippedWeapon)) return;
 
         // invoke weapon change event
-        OnWeaponChanged?.Invoke(prev, equippedWeapon);
+        OnWeaponChanged?.Invoke(equippedWeapon);
     }
 
     /// <summary>
@@ -130,7 +131,7 @@ public class Inventory : MonoBehaviour
         if (!Equip<ArmorSO>(index, ref equippedArmor)) return;
 
         // invoke armor change event
-        OnArmorChanged?.Invoke(prev, equippedArmor);
+        OnArmorChanged?.Invoke(equippedArmor);
     }
 
     /// <summary>
@@ -151,15 +152,17 @@ public class Inventory : MonoBehaviour
             T type = items[index].item as T;
 
             if(type != null) {
+                OnItemRemoved?.Invoke(items[index].item, index);
                 items.RemoveAt(index);
 
                 // if there anything in the slot, swap
-                if(slot != null) {
+                if (slot != null) {
                     T temp = slot;
                     slot = type;
 
                     // insert the item at the previous index
                     items.Insert(index, new Slot(temp, 1));
+                    OnItemAdded?.Invoke(items[index].item, index);
                 }
                 // if there is nothing in the slot, occupy slot
                 else {
@@ -194,6 +197,21 @@ public class Inventory : MonoBehaviour
     private bool IsIndexValid(int index)
     {
         if (index < 0 || index > _maxInventorySize - 1) return false;
+        return true;
+    }
+
+    /// <summary>
+    /// Safely retrieves an item at the specified index
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public bool TryGetSlot(int index, out Slot slot)
+    {
+        slot = null;
+        if (!IsIndexValid(index)) return false;
+
+        slot = items[index];
         return true;
     }
 }
