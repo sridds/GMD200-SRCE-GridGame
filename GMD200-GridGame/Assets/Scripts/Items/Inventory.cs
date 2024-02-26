@@ -2,8 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using System.Reflection;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 
 public class Inventory : MonoBehaviour
 {
@@ -23,10 +21,11 @@ public class Inventory : MonoBehaviour
     public List<Slot> Items { get { return items; } }
 
     // delegates
-    public delegate void ArmorChanged(ArmorSO oldArmor, ArmorSO newArmor);
-    public delegate void WeaponChanged(WeaponSO oldWeapon, WeaponSO newWeapon);
-    public delegate void ItemAdded(ItemSO item);
-    public delegate void ItemRemoved(ItemSO item);
+
+    public delegate void ArmorChanged(ArmorSO newArmor);
+    public delegate void WeaponChanged(WeaponSO newWeapon);
+    public delegate void ItemAdded(ItemSO item, int index);
+    public delegate void ItemRemoved(ItemSO item, int index);
 
     public ArmorChanged OnArmorChanged;
     public WeaponChanged OnWeaponChanged;
@@ -42,6 +41,7 @@ public class Inventory : MonoBehaviour
     {
         // cannot be a null call
         if (item == null) return false;
+        int index = items.Count;
 
         // if the item can stack, check to see if theres a matching item
         if (item.Stack.CanStack) {
@@ -50,13 +50,15 @@ public class Inventory : MonoBehaviour
             // iterate through each item and check if the items match
             foreach (Slot i in items)
             {
-                // if items match
-                if (i.item.ItemID == item.ItemID) {
+                // if item names match
+                if (i.item.ItemName == item.ItemName) {
                     // cannot exceed the maximum stack
                     if (i.count >= i.item.Stack.MaxStack) continue;
 
                     // increase the stack if one was found
                     i.count++;
+                    index = items.IndexOf(i);
+                    Debug.Log($"Added {item.ItemName} to item stack at index {index}. Stack count: {i.count}");
 
                     found = true;
                     break;
@@ -74,7 +76,9 @@ public class Inventory : MonoBehaviour
         }
 
         // invoke the successful item add event and return true
-        OnItemAdded?.Invoke(item);
+        OnItemAdded?.Invoke(item, index);
+        Debug.Log($"Added new {item.ItemName} to inventory at index {index}");
+
         return true;
     }
 
@@ -92,18 +96,20 @@ public class Inventory : MonoBehaviour
         if (item.count > 1)
         {
             item.count--;
+            Debug.Log($"Decreased stack of {item.item.ItemName} at index {index}");
 
             // call the remove event
-            OnItemRemoved?.Invoke(item.item);
+            OnItemRemoved?.Invoke(item.item, index);
         }
         // otherwise, remove the item at the index
         else
         {
             ItemSO itemSO = items[index].item;
+            Debug.Log($"Removed item {itemSO.ItemName} at index {index}");
 
             // remove item and call event
+            OnItemRemoved?.Invoke(itemSO, index);
             items.RemoveAt(index);
-            OnItemRemoved?.Invoke(itemSO);
         }
     }
 
@@ -111,13 +117,27 @@ public class Inventory : MonoBehaviour
     /// Equips weapon at corresponding index
     /// </summary>
     /// <param name="index"></param>
-    public void EquipWeapon(int index) => Equip<WeaponSO>(index, ref equippedWeapon);
+    public void EquipWeapon(int index)
+    {
+        WeaponSO prev = equippedWeapon;
+        if (!Equip<WeaponSO>(index, ref equippedWeapon)) return;
+
+        // invoke weapon change event
+        OnWeaponChanged?.Invoke(equippedWeapon);
+    }
 
     /// <summary>
     /// Equips armor at the corresponding index
     /// </summary>
     /// <param name="index"></param>
-    public void EquipArmor(int index) => Equip<ArmorSO>(index, ref equippedArmor);
+    public void EquipArmor(int index)
+    {
+        ArmorSO prev = equippedArmor;
+        if (!Equip<ArmorSO>(index, ref equippedArmor)) return;
+
+        // invoke armor change event
+        OnArmorChanged?.Invoke(equippedArmor);
+    }
 
     /// <summary>
     /// You pass through the slot to handle the newly equipped item. Handles both the removal and/or swapping of the item in the equipment slot
@@ -125,34 +145,39 @@ public class Inventory : MonoBehaviour
     /// <typeparam name="T"></typeparam>
     /// <param name="index"></param>
     /// <param name="slot"></param>
-    private void Equip<T>(int index, ref T slot) where T : ItemSO
+    private bool Equip<T>(int index, ref T slot) where T : ItemSO
     {
         // first check if valid
-        if (!IsIndexValid(index)) return;
+        if (!IsIndexValid(index)) return false;
         // type must be a subclass
-        if (!typeof(T).IsSubclassOf(typeof(ItemSO))) return;
+        if (!typeof(T).IsSubclassOf(typeof(ItemSO))) return false;
 
         // validate type
         if (items[index].item is T) {
             T type = items[index].item as T;
 
             if(type != null) {
-                items.RemoveAt(index);
+                RemoveItem(index);
 
                 // if there anything in the slot, swap
-                if(slot != null) {
+                if (slot != null) {
                     T temp = slot;
                     slot = type;
 
                     // insert the item at the previous index
                     items.Insert(index, new Slot(temp, 1));
+                    OnItemAdded?.Invoke(items[index].item, index);
                 }
                 // if there is nothing in the slot, occupy slot
                 else {
                     slot = type;
                 }
+
+                return true;
             }
         }
+
+        return false;
     }
 
     /// <summary>
@@ -178,6 +203,21 @@ public class Inventory : MonoBehaviour
         if (index < 0 || index > _maxInventorySize - 1) return false;
         return true;
     }
+
+    /// <summary>
+    /// Safely retrieves an item at the specified index
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public bool TryGetSlot(int index, out Slot slot)
+    {
+        slot = null;
+        if (!IsIndexValid(index)) return false;
+
+        slot = items[index];
+        return true;
+    }
 }
 
 /// <summary>
@@ -193,7 +233,7 @@ public class Slot
     // constructor for an item
     public Slot(ItemSO item, int count)
     {
-        this.item = item;
+        this.item = item.Clone();
         this.count = count;
     }
 }

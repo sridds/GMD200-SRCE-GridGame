@@ -5,4 +5,6 @@ public class ArmorSO : ItemSO
 {
     // Durability settings
     public DurabilityData Durability;
+
+    public override ItemSO Clone() => CloneGeneric<ArmorSO>();
 }

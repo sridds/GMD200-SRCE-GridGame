@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Diamond Armor
   m_EditorClassIdentifier: 
   ItemID: 5
-  ItemName: Chainmail
+  ItemName: Diamond Armor
   SellPrice: 25
   Stack:
     CanStack: 0

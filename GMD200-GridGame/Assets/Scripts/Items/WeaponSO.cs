@@ -4,4 +4,6 @@ using UnityEngine;
 public class WeaponSO : ItemSO
 {
     public DurabilityData Durability;
+
+    public override ItemSO Clone() => CloneGeneric<WeaponSO>();
 }

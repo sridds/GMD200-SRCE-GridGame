@@ -5,8 +5,9 @@ using System.Collections.Generic;
 public class ToolSO : ItemSO
 {
     public List<BreakableData> Breakables;
-
     public DurabilityData Durability;
+
+    public override ItemSO Clone() => CloneGeneric<ToolSO>();
 }
 
 [System.Serializable]

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Recipe
   m_EditorClassIdentifier: 
   RequiredResources:
-  - Material: {fileID: 0}
+  - Material: {fileID: 11400000, guid: ab89d4c6a2eec4f889b6c049a3bc12a9, type: 2}
     Amount: 1
-  - Material: {fileID: 0}
+  - Material: {fileID: 11400000, guid: ab89d4c6a2eec4f889b6c049a3bc12a9, type: 2}
     Amount: 1
   OutputItem: {fileID: 11400000, guid: 3767006759f99439ca8b5fef1643418d, type: 2}
   OutputAmount: 1
