@@ -1,10 +1,10 @@
 using NaughtyAttributes;
 using UnityEngine;
+using System.Reflection;
+using System;
 
 public abstract class ItemSO : ScriptableObject
 {
-    public int ItemID;
-
     [Tooltip("This is the name that will be shown in the inventory, shops, etc")]
     public string ItemName;
 
@@ -14,15 +14,24 @@ public abstract class ItemSO : ScriptableObject
 
     public StackableData Stack;
 
-    /*
-    public static T CreateItemInstance<T>(ItemSO item) where T : ItemSO
-    {
-        var data = ScriptableObject.CreateInstance<T>();
-        T copy = item as T;
-        data = copy;
+    public abstract ItemSO Clone();
 
-        return data;
-    }*/
+    /// <summary>
+    /// Copies values inside the scriptable object
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="Instance"></param>
+    /// <returns></returns>
+    protected T CopyValuesReflection<T>(T Instance) where T : ItemSO
+    {
+        Type type = typeof(T);
+        foreach(FieldInfo field in type.GetFields())
+        {
+            field.SetValue(Instance, field.GetValue(this));
+        }
+
+        return Instance;
+    }
 }
 
 [System.Serializable]

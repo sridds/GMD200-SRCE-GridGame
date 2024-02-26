@@ -7,6 +7,14 @@ public class ToolSO : ItemSO
     public List<BreakableData> Breakables;
 
     public DurabilityData Durability;
+
+    public override ItemSO Clone()
+    {
+        ToolSO Instance = ScriptableObject.CreateInstance<ToolSO>();
+        Instance.name = ItemName;
+
+        return CopyValuesReflection(Instance);
+    }
 }
 
 [System.Serializable]

@@ -239,6 +239,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3767006759f99439ca8b5fef1643418d, type: 2}
   testWeapon: {fileID: 11400000, guid: 005df84d95040444a97ba8eadd21ecb4, type: 2}
   testArmor: {fileID: 11400000, guid: 3767006759f99439ca8b5fef1643418d, type: 2}
+  testArmor2: {fileID: 11400000, guid: 8959ca536a63a46f5b1ffa4a3e2fbc7e, type: 2}
 --- !u!114 &1196790110
 MonoBehaviour:
   m_ObjectHideFlags: 0

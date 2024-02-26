@@ -2,8 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using System.Reflection;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 
 public class Inventory : MonoBehaviour
 {
@@ -50,8 +48,8 @@ public class Inventory : MonoBehaviour
             // iterate through each item and check if the items match
             foreach (Slot i in items)
             {
-                // if items match
-                if (i.item.ItemID == item.ItemID) {
+                // if item names match
+                if (i.item.ItemName == item.ItemName) {
                     // cannot exceed the maximum stack
                     if (i.count >= i.item.Stack.MaxStack) continue;
 
@@ -111,13 +109,27 @@ public class Inventory : MonoBehaviour
     /// Equips weapon at corresponding index
     /// </summary>
     /// <param name="index"></param>
-    public void EquipWeapon(int index) => Equip<WeaponSO>(index, ref equippedWeapon);
+    public void EquipWeapon(int index)
+    {
+        WeaponSO prev = equippedWeapon;
+        if (!Equip<WeaponSO>(index, ref equippedWeapon)) return;
+
+        // invoke weapon change event
+        OnWeaponChanged?.Invoke(prev, equippedWeapon);
+    }
 
     /// <summary>
     /// Equips armor at the corresponding index
     /// </summary>
     /// <param name="index"></param>
-    public void EquipArmor(int index) => Equip<ArmorSO>(index, ref equippedArmor);
+    public void EquipArmor(int index)
+    {
+        ArmorSO prev = equippedArmor;
+        if (!Equip<ArmorSO>(index, ref equippedArmor)) return;
+
+        // invoke armor change event
+        OnArmorChanged?.Invoke(prev, equippedArmor);
+    }
 
     /// <summary>
     /// You pass through the slot to handle the newly equipped item. Handles both the removal and/or swapping of the item in the equipment slot
@@ -125,12 +137,12 @@ public class Inventory : MonoBehaviour
     /// <typeparam name="T"></typeparam>
     /// <param name="index"></param>
     /// <param name="slot"></param>
-    private void Equip<T>(int index, ref T slot) where T : ItemSO
+    private bool Equip<T>(int index, ref T slot) where T : ItemSO
     {
         // first check if valid
-        if (!IsIndexValid(index)) return;
+        if (!IsIndexValid(index)) return false;
         // type must be a subclass
-        if (!typeof(T).IsSubclassOf(typeof(ItemSO))) return;
+        if (!typeof(T).IsSubclassOf(typeof(ItemSO))) return false;
 
         // validate type
         if (items[index].item is T) {
@@ -151,8 +163,12 @@ public class Inventory : MonoBehaviour
                 else {
                     slot = type;
                 }
+
+                return true;
             }
         }
+
+        return false;
     }
 
     /// <summary>
@@ -193,7 +209,8 @@ public class Slot
     // constructor for an item
     public Slot(ItemSO item, int count)
     {
-        this.item = item;
+        // clone the item and put in slot
+        this.item = item.Clone();
         this.count = count;
     }
 }

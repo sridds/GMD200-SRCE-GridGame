@@ -4,4 +4,12 @@ using UnityEngine;
 public class WeaponSO : ItemSO
 {
     public DurabilityData Durability;
+
+    public override ItemSO Clone()
+    {
+        WeaponSO Instance = ScriptableObject.CreateInstance<WeaponSO>();
+        Instance.name = ItemName;
+
+        return CopyValuesReflection(Instance);
+    }
 }
