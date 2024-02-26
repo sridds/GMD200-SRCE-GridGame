@@ -5,8 +5,13 @@ using System;
 
 public abstract class ItemSO : ScriptableObject
 {
+    [Header("Item Settings")]
     [Tooltip("This is the name that will be shown in the inventory, shops, etc")]
     public string ItemName;
+
+    [Tooltip("This is the description that will be shown in the inventory, shops, etc")]
+    [TextArea]
+    public string ItemDescription;
 
     [Tooltip("The sell price if this item is listed in a shop")]
     public int SellPrice; // The buy price is not included in the scriptable object and is rather up to the shop listing class to be determined

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Ore_Test
   m_EditorClassIdentifier: 
   ItemName: Ore
+  ItemDescription: 
   SellPrice: 15
   Stack:
     CanStack: 1
-    MaxStack: 3
+    MaxStack: 16

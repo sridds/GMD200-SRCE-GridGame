@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using static Inventory;
 
 public class Inventory : MonoBehaviour
 {
@@ -24,13 +25,11 @@ public class Inventory : MonoBehaviour
 
     public delegate void ArmorChanged(ArmorSO newArmor);
     public delegate void WeaponChanged(WeaponSO newWeapon);
-    public delegate void ItemAdded(ItemSO item, int index);
-    public delegate void ItemRemoved(ItemSO item, int index);
+    public delegate void InventoryUpdate(List<Slot> inv);
 
     public ArmorChanged OnArmorChanged;
     public WeaponChanged OnWeaponChanged;
-    public ItemAdded OnItemAdded;
-    public ItemRemoved OnItemRemoved;
+    public InventoryUpdate OnInventoryUpdate;
 
     /// <summary>
     /// Returns true if the item was successfully added, returns false if the item could not be added.
@@ -76,7 +75,7 @@ public class Inventory : MonoBehaviour
         }
 
         // invoke the successful item add event and return true
-        OnItemAdded?.Invoke(item, index);
+        OnInventoryUpdate?.Invoke(items);
         Debug.Log($"Added new {item.ItemName} to inventory at index {index}");
 
         return true;
@@ -90,27 +89,23 @@ public class Inventory : MonoBehaviour
     {
         if (!IsIndexValid(index)) return;
 
-        Slot item = items[index];
+        Slot slot = items[index];
 
         // if the item is stacked, decrease the count
-        if (item.count > 1)
+        if (slot.count > 1)
         {
-            item.count--;
-            Debug.Log($"Decreased stack of {item.item.ItemName} at index {index}");
-
-            // call the remove event
-            OnItemRemoved?.Invoke(item.item, index);
+            slot.count--;
+            Debug.Log($"Decreased stack of {slot.item.ItemName} at index {index}");
         }
         // otherwise, remove the item at the index
         else
         {
-            ItemSO itemSO = items[index].item;
-            Debug.Log($"Removed item {itemSO.ItemName} at index {index}");
-
-            // remove item and call event
-            OnItemRemoved?.Invoke(itemSO, index);
+            ItemSO item = items[index].item;
+            Debug.Log($"Removed item {item.ItemName} at index {index}");
             items.RemoveAt(index);
         }
+
+        OnInventoryUpdate?.Invoke(items);
     }
 
     /// <summary>
@@ -124,6 +119,7 @@ public class Inventory : MonoBehaviour
 
         // invoke weapon change event
         OnWeaponChanged?.Invoke(equippedWeapon);
+        OnInventoryUpdate?.Invoke(items);
     }
 
     /// <summary>
@@ -137,6 +133,7 @@ public class Inventory : MonoBehaviour
 
         // invoke armor change event
         OnArmorChanged?.Invoke(equippedArmor);
+        OnInventoryUpdate?.Invoke(items);
     }
 
     /// <summary>
@@ -166,7 +163,6 @@ public class Inventory : MonoBehaviour
 
                     // insert the item at the previous index
                     items.Insert(index, new Slot(temp, 1));
-                    OnItemAdded?.Invoke(items[index].item, index);
                 }
                 // if there is nothing in the slot, occupy slot
                 else {

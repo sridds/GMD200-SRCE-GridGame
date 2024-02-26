@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Stone_Test
   m_EditorClassIdentifier: 
   ItemName: Stone
+  ItemDescription: 
   SellPrice: 15
   Stack:
     CanStack: 1
-    MaxStack: 5
+    MaxStack: 16

@@ -32,46 +32,39 @@ public class InventoryDebug : MonoBehaviour
     {
         inv = FindObjectOfType<Inventory>();
 
-        inv.OnItemAdded += UpdateList;
         inv.OnArmorChanged += UpdateArmor;
-        inv.OnItemRemoved += ItemRemoved;
         inv.OnWeaponChanged += UpdateWeapon;
+        inv.OnInventoryUpdate += InventoryUpdate;
     }
 
-    private void UpdateList(ItemSO item, int index)
+    private void InventoryUpdate(List<Slot> newInv)
     {
-        string count = inv.Items[index].count > 1 ? $" {inv.Items[index].count}" : "";
-        string text = item.ItemName + count;
+        for(int i = 0; i < newInv.Count; i++)
+        {
+            string count = newInv[i].count > 1 ? $" {newInv[i].count}" : "";
+            string text = newInv[i].item.ItemName + count;
 
-        if (textIndexPair.ContainsKey(index)) {
-            textIndexPair[index].text = text;
+            // try to get the value and update text
+            if (textIndexPair.TryGetValue(i, out TextMeshProUGUI val)) {
+                val.text = text;
+            }
+            // create new text object with the value pair
+            else {
+                TextMeshProUGUI newText = Instantiate(_textPrefab, _contentHolder);
+                newText.text = text;
+
+                // add key value pair
+                textIndexPair.Add(i, newText);
+            }
         }
-        else {
-            TextMeshProUGUI newText = Instantiate(_textPrefab, _contentHolder);
-            newText.text = text;
 
-            textIndexPair.Add(index, newText);
-        }
-
-        SortHierarchy();
-    }
-
-    private void ItemRemoved(ItemSO item, int index)
-    {
-        // something is bugged with this
-        if (!textIndexPair.ContainsKey(index)) return;
-        // try to get the slot
-        if (!inv.TryGetSlot(index, out Slot slot)) return;
-
-        if(slot.count > 1) {
-            string count = inv.Items[index].count > 1 ? $" {inv.Items[index].count}" : "";
-            string text = item.ItemName + count;
-
-            textIndexPair[index].text = text;
-        }
-        else {
-            Destroy(textIndexPair[index].gameObject);
-            textIndexPair.Remove(index);
+        for(int i = 0; i < textIndexPair.Count; i++)
+        {
+            if(i > newInv.Count - 1)
+            {
+                Destroy(textIndexPair[i].gameObject);
+                textIndexPair.Remove(i);
+            }
         }
 
         SortHierarchy();
