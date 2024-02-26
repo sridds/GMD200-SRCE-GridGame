@@ -209,7 +209,6 @@ public class Slot
     // constructor for an item
     public Slot(ItemSO item, int count)
     {
-        // clone the item and put in slot
         this.item = item.Clone();
         this.count = count;
     }

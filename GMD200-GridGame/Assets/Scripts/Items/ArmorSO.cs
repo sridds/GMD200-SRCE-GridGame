@@ -6,11 +6,5 @@ public class ArmorSO : ItemSO
     // Durability settings
     public DurabilityData Durability;
 
-    public override ItemSO Clone()
-    {
-        ArmorSO Instance = ScriptableObject.CreateInstance<ArmorSO>();
-        Instance.name = ItemName;
-
-        return CopyValuesReflection(Instance);
-    }
+    public override ItemSO Clone() => CloneGeneric<ArmorSO>();
 }
