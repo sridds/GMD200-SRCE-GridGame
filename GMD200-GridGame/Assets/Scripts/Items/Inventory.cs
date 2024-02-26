@@ -23,7 +23,7 @@ public class Inventory : MonoBehaviour
     // delegates
     public delegate void ArmorChanged(ArmorSO oldArmor, ArmorSO newArmor);
     public delegate void WeaponChanged(WeaponSO oldWeapon, WeaponSO newWeapon);
-    public delegate void ItemAdded(ItemSO item);
+    public delegate void ItemAdded(ItemSO item, int index);
     public delegate void ItemRemoved(ItemSO item);
 
     public ArmorChanged OnArmorChanged;
@@ -40,6 +40,7 @@ public class Inventory : MonoBehaviour
     {
         // cannot be a null call
         if (item == null) return false;
+        int index = items.Count;
 
         // if the item can stack, check to see if theres a matching item
         if (item.Stack.CanStack) {
@@ -55,6 +56,7 @@ public class Inventory : MonoBehaviour
 
                     // increase the stack if one was found
                     i.count++;
+                    index = items.IndexOf(i);
 
                     found = true;
                     break;
@@ -72,7 +74,7 @@ public class Inventory : MonoBehaviour
         }
 
         // invoke the successful item add event and return true
-        OnItemAdded?.Invoke(item);
+        OnItemAdded?.Invoke(item, index);
         return true;
     }
 

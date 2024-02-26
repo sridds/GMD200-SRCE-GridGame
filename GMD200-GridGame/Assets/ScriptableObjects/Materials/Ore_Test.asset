@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3435a8e65f7fb47b68492b1c4cbb4b8c, type: 3}
   m_Name: Ore_Test
   m_EditorClassIdentifier: 
-  ItemID: 3
   ItemName: Ore
   SellPrice: 15
   Stack:
-    CanStack: 0
-    MaxStack: 16
+    CanStack: 1
+    MaxStack: 3
