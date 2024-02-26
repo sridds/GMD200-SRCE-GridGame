@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ae8686fe760a4670b5717c64712a9b4, type: 3}
   m_Name: Pickaxe
   m_EditorClassIdentifier: 
-  ItemName: 
-  SellPrice: 0
+  ItemID: 2
+  ItemName: generic_pickaxe
+  SellPrice: 7
+  Stack:
+    CanStack: 0
+    MaxStack: 0
   Breakables: []
   Durability:
-    HasDurability: 0
-    MaxDurability: 0
+    HasDurability: 1
+    MaxDurability: 25

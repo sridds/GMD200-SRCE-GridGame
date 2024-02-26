@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a68cbe5e93d3147faa406031520a6dbd, type: 3}
-  m_Name: Chainmail
+  m_Name: Diamond Armor
   m_EditorClassIdentifier: 
   ItemID: 5
   ItemName: Chainmail
