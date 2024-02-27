@@ -9,15 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a68cbe5e93d3147faa406031520a6dbd, type: 3}
-  m_Name: Chainmail
+  m_Script: {fileID: 11500000, guid: 3e32b29db0bc945528ebdc41e02a70ef, type: 3}
+  m_Name: TestListing_02
   m_EditorClassIdentifier: 
-  ItemName: Chainmail
-  SellPrice: 25
-  Stack:
-    CanStack: 0
-    MaxStack: 0
-  Defence: 2
-  Durability:
-    HasDurability: 0
-    MaxDurability: 0
+  Listing: {fileID: 11400000, guid: 8959ca536a63a46f5b1ffa4a3e2fbc7e, type: 2}
+  Price: 50
+  SalePercentage: {x: 10, y: 25}
+  SaleChance: 45

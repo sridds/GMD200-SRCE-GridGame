@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a68cbe5e93d3147faa406031520a6dbd, type: 3}
   m_Name: Diamond Armor
   m_EditorClassIdentifier: 
-  ItemID: 5
   ItemName: Diamond Armor
   SellPrice: 25
   Stack:
     CanStack: 0
     MaxStack: 0
+  Defence: 5
   Durability:
     HasDurability: 0
     MaxDurability: 0

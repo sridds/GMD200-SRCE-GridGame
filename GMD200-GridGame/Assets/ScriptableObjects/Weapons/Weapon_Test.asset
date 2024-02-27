@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 342ac12a344144775a6556b3e33488a8, type: 3}
   m_Name: Weapon_Test
   m_EditorClassIdentifier: 
-  ItemName: Dagger
+  ItemName: Stone Knife
+  ItemDescription: A jagged blade crafted of a chipped stone
   SellPrice: 12
   Stack:
     CanStack: 0
     MaxStack: 0
+  Attack: 3
   Durability:
     HasDurability: 1
     MaxDurability: 250
