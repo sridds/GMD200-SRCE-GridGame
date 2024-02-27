@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 178595964f0124f539e5c03dc69c318c, type: 3}
   m_Name: MerchantShop
   m_EditorClassIdentifier: 
-  listings:
+  Listings:
   - {fileID: 11400000, guid: 65fe5fb64307d472b9c184a749e3984d, type: 2}
   - {fileID: 11400000, guid: bd52bcd500c884351a1d5ddcf7da446d, type: 2}
+  MaxShopItems: 5

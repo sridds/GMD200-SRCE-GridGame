@@ -15,3 +15,4 @@ MonoBehaviour:
   Listing: {fileID: 11400000, guid: 25b93ebdf7bd143c1bab31381de5a004, type: 2}
   Price: 25
   SalePercentage: {x: 10, y: 50}
+  SaleChance: 25
