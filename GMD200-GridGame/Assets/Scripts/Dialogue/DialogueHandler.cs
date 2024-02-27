@@ -11,7 +11,7 @@ public class DialogueHandler : MonoBehaviour
 
     [Header("Modifiers")]
     [SerializeField]
-    private float _textSpeed;
+    private float _textSpeed = 0.05f;
 
     [Header("Special Characters")]
     [SerializeField]
@@ -27,6 +27,15 @@ public class DialogueHandler : MonoBehaviour
     private string currentLine;
     private bool specialCharacter = false;
     private bool continueFlag = false;
+
+    private void Start()
+    {
+        QueueDialogue("HELP HELP I love my\\# WIFE !!!! ");
+        QueueDialogue("I THROW \\@ROCKS AND HIT PEOPLE WITH ROCKS ITS AWESOME!! ");
+        QueueDialogue("would you like to throw rocks at\\# people with m,e ");
+    }
+
+    public void QueueDialogue(string dialogue) => dialogueQueue.Enqueue(dialogue);
 
     private void Update()
     {
