@@ -8,6 +8,8 @@ public class DialogueHandler : MonoBehaviour
     [Header("UI")]
     [SerializeField]
     private TextMeshProUGUI _dialogueUI;
+    [SerializeField]
+    private GameObject _dialogueBox;
 
     [Header("Modifiers")]
     [SerializeField]
@@ -30,12 +32,33 @@ public class DialogueHandler : MonoBehaviour
 
     private void Start()
     {
-        QueueDialogue("HELP HELP I love my\\# WIFE !!!! ");
-        QueueDialogue("I THROW \\@ROCKS AND HIT PEOPLE WITH ROCKS ITS AWESOME!! ");
-        QueueDialogue("would you like to throw rocks at\\# people with m,e ");
+        // test dialogue
+        QueueDialogue("HELP HELP I love my\\! ROCKS !!!! "); // default pause time
+        QueueDialogue("I THROW \\@ROCKS AND HIT PEOPLE WITH ROCKS ITS AWESOME!! "); // medium pause time
+        QueueDialogue("would you like to throw rocks at\\# people with m,e "); // long pause
     }
 
-    public void QueueDialogue(string dialogue) => dialogueQueue.Enqueue(dialogue);
+    /// <summary>
+    /// Queues up an array of dialogue lines
+    /// </summary>
+    /// <param name="dialogue"></param>
+    public void QueueDialogue(string[] dialogue)
+    {
+        // queue up each dialogue and immediately continue
+        foreach(string s in dialogue) dialogueQueue.Enqueue(s);
+        Continue();
+    }
+
+    /// <summary>
+    /// Queues a single line of dialogue
+    /// </summary>
+    /// <param name="dialogue"></param>
+    public void QueueDialogue(string dialogue)
+    {
+        // queue up the dialogue and immediately start
+        dialogueQueue.Enqueue(dialogue);
+        Continue();
+    }
 
     private void Update()
     {
@@ -48,8 +71,22 @@ public class DialogueHandler : MonoBehaviour
             currentLine = dialogueQueue.Dequeue();
             activeDialogueCoroutine = StartCoroutine(HandleDialogue(currentLine));
         }
+
+        if (CanCloseDialogueBox()) _dialogueBox.SetActive(false);
+
         // reset flags
         continueFlag = false;
+    }
+
+    /// <summary>
+    /// Indicates whether or not the dialogue has finished and can be closed
+    /// </summary>
+    /// <returns></returns>
+    private bool CanCloseDialogueBox()
+    {
+        if (!continueFlag || activeDialogueCoroutine != null || dialogueQueue.Count > 0) return false;
+
+        return true;
     }
 
     /// <summary>
@@ -106,6 +143,8 @@ public class DialogueHandler : MonoBehaviour
     /// <returns></returns>
     private IEnumerator HandleDialogue(string line)
     {
+        _dialogueBox.SetActive(true);
+
         // clear text
         _dialogueUI.text = "";
 
