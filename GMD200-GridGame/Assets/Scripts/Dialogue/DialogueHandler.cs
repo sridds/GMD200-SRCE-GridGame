@@ -116,6 +116,7 @@ public class DialogueHandler : MonoBehaviour
         // stop the current dialogue coroutine
         StopCoroutine(activeDialogueCoroutine);
         activeDialogueCoroutine = null;
+        specialCharacter = false;
 
         // reset dialogue ui and 
         _dialogueUI.text = currentLine.HasCharacter ? $"{currentLine.Character.name.ToUpper()}: " : "";
