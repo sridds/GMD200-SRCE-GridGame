@@ -175,7 +175,7 @@ public class TileManager : MonoBehaviour
     {
         //Create the correct tile prefab from dictionary
         GameObject tilePrefab = tileset[tileID];
-        
+
         //Set tile to correct parent group
         GameObject tileGroup = tilesetGroups[tileID];
 
