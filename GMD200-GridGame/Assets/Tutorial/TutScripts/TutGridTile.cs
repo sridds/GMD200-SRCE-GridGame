@@ -4,15 +4,43 @@ using UnityEngine;
 
 public class TutGridTile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public TutGridManager tutGridManager;
+
+    public Vector2Int gridCoords;
+
+    private SpriteRenderer spriteRenderer;
+    private Color defaultColor;
+
+    private void Awake()
     {
-        
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        defaultColor = spriteRenderer.color;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnMouseOver()
     {
-        
+        tutGridManager.OnTileHoverEnter(this);
+        SetColor(Color.gray);
+    }
+
+    private void OnMouseExit()
+    {
+        tutGridManager.OnTileHoverExit(this);
+        ResetColor();
+    }
+
+    private void OnMouseDown()
+    {
+        tutGridManager.OnTileSelected(this);
+    }
+
+    public void SetColor(Color color)
+    {
+        spriteRenderer.color = color;
+    }
+
+    public void ResetColor()
+    {
+        spriteRenderer.color = defaultColor;
     }
 }
