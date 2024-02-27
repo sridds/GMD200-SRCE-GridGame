@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: TestDialogue_01
   m_EditorClassIdentifier: 
   dialogue:
-  - Line: Hey!! Watch it bro.
+  - Line: Test Dialogue.\@.\@.\# Pausing dialogue test
     HasCharacter: 0
     Character: {fileID: 0}
-  - Line: Oh,\@ I didn't know you were chill like that...
+  - Line: Oh,\@ yep this is test dialogue
     HasCharacter: 1
     Character: {fileID: 11400000, guid: b1bfae1c161fa49a08dc346624e03035, type: 2}
-  - Line: Whats up bro (spunch bob
+  - Line: Brugghhhh...\# long pause there did you see that
     HasCharacter: 1
     Character: {fileID: 11400000, guid: b1bfae1c161fa49a08dc346624e03035, type: 2}
   - Line: More test dialogue

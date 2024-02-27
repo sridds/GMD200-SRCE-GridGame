@@ -46,11 +46,17 @@ public class DialogueHandler : MonoBehaviour
     /// <param name="dialogue"></param>
     public void QueueDialogue(DialogueSO data)
     {
-        // temporary
-        foreach(DialogueData d in data.dialogue)
-        {
-            dialogueQueue.Enqueue(d);
-        }
+        foreach(DialogueData d in data.dialogue) dialogueQueue.Enqueue(d);
+        Continue();
+    }
+
+    /// <summary>
+    /// Queues up a single dialogue data.
+    /// </summary>
+    /// <param name="data"></param>
+    public void QueueDialogue(DialogueData data)
+    {
+        dialogueQueue.Enqueue(data);
         Continue();
     }
 
@@ -112,8 +118,9 @@ public class DialogueHandler : MonoBehaviour
         activeDialogueCoroutine = null;
 
         // reset dialogue ui and 
-        _dialogueUI.text = "";
-        for(int i = 0; i < currentLine.Line.Length; i++)
+        _dialogueUI.text = currentLine.HasCharacter ? $"{currentLine.Character.name.ToUpper()}: " : "";
+
+        for (int i = 0; i < currentLine.Line.Length; i++)
         {
             // skip special characters
             if (currentLine.Line[i] == '\\')
@@ -146,7 +153,8 @@ public class DialogueHandler : MonoBehaviour
         _dialogueBox.SetActive(true);
 
         // clear text
-        _dialogueUI.text = "";
+        _dialogueUI.text = currentLine.HasCharacter ? $"{currentLine.Character.name.ToUpper()}: " : "";
+        yield return null;
 
         // iterate through each char and add it to the text.
         for (int i = 0; i < data.Line.Length; i++)
