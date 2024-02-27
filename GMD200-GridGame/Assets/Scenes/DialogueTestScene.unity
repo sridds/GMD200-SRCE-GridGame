@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 126547254}
   - component: {fileID: 126547253}
   - component: {fileID: 126547256}
+  - component: {fileID: 126547257}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -234,6 +235,19 @@ MonoBehaviour:
   _defaultPauseTime: 0.3
   _mediumPauseTime: 0.5
   _longPauseTime: 0.8
+--- !u!114 &126547257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126547252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56b3e6931ad7a49f49985d212e0199a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue: {fileID: 11400000, guid: eac7f016b3edd48c0a9df0b2847e1f61, type: 2}
 --- !u!1 &397618759
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,10 +382,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 862049950}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 988.02, y: 315.28}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 495.93, y: -142.64}
+  m_SizeDelta: {x: 991.85, y: 345.28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &804532127
 MonoBehaviour:
@@ -424,8 +438,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -436,7 +450,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 21.8
+  m_lineSpacing: 23
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -545,8 +559,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 988.017, y: 315.2768}
+  m_AnchoredPosition: {x: 0, y: 15}
+  m_SizeDelta: {x: 988.017, y: 345.2768}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &918203939
 MonoBehaviour:

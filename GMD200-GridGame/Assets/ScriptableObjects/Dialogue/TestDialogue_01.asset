@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c573ea380082425a92a2325b626eb78, type: 3}
+  m_Name: TestDialogue_01
+  m_EditorClassIdentifier: 
+  dialogue:
+  - Line: Hey!! Watch it bro.
+    HasCharacter: 0
+    Character: {fileID: 0}
+  - Line: Oh,\@ I didn't know you were chill like that...
+    HasCharacter: 1
+    Character: {fileID: 11400000, guid: b1bfae1c161fa49a08dc346624e03035, type: 2}
+  - Line: Whats up bro (spunch bob
+    HasCharacter: 1
+    Character: {fileID: 11400000, guid: b1bfae1c161fa49a08dc346624e03035, type: 2}
+  - Line: More test dialogue
+    HasCharacter: 0
+    Character: {fileID: 11400000, guid: b1bfae1c161fa49a08dc346624e03035, type: 2}

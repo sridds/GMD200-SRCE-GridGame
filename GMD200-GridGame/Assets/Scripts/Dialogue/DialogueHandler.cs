@@ -5,6 +5,8 @@ using TMPro;
 
 public class DialogueHandler : MonoBehaviour
 {
+    public static DialogueHandler Instance { get; private set; }
+
     [Header("UI")]
     [SerializeField]
     private TextMeshProUGUI _dialogueUI;
@@ -23,40 +25,32 @@ public class DialogueHandler : MonoBehaviour
     [SerializeField]
     private float _longPauseTime = 0.8f;
 
-    private Queue<string> dialogueQueue = new Queue<string>();
+    private Queue<DialogueData> dialogueQueue = new Queue<DialogueData>();
     private Coroutine activeDialogueCoroutine;
 
-    private string currentLine;
+    private DialogueData currentLine;
     private bool specialCharacter = false;
     private bool continueFlag = false;
 
-    private void Start()
+    private void Awake()
     {
-        // test dialogue
-        QueueDialogue("HELP HELP I love my\\! ROCKS !!!! "); // default pause time
-        QueueDialogue("I THROW \\@ROCKS AND HIT PEOPLE WITH ROCKS ITS AWESOME!! "); // medium pause time
-        QueueDialogue("would you like to throw rocks at\\# people with m,e "); // long pause
+        // Setup instance
+        if(Instance == null) Instance = this;
+
+        CloseDialogueBox();
     }
 
     /// <summary>
-    /// Queues up an array of dialogue lines
+    /// Queues up dialogue data from dialogue scriptable object
     /// </summary>
     /// <param name="dialogue"></param>
-    public void QueueDialogue(string[] dialogue)
+    public void QueueDialogue(DialogueSO data)
     {
-        // queue up each dialogue and immediately continue
-        foreach(string s in dialogue) dialogueQueue.Enqueue(s);
-        Continue();
-    }
-
-    /// <summary>
-    /// Queues a single line of dialogue
-    /// </summary>
-    /// <param name="dialogue"></param>
-    public void QueueDialogue(string dialogue)
-    {
-        // queue up the dialogue and immediately start
-        dialogueQueue.Enqueue(dialogue);
+        // temporary
+        foreach(DialogueData d in data.dialogue)
+        {
+            dialogueQueue.Enqueue(d);
+        }
         Continue();
     }
 
@@ -72,7 +66,7 @@ public class DialogueHandler : MonoBehaviour
             activeDialogueCoroutine = StartCoroutine(HandleDialogue(currentLine));
         }
 
-        if (CanCloseDialogueBox()) _dialogueBox.SetActive(false);
+        if (CanCloseDialogueBox()) CloseDialogueBox();
 
         // reset flags
         continueFlag = false;
@@ -87,6 +81,12 @@ public class DialogueHandler : MonoBehaviour
         if (!continueFlag || activeDialogueCoroutine != null || dialogueQueue.Count > 0) return false;
 
         return true;
+    }
+
+    private void CloseDialogueBox()
+    {
+        _dialogueUI.text = "";
+        _dialogueBox.SetActive(false);
     }
 
     /// <summary>
@@ -113,17 +113,17 @@ public class DialogueHandler : MonoBehaviour
 
         // reset dialogue ui and 
         _dialogueUI.text = "";
-        for(int i = 0; i < currentLine.Length; i++)
+        for(int i = 0; i < currentLine.Line.Length; i++)
         {
             // skip special characters
-            if (currentLine[i] == '\\')
+            if (currentLine.Line[i] == '\\')
             {
                 i++; // increment to skip over the special character
                 continue;
             }
 
             // add to current line
-            _dialogueUI.text += currentLine[i];
+            _dialogueUI.text += currentLine.Line[i];
         }
     }
 
@@ -139,9 +139,9 @@ public class DialogueHandler : MonoBehaviour
     /// <summary>
     /// Handles a single line of dialogue
     /// </summary>
-    /// <param name="line"></param>
+    /// <param name="data"></param>
     /// <returns></returns>
-    private IEnumerator HandleDialogue(string line)
+    private IEnumerator HandleDialogue(DialogueData data)
     {
         _dialogueBox.SetActive(true);
 
@@ -149,10 +149,10 @@ public class DialogueHandler : MonoBehaviour
         _dialogueUI.text = "";
 
         // iterate through each char and add it to the text.
-        for (int i = 0; i < line.Length; i++)
+        for (int i = 0; i < data.Line.Length; i++)
         {
             // mark special characters as enabled
-            if (line[i] == '\\') {
+            if (data.Line[i] == '\\') {
                 specialCharacter = true;
                 continue;
             }
@@ -160,15 +160,15 @@ public class DialogueHandler : MonoBehaviour
             // switch on the special character and perform the necessary logic
             if (specialCharacter)
             {
-                switch (line[i]){
+                switch (data.Line[i]){
                     case '!':
-                        yield return new WaitForSecondsRealtime(_defaultPauseTime);
+                        yield return new WaitForSeconds(_defaultPauseTime);
                         break;
                     case '@':
-                        yield return new WaitForSecondsRealtime(_mediumPauseTime);
+                        yield return new WaitForSeconds(_mediumPauseTime);
                         break;
                     case '#':
-                        yield return new WaitForSecondsRealtime(_longPauseTime);
+                        yield return new WaitForSeconds(_longPauseTime);
                         break;
                 }
 
@@ -177,7 +177,7 @@ public class DialogueHandler : MonoBehaviour
             }
 
             // add to the text
-            _dialogueUI.text += line[i];
+            _dialogueUI.text += data.Line[i];
             yield return new WaitForSeconds(_textSpeed);
         }
 
