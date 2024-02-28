@@ -56,7 +56,10 @@ public class PerlinData : MonoBehaviour
 
     private const int MAX_RANDOM_RANGE = 99999;
 
-    void Start()
+    public int _gridWidth { get { return gridWidth; } }
+    public int _gridHeight { get { return gridHeight; } }
+
+    void Awake()
     {
         tiles = new TileData[gridWidth, gridHeight];
 
@@ -69,14 +72,6 @@ public class PerlinData : MonoBehaviour
 
         GeneratePerlinNoise();
         FindWaterTiles();
-        for (int x = 0; x < gridWidth; x++)
-        {
-            for (int y = 0; y < gridHeight; y++)
-            {
-                Debug.Log(tiles[x, y].tileType);
-            }
-        }
-        
     }
     /// <summary>
     /// Populate TileData with a perlin noise and store position in Tile data
@@ -104,8 +99,8 @@ public class PerlinData : MonoBehaviour
                 scaledPerlin *= waterAmount;
 
                 //Prevent rare cases of numbers outside bounds
-                if (scaledPerlin == 3)
-                    scaledPerlin = 2;
+                if (scaledPerlin >= 2)
+                    scaledPerlin = 1;
 
                 //Set TileData values
                 tiles[x, y] = new TileData((TileType)Mathf.FloorToInt(scaledPerlin), new Vector2(x, y));
