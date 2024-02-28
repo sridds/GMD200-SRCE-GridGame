@@ -54,9 +54,18 @@ public class PerlinData : MonoBehaviour
 
     public TileData[,] tiles;
 
+    private const int MAX_RANDOM_RANGE = 99999;
+
     void Start()
     {
         tiles = new TileData[gridWidth, gridHeight];
+
+        //Set random position of perlin noise
+        if (randomOffset)
+        {
+            offsetX = Random.Range(0, MAX_RANDOM_RANGE);
+            offsetY = Random.Range(0, MAX_RANDOM_RANGE);
+        }
 
         GeneratePerlinNoise();
         FindWaterTiles();
@@ -93,6 +102,10 @@ public class PerlinData : MonoBehaviour
                 float scaledPerlin = clampedPerlin * 3;
 
                 scaledPerlin *= waterAmount;
+
+                //Prevent rare cases of numbers outside bounds
+                if (scaledPerlin == 3)
+                    scaledPerlin = 2;
 
                 //Set TileData values
                 tiles[x, y] = new TileData((TileType)Mathf.FloorToInt(scaledPerlin), new Vector2(x, y));
