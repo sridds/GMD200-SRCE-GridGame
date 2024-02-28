@@ -179,8 +179,8 @@ MonoBehaviour:
   randomMin: 1
   randomMax: 2
   waterAmount: 0.5
-  cleanRogueParticles: 0
-  rogueParticleThreshold: 4
+  cleanRogueParticles: 1
+  rogueParticleThreshold: 2
 --- !u!114 &30718459
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
+[RequireComponent(typeof(TileGenerator))]
 public class PerlinData : MonoBehaviour
 {
     [Header("Map Settings")]
@@ -54,8 +55,9 @@ public class PerlinData : MonoBehaviour
 
     public TileData[,] tiles;
 
-    private const int MAX_RANDOM_RANGE = 99999;
-
+    private const int 
+        MAX_RANDOM_RANGE = 99999,
+        PREFAB_COUNT = 3;
     public int _gridWidth { get { return gridWidth; } }
     public int _gridHeight { get { return gridHeight; } }
 
@@ -92,15 +94,15 @@ public class PerlinData : MonoBehaviour
                 //Normalize perlin value between 0-1
                 float clampedPerlin = Mathf.Clamp01(rawPerlin);
 
-                //Change later to number of tiles
                 //Scale perlin by number of tiles
-                float scaledPerlin = clampedPerlin * 3;
+                float scaledPerlin = clampedPerlin * PREFAB_COUNT;
 
+                //Amount of water spawned during generation
                 scaledPerlin *= waterAmount;
 
                 //Prevent rare cases of numbers outside bounds
-                if (scaledPerlin >= 2)
-                    scaledPerlin = 1;
+                if (scaledPerlin >= PREFAB_COUNT - 1)
+                    scaledPerlin = PREFAB_COUNT - 2;
 
                 //Set TileData values
                 tiles[x, y] = new TileData((TileType)Mathf.FloorToInt(scaledPerlin), new Vector2(x, y));
@@ -116,6 +118,9 @@ public class PerlinData : MonoBehaviour
         {
             for (int y = 0; y < gridHeight; y++)
             {
+                if (cleanRogueParticles)
+                    CleanRogueParticles(x, y);
+
                 if (tiles[x, y].tileType == TileType.Water)
                 {
                     GenerateSandTiles(x, y);
@@ -140,12 +145,37 @@ public class PerlinData : MonoBehaviour
         //Replace ground tiles with sand
         for (int i = 0; i < neighborTiles.Count; i++)
         {
-            if (neighborTiles[i].tileType == TileType.Ground)
-            {
-                neighborTiles[i].tileType = TileType.Sand;
-            }
+            if (neighborTiles[i].tileType == TileType.Grass)
+                neighborTiles[i].tileType = TileType.Sand;   
+        }   
+    }
+    /// <summary>
+    /// Cleans up solitary water instances
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    void CleanRogueParticles(int x, int y)
+    {
+        List<TileData> particleList = new();
+
+        List<TileData> neighborTiles = StoreNeighborTiles(x, y, rogueParticleThreshold);
+
+        for (int i = 0; i < neighborTiles.Count; i++)
+        {
+            //Add particles to list
+            if (neighborTiles[i].tileType == TileType.Water)
+                particleList.Add(tiles[x, y]);
+        }
+
+        //If the amount of solitary water particles is less than threshold
+        //Update tiles to ground type
+        if (particleList.Count <= rogueParticleThreshold)
+        {
+            for (int j = 0; j < particleList.Count; j++)
+                particleList[j].tileType = TileType.Grass;
         }
     }
+
     /// <summary>
     /// Returns the neighboring tiles in a determined size
     /// </summary>
@@ -182,51 +212,6 @@ public class PerlinData : MonoBehaviour
         }
         return neighborTiles;
     }
-
-   /* List<TileData> StoreNeighborTiles(int x, int y, int size)
-    {
-        //Find the area of the space being searched
-        float rawArea = Mathf.Pow(size * 3, 2);
-        int area = Mathf.FloorToInt(rawArea);
-        int index = 0;
-
-        TileData[] neighborTiles = new TileData[area];
-
-        //Iterate from left to right and from up to down to get adjacent tiles
-        for (int adjacentX = -size; adjacentX <= size; adjacentX++)
-        {
-            for (int adjacentY = -size; adjacentY <= size; adjacentY++)
-            {
-                index++;
-                if (index == area)
-                    index = area - 1;
-
-                int currentX = x + adjacentX;
-                int currentY = y + adjacentY;
-
-                if (InBounds(currentX, currentY))
-                {
-                    neighborTiles[index] = tiles[currentX, currentY];
-                }
-            }
-        }
-        return neighborTiles;
-    }*/
-
-    /*void CleanRogueParticles()
-    {
-        for (int x = 0; x < gridWidth; x++)
-        {
-            for (int y = 0; y < gridHeight; y++)
-            {
-                if (tiles[x, y].tileType == TileType.Water)
-                {
-                    TileData[] neighborTiles = StoreNeighborTiles(x, y, 1);
-
-                }
-            }
-        }
-    }*/
 
     /// <summary>
     /// Takes a cordinate and determines whether it is on an edge

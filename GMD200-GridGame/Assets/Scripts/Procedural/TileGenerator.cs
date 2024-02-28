@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PerlinData))]
 public class TileGenerator : MonoBehaviour
 {
     private PerlinData data;
@@ -87,7 +88,7 @@ public class TileGenerator : MonoBehaviour
         tileInstance.transform.localPosition = tileData.tilePosition;
 
         //Change name to cordinates 
-        tileInstance.name = $"Tile:_{x}_{y}";
+        tileInstance.name = $"{tileData.tileType}:_{x}_{y}";
 
         //Set object in grid
         currentGrid[x, y] = tileInstance;
