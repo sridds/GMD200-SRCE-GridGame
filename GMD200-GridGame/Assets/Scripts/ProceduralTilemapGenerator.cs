@@ -28,6 +28,9 @@ public class ProceduralTilemapGenerator : MonoBehaviour
     [Tooltip("Increases or decreses the size of the generation on the grid (Reccomended: Between 4 - 20)")]
     [SerializeField] private float magnification = 7f;
 
+    [Range(0.5f, 1)]
+    [SerializeField] private float waterAmount = 0.5f;
+
     [SerializeField] private TileBase[] tilesArray;
 
     public Tilemap Tilemap { get; private set; }
@@ -87,12 +90,11 @@ public class ProceduralTilemapGenerator : MonoBehaviour
         float scaledPerlin = clampedPerlin * tileset.Count;
 
         //Water needs to be second in the array for this to work
-        //scaledPerlin *= waterAmount;
+        scaledPerlin *= waterAmount;
 
         //If number out of bounds comes up, set it to highest value in dictionary
         if (scaledPerlin == tileset.Count)
             scaledPerlin = tileset.Count - 1;
-
 
         return Mathf.FloorToInt(scaledPerlin);
     }

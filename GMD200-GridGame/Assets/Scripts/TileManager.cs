@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
-
 public class TileManager : MonoBehaviour
 {
 
@@ -66,6 +65,8 @@ public class TileManager : MonoBehaviour
     Dictionary<int, GameObject> tilesetGroups;
 
     private GameObject[,] currentGrid;
+
+    //private int[,] perlinGrid;
 
     private const int MAX_RANDOM_RANGE = 99999;
     void Start()
@@ -195,7 +196,6 @@ public class TileManager : MonoBehaviour
     /// </summary>
     void GenerateSandTiles()
     {
-
         //Iterate though matrix
         for (int x = 0; x < gridWidth; x++)
         {
