@@ -8,7 +8,7 @@ public class WorldLight : MonoBehaviour
 
     public float duration = 5f;
     [SerializeField] private Gradient gradient;
-    private Light dayNightLight;
+    //private Light dayNightLight;
     private float startTime;
 
     void Awake()
@@ -25,6 +25,6 @@ public class WorldLight : MonoBehaviour
         var percentage = Mathf.Sin(timeElapsed / duration * Mathf.PI * 2) * 0.5f + 0.5f;
         percentage = Mathf.Clamp01(percentage);
 
-        dayNightLight.color = gradient.Evaluate(percentage);
+        //dayNightLight.color = gradient.Evaluate(percentage);
     }
 }
