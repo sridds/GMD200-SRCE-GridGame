@@ -55,8 +55,16 @@ public class PerlinData : MonoBehaviour
     public int _gridWidth { get { return gridWidth; } }
     public int _gridHeight { get { return gridHeight; } }
 
+    public static PerlinData Instance { get; private set; }
+
     void Awake()
     {
+        //Singleton
+        if (Instance != null && Instance != this)
+            Destroy(this);
+        else
+            Instance = this;
+
         tiles = new TileData[gridWidth, gridHeight];
 
         //Set random position of perlin noise

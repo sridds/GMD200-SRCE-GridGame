@@ -21,7 +21,7 @@ public class TileGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        data = GetComponent<PerlinData>();
+        data = PerlinData.Instance;
         currentGrid = new GameObject[data._gridWidth, data._gridHeight];
 
         PopulateDictionary();
