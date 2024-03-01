@@ -9,6 +9,8 @@ public class TileGenerator : MonoBehaviour
 
     public GameObject[,] currentGrid;
 
+    [Header("Terrain Generator Settings")]
+
     [Tooltip("Array of Tile prefabs, if you want to add a new tile type drag it into here")]
     [SerializeField] private GameObject[] tilePrefabs;
 

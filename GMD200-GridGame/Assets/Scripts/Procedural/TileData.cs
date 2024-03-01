@@ -6,6 +6,8 @@ public enum TileType
     Grass,
     Water,
     Sand,
+    Tree,
+    Rock,
 }
 public class TileData
 {

@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 30718458}
   - component: {fileID: 30718459}
   m_Layer: 0
-  m_Name: MapHolder
+  m_Name: MapGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,17 +168,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0caf5517ee739424c8ee7eb0ffe5ca1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 85
-  gridHeight: 85
+  gridWidth: 50
+  gridHeight: 50
   randomOffset: 1
   offsetX: 0
   offsetY: 0
-  magnification: 10
+  magnification: 8
+  resourceRarity: 21
   sandBorderDensity: 1
-  isRandomDensity: 1
-  randomMin: 1
-  randomMax: 2
-  waterAmount: 0.5
+  waterAmount: 0.45
   cleanRogueParticles: 1
   rogueParticleThreshold: 2
 --- !u!114 &30718459
@@ -194,9 +192,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePrefabs:
-  - {fileID: 843573436798256781, guid: 13ab991326faedb45ad3d305f76d7f09, type: 3}
-  - {fileID: 8443830643851865137, guid: 668b8f2435a5c0d4bb1876bd1f35c2f3, type: 3}
-  - {fileID: 8443830643851865137, guid: a6a54bf9fe486c04eae651baacf069b5, type: 3}
+  - {fileID: 6799815217783278113, guid: 94d52c8584e9dab40b49820e8e4c6ea6, type: 3}
+  - {fileID: 4166525308538939605, guid: 40f74ca860523e941bc5b45161ed7b26, type: 3}
+  - {fileID: 6666904385050294807, guid: 2df9bf83d98ee8d47acccc5ec00132ff, type: 3}
+  - {fileID: 5687177104503073993, guid: 9f80766abcff9d8449b0019d7876f6ec, type: 3}
+  - {fileID: 7064097957606720266, guid: 2f170ab8bca646a4e80cd639d2085e5b, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

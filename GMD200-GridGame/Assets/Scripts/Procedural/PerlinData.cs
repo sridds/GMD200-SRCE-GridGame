@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
-[RequireComponent(typeof(TileGenerator))]
 public class PerlinData : MonoBehaviour
 {
     [Header("Map Settings")]
@@ -28,19 +27,14 @@ public class PerlinData : MonoBehaviour
     [Tooltip("Increases or decreses the size of the generation on the grid (Reccomended: Between 4 - 20)")]
     [SerializeField] private float magnification = 7f;
 
+    [Tooltip("The amount of resources that will spawn")]
+    [Range(0, 100)]
+    [SerializeField] private int resourceRarity = 25;
+
     [Header("Sand Settings")]
 
     [Tooltip("The density of sand generated around water")]
     [SerializeField] private int sandBorderDensity = 1;
-
-    [Tooltip("If Enabled, randomizes the density of each sand generation")]
-    [SerializeField] private bool isRandomDensity;
-
-    [ShowIf(nameof(isRandomDensity))]
-    [SerializeField] private int randomMin = 1;
-
-    [ShowIf(nameof(isRandomDensity))]
-    [SerializeField] private int randomMax = 3;
 
     [Header("Water Settings")]
 
@@ -72,13 +66,14 @@ public class PerlinData : MonoBehaviour
             offsetY = Random.Range(0, MAX_RANDOM_RANGE);
         }
 
-        GeneratePerlinNoise();
+        GenerateTileData();
         FindWaterTiles();
+        GenerateResources();
     }
     /// <summary>
     /// Populate TileData with a perlin noise and store position in Tile data
     /// </summary>
-    void GeneratePerlinNoise()
+    void GenerateTileData()
     {
         for (int x = 0; x < gridWidth; x++)
         {
@@ -135,10 +130,6 @@ public class PerlinData : MonoBehaviour
     /// <param name="y"></param>
     void GenerateSandTiles(int x, int y)
     {
-        //Generate Random density
-        if (isRandomDensity)
-            sandBorderDensity = Random.Range(randomMin, randomMax);
-
         //Find neighbor tiles
         List<TileData> neighborTiles = StoreNeighborTiles(x, y, sandBorderDensity);
 
@@ -148,6 +139,31 @@ public class PerlinData : MonoBehaviour
             if (neighborTiles[i].tileType == TileType.Grass)
                 neighborTiles[i].tileType = TileType.Sand;   
         }   
+    }
+    /// <summary>
+    /// Randomly generates resources on the map
+    /// </summary>
+    void GenerateResources()
+    {
+        int spawnChance;
+        TileType resourceType = TileType.Tree;
+        for (int x = 0; x < gridWidth; x++)
+        {
+            for (int y = 0; y < gridHeight; y++)
+            {
+                if (tiles[x, y].tileType == TileType.Grass)
+                {
+                    //Determine whether resource will spawn on this tile
+                    spawnChance = Random.Range(0, 1000);
+                    if (spawnChance <= resourceRarity)
+                    {
+                        //Range of resource values
+                        resourceType = resourceType == TileType.Tree ? TileType.Rock : TileType.Tree;
+                        tiles[x, y].tileType = resourceType;
+                    }
+                }
+            }
+        }
     }
     /// <summary>
     /// Cleans up solitary water instances
