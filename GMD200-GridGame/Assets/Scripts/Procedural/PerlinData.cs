@@ -243,7 +243,7 @@ public class PerlinData : MonoBehaviour
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    bool InBounds(int x, int y)
+    public bool InBounds(int x, int y)
     {
         if (x < 0 || x >= gridWidth || y < 0 || y >= gridHeight)
             return false;
