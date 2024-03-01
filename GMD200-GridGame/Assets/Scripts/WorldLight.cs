@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[RequireComponent(typeof(Light))]
 public class WorldLight : MonoBehaviour
 {
+    private PostProcessManager postManager;
+
     public float duration = 5f;
     [SerializeField] private Gradient gradient;
     private Light dayNightLight;
@@ -13,7 +13,8 @@ public class WorldLight : MonoBehaviour
 
     void Awake()
     {
-        dayNightLight = GetComponent<Light>();
+        postManager = GetComponent<PostProcessManager>();
+
         startTime = Time.time;
     }
 

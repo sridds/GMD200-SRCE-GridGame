@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 1227331486}
   - component: {fileID: 1227331485}
   - component: {fileID: 1227331484}
+  - component: {fileID: 1227331488}
   - component: {fileID: 1227331487}
   m_Layer: 0
   m_Name: VisualsManager
@@ -353,6 +354,20 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   priority: 0
+--- !u!114 &1227331488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227331483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42831383dbd7b744bba952135b43b2d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  brightness: 0
 --- !u!1 &1414174320
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,7 +476,7 @@ MonoBehaviour:
   volumeTrigger: {fileID: 1414174323}
   volumeLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 9
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
   antialiasingMode: 0
