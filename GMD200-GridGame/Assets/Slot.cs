@@ -72,16 +72,50 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button != PointerEventData.InputButton.Left) return;
+        InventoryItem heldItem = InventoryItem.heldItem;
+        if (heldItem == null) return;
 
-        InventoryItem item = InventoryItem.heldItem;
-        if (item == null) return;
+        // place item
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            Slot s = inventory.Items[inventory.Items.IndexOf(heldItem.slot)];
 
-        item.transform.SetParent(transform);
-        item.Unhold();
+            //if(this.item == null) {
+                heldItem.transform.SetParent(transform);
+                heldItem.Unhold();
+                inventory.SetItemPosition(inventory.Items.IndexOf(heldItem.slot), inventory.Items.IndexOf(this));
+                heldItem.slot = this;
+            //}
+            /*
+            else {
+                // do they not match
+                if(this.item.name != heldItem.name) {
+                    inventory.SwapSlots(inventory.Items.IndexOf(s), inventory.Items.IndexOf(this));
+                }
+                /*
+                else {
+                    Debug.Log("hey listen");
+                    stack += s.stack;
+                    heldItem.Unhold();
+                    s.ResetSlot();
+                }
+            }*/
+        }
+        // split item
+        else if(eventData.button == PointerEventData.InputButton.Right)
+        {
+            Slot s = inventory.Items[inventory.Items.IndexOf(heldItem.slot)];
 
-        inventory.SetItemPosition(inventory.Items.IndexOf(item.slot), inventory.Items.IndexOf(this));
+            // ensure enoguh in stack
+            if (s.stack > 1) {
+                if(myInventoryItem != null) myInventoryItem.SetRaycastTarget(false);
 
-        item.slot = this;
+                if (inventory.AddItemAtPosition(s.item, inventory.Items.IndexOf(this))) {
+                    s.RemoveFromStack();
+                }
+
+                if (myInventoryItem != null) myInventoryItem.SetRaycastTarget(true);
+            }
+        }
     }
 }

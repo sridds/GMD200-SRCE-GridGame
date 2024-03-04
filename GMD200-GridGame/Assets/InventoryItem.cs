@@ -30,7 +30,10 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button != PointerEventData.InputButton.Left) return;
+        if (eventData.button != PointerEventData.InputButton.Left || heldItem != null) {
+            slot.OnPointerClick(eventData);
+            return;
+        }
 
         holding = true;
 
@@ -47,22 +50,6 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
         heldItem = null;
     }
 
-    /*
-    public void OnBeginDrag(PointerEventData eventData) {
-        itemSprite.raycastTarget = false;
-        parentAfterDrag = transform.parent;
-        transform.SetParent(transform.root);
-    }
-
-    public void OnDrag(PointerEventData eventData) {
-        transform.position = Input.mousePosition;
-    }
-
-    public void OnEndDrag(PointerEventData eventData) {
-        itemSprite.raycastTarget = true;
-        transform.SetParent(parentAfterDrag);
-    }*/
-
     public void UpdateStackCount(int stack)
     {
         if (stack <= 1) itemCountText.gameObject.SetActive(false);
@@ -72,4 +59,6 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
     }
 
     public void UpdateSprite(Sprite sprite) => itemSprite.sprite = sprite;
+
+    public void SetRaycastTarget(bool target) => itemSprite.raycastTarget = target;
 }

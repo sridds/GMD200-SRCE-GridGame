@@ -84,6 +84,44 @@ public class Inventory : MonoBehaviour
     }
 
     /// <summary>
+    /// Adds an item at the prompted position
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="index"></param>
+    public bool AddItemAtPosition(ItemSO item, int index)
+    {
+        if (items[index].Item == null) {
+            // initialize
+            items[index].Init(item);
+            return true;
+        }
+
+        // compare items and ensure they match
+        if (items[index].Item.ItemName == item.ItemName && items[index].Item.Stack.CanStack && items[index].Stack < items[index].Item.Stack.MaxStack)
+        {
+            // attempt to add to stack
+            items[index].AddToStack();
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool SwapSlots(int indexA, int indexB)
+    {
+        if (!IsIndexValid(indexA) || !IsIndexValid(indexB)) return false;
+
+        Slot a = items[indexA];
+        Slot b = items[indexB];
+        Slot temp = a;
+
+        a = b;
+        b = temp;
+
+        return true;
+    }
+
+    /// <summary>
     /// Attempts to set the item at the position of nextIndex. Fails if an item is occupying that slot
     /// </summary>
     /// <param name="prevIndex"></param>

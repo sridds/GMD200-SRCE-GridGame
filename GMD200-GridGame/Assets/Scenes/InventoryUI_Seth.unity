@@ -6361,11 +6361,7 @@ MonoBehaviour:
   - {fileID: 177309840}
   - {fileID: 280165882}
   testItems:
-  - {fileID: 11400000, guid: 25b93ebdf7bd143c1bab31381de5a004, type: 2}
-  - {fileID: 11400000, guid: 005df84d95040444a97ba8eadd21ecb4, type: 2}
   - {fileID: 11400000, guid: ab89d4c6a2eec4f889b6c049a3bc12a9, type: 2}
-  - {fileID: 11400000, guid: a8945b748293c4146b5c03186c5324d7, type: 2}
-  - {fileID: 11400000, guid: 51a79639984d54f1198d905ea838fed1, type: 2}
 --- !u!1001 &1619947315
 PrefabInstance:
   m_ObjectHideFlags: 0
