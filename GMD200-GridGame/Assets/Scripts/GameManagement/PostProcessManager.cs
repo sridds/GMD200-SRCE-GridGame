@@ -14,6 +14,8 @@ public class PostProcessManager : MonoBehaviour
 
     [SerializeField] private Color color;
 
+    [SerializeField] private Gradient gradient;
+
     [SerializeField] private float brightness;
 
     private void Start()

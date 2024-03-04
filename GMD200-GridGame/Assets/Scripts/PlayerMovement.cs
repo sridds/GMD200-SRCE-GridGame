@@ -26,9 +26,9 @@ public class PlayerMovement : MonoBehaviour
         int newPosX = Mathf.FloorToInt(transform.position.x + xInput);
         int newPosY = Mathf.FloorToInt(transform.position.y + yInput);
 
-        Debug.Log(PerlinData.Instance.tiles[newPosX, newPosY].tileType);
+        /*Debug.Log(PerlinData.Instance.tiles[newPosX, newPosY].tileType);
         Debug.Log(newPosX);
-        Debug.Log(newPosY);
+        Debug.Log(newPosY);*/
 
         if (!PerlinData.Instance.InBounds(newPosX, newPosY))
             return;
