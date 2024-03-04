@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Chainmail
   m_EditorClassIdentifier: 
   ItemName: Chainmail
+  ItemDescription: 
+  ItemSprite: {fileID: -1290838551, guid: 514c75653fb6e473096a58cd09e3fa29, type: 3}
   SellPrice: 25
   Stack:
     CanStack: 0

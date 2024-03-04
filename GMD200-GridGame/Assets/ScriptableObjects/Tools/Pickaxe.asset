@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ae8686fe760a4670b5717c64712a9b4, type: 3}
   m_Name: Pickaxe
   m_EditorClassIdentifier: 
-  ItemID: 2
   ItemName: generic_pickaxe
+  ItemDescription: 
+  ItemSprite: {fileID: -686864711, guid: 514c75653fb6e473096a58cd09e3fa29, type: 3}
   SellPrice: 7
   Stack:
     CanStack: 0

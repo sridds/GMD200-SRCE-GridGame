@@ -13,6 +13,9 @@ public abstract class ItemSO : ScriptableObject
     [TextArea]
     public string ItemDescription;
 
+    [ShowAssetPreview]
+    public Sprite ItemSprite;
+
     [Tooltip("The sell price if this item is listed in a shop")]
     public int SellPrice; // The buy price is not included in the scriptable object and is rather up to the shop listing class to be determined
 

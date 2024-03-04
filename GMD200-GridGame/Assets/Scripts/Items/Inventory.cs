@@ -2,15 +2,15 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using static Inventory;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField]
-    private int _maxInventorySize = 16;
-
     // the list of items
+    [SerializeField]
     private List<Slot> items = new List<Slot>();
+
+    [SerializeField]
+    private ItemSO[] testItems;
 
     // equiped items. equipped items are not recorded in the item list
     private ArmorSO equippedArmor;
@@ -49,15 +49,17 @@ public class Inventory : MonoBehaviour
             // iterate through each item and check if the items match
             foreach (Slot i in items)
             {
+                if (i.Item == null) continue;
+
                 // if item names match
-                if (i.item.ItemName == item.ItemName) {
+                if (i.Item.ItemName == item.ItemName) {
                     // cannot exceed the maximum stack
-                    if (i.count >= i.item.Stack.MaxStack) continue;
+                    if (i.Stack >= i.Item.Stack.MaxStack) continue;
 
                     // increase the stack if one was found
-                    i.count++;
+                    i.AddToStack();
                     index = items.IndexOf(i);
-                    Debug.Log($"Added {item.ItemName} to item stack at index {index}. Stack count: {i.count}");
+                    Debug.Log($"Added {item.ItemName} to item stack at index {index}. Stack count: {i.Stack}");
 
                     found = true;
                     break;
@@ -66,12 +68,12 @@ public class Inventory : MonoBehaviour
 
             // try to add the item without stacking
             if (!found)
-                if (!TryAddItem(new Slot(item, 1)))
+                if (!TryAddItem(item))
                     return false;
         }
         else {
             // try to add the item without stacking
-            if (!TryAddItem(new Slot(item, 1))) return false;
+            if (!TryAddItem(item)) return false;
         }
 
         // invoke the successful item add event and return true
@@ -92,18 +94,8 @@ public class Inventory : MonoBehaviour
         Slot slot = items[index];
 
         // if the item is stacked, decrease the count
-        if (slot.count > 1)
-        {
-            slot.count--;
-            Debug.Log($"Decreased stack of {slot.item.ItemName} at index {index}");
-        }
-        // otherwise, remove the item at the index
-        else
-        {
-            ItemSO item = items[index].item;
-            Debug.Log($"Removed item {item.ItemName} at index {index}");
-            items.RemoveAt(index);
-        }
+        Debug.Log($"Decreased stack of {slot.Item.ItemName} at index {index}");
+        slot.RemoveFromStack();
 
         OnInventoryUpdate?.Invoke(items);
     }
@@ -150,8 +142,8 @@ public class Inventory : MonoBehaviour
         if (!typeof(T).IsSubclassOf(typeof(ItemSO))) return false;
 
         // validate type
-        if (items[index].item is T) {
-            T type = items[index].item as T;
+        if (items[index].Item is T) {
+            T type = items[index].Item as T;
 
             if(type != null) {
                 RemoveItem(index);
@@ -162,7 +154,7 @@ public class Inventory : MonoBehaviour
                     slot = type;
 
                     // insert the item at the previous index
-                    items.Insert(index, new Slot(temp, 1));
+                    items[index].SetItem(temp);
                 }
                 // if there is nothing in the slot, occupy slot
                 else {
@@ -176,17 +168,30 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    [ContextMenu(nameof(DebugAddItem))]
+    private void DebugAddItem()
+    {
+        int r = UnityEngine.Random.Range(0, testItems.Length);
+
+        AddItem(testItems[r]);
+    }
+
     /// <summary>
     /// Attempts to add an item without going over the maximum inventory size
     /// </summary>
     /// <param name="item"></param>
     /// <returns></returns>
-    private bool TryAddItem(Slot item)
+    private bool TryAddItem(ItemSO item, int stack = 1)
     {
-        if (items.Count >= _maxInventorySize) return false;
+        // find first empty slot
+        foreach(Slot slot in items) {
+            if(slot.Item == null) {
+                slot.SetItem(item);
+                return true;
+            }
+        }
 
-        items.Add(item);
-        return true;
+        return false;
     }
 
     /// <summary>
@@ -196,7 +201,7 @@ public class Inventory : MonoBehaviour
     /// <returns></returns>
     private bool IsIndexValid(int index)
     {
-        if (index < 0 || index > _maxInventorySize - 1) return false;
+        if (index < 0 || index > items.Count - 1) return false;
         return true;
     }
 
@@ -213,23 +218,5 @@ public class Inventory : MonoBehaviour
 
         slot = items[index];
         return true;
-    }
-}
-
-/// <summary>
-/// Stores the data for each item slot
-/// </summary>
-///
-[System.Serializable]
-public class Slot
-{
-    public ItemSO item;
-    public int count;
-
-    // constructor for an item
-    public Slot(ItemSO item, int count)
-    {
-        this.item = item.Clone();
-        this.count = count;
     }
 }

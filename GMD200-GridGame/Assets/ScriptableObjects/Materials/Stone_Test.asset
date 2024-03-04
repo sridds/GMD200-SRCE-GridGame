@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Stone
   ItemDescription: 
+  ItemSprite: {fileID: -1220323600, guid: 514c75653fb6e473096a58cd09e3fa29, type: 3}
   SellPrice: 15
   Stack:
     CanStack: 1

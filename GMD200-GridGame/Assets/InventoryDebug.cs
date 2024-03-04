@@ -28,6 +28,7 @@ public class InventoryDebug : MonoBehaviour
 
     private Dictionary<int, TextMeshProUGUI> textIndexPair = new Dictionary<int, TextMeshProUGUI>();
 
+    /*
     private void Start()
     {
         inv = FindObjectOfType<Inventory>();
@@ -130,5 +131,5 @@ public class InventoryDebug : MonoBehaviour
         inv.EquipWeapon(inv.Items.IndexOf(weapons[Random.Range(0, weapons.Count)]));
 
         SortHierarchy();
-    }
+    }*/
 }

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Stone Knife
   ItemDescription: A jagged blade crafted of a chipped stone
+  ItemSprite: {fileID: 1732408704, guid: 514c75653fb6e473096a58cd09e3fa29, type: 3}
   SellPrice: 12
   Stack:
     CanStack: 0
