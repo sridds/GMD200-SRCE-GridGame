@@ -91,10 +91,10 @@ public class Inventory : MonoBehaviour
     /// <returns></returns>
     public bool SetItemPosition(int prevIndex, int nextIndex)
     {
-        if (items[nextIndex].Item != null)
+        if (items[nextIndex].Item == null)
         {
             items[nextIndex].SetItem(items[prevIndex].Item, items[prevIndex].Stack);
-            items[prevIndex].SetItem(null, 0);
+            items[prevIndex].ResetSlot();
 
             return true;
         }
