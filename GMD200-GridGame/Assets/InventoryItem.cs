@@ -3,62 +3,59 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryItem : MonoBehaviour, IPointerClickHandler
+namespace Seth.OldInventory
 {
-    public static InventoryItem heldItem;
-        
-    [Header("UI")]
-    [SerializeField]
-    private Image itemSprite;
-
-    [SerializeField]
-    private TextMeshProUGUI itemCountText;
-
-    [HideInInspector]
-    public Transform parentAfterDrag;
-    [HideInInspector]
-    public Slot slot;
-    [HideInInspector]
-    public bool holding;
-
-    private void Update()
+    public class InventoryItem : MonoBehaviour, IPointerClickHandler
     {
-        if (holding) {
-            transform.position = Input.mousePosition;
-        }
-    }
+        public static InventoryItem heldItem;
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button != PointerEventData.InputButton.Left || heldItem != null) {
-            slot.OnPointerClick(eventData);
-            return;
+        [Header("UI")]
+        [SerializeField]
+        private Image itemSprite;
+
+        [SerializeField]
+        private TextMeshProUGUI itemCountText;
+
+        [HideInInspector]
+        public Transform parentAfterDrag;
+        [HideInInspector]
+        public Slot slot;
+
+        private void Update()
+        {
+            if (heldItem == this) transform.position = Input.mousePosition;
         }
 
-        holding = true;
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            // tell the slot to handle the click
+            if (eventData.button != PointerEventData.InputButton.Left || heldItem != null)
+            {
+                slot.OnPointerClick(eventData);
+                return;
+            }
 
-        itemSprite.raycastTarget = false;
-        transform.SetParent(transform.root);
+            itemSprite.raycastTarget = false;
+            transform.SetParent(transform.root);
+            heldItem = this;
+        }
 
-        heldItem = this;
+        public void Unhold()
+        {
+            itemSprite.raycastTarget = true;
+            heldItem = null;
+        }
+
+        public void UpdateStackCount(int stack)
+        {
+            if (stack <= 1) itemCountText.gameObject.SetActive(false);
+            else itemCountText.gameObject.SetActive(true);
+
+            itemCountText.text = $"{stack}";
+        }
+
+        public void UpdateSprite(Sprite sprite) => itemSprite.sprite = sprite;
+
+        public void SetRaycastTarget(bool target) => itemSprite.raycastTarget = target;
     }
-
-    public void Unhold()
-    {
-        holding = false;
-        itemSprite.raycastTarget = true;
-        heldItem = null;
-    }
-
-    public void UpdateStackCount(int stack)
-    {
-        if (stack <= 1) itemCountText.gameObject.SetActive(false);
-        else itemCountText.gameObject.SetActive(true);
-
-        itemCountText.text = $"{stack}";
-    }
-
-    public void UpdateSprite(Sprite sprite) => itemSprite.sprite = sprite;
-
-    public void SetRaycastTarget(bool target) => itemSprite.raycastTarget = target;
 }
