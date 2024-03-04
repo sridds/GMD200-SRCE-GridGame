@@ -1,66 +1,56 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour
+public class Slot : MonoBehaviour, IDropHandler
 {
     [Header("References")]
     [SerializeField]
-    private Image itemSprite;
-
-    [SerializeField]
-    private TextMeshProUGUI itemCountText;
+    private InventoryItem itemPrefab;
 
     private ItemSO item;
+    private InventoryItem myInventoryItem;
     private int stack;
 
     // getter for item
     public ItemSO Item { get { return item; } }
     public int Stack { get { return stack; } }
 
-    public void SetItem(ItemSO item, int stack = 1)
+    public void Init(ItemSO item, int stack = 1)
     {
         this.item = item.Clone();
         this.stack = stack;
 
-        // setup sprite
-        itemSprite.gameObject.SetActive(true);
-        itemSprite.sprite = item.ItemSprite;
+        // instantiate
+        if(myInventoryItem == null) myInventoryItem = Instantiate(itemPrefab, transform);
 
-        if(this.stack > 1) {
-            itemCountText.gameObject.SetActive(true);
-            itemCountText.text = $"{this.stack}";
-        }
-        else {
-            itemCountText.gameObject.SetActive(false);
-        }
+        myInventoryItem.UpdateSprite(item.ItemSprite);
+        myInventoryItem.UpdateStackCount(this.stack);
+    }
+
+    public void SetItem(ItemSO item, int stack = 1)
+    {
+        this.item = item;
+        this.stack = stack;
     }
 
     public void AddToStack(int amount = 1)
     {
         stack += amount;
-
-        if (this.stack > 1) {
-            itemCountText.gameObject.SetActive(true);
-            itemCountText.text = $"{this.stack}";
-        }
+        myInventoryItem.UpdateStackCount(this.stack);
     }
     public void RemoveFromStack(int amount = 1)
     {
         stack -= amount;
-        itemCountText.text = $"{this.stack}";
+        myInventoryItem.UpdateStackCount(this.stack);
+    }
 
-        if (stack <= 0)
-        {
-            item = null;
+    public void OnDrop(PointerEventData eventData)
+    {
+        if (myInventoryItem != null) return;
 
-            // reset sprite
-            itemSprite.gameObject.SetActive(false);
-            itemSprite.sprite = null;
-        }
-        else if (stack < 1) {
-            itemCountText.gameObject.SetActive(false);
-            itemCountText.text = "";
-        }
+        InventoryItem item = eventData.pointerDrag.GetComponent<InventoryItem>();
+        item.parentAfterDrag = transform;
     }
 }

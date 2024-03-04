@@ -84,6 +84,25 @@ public class Inventory : MonoBehaviour
     }
 
     /// <summary>
+    /// Attempts to set the item at the position of nextIndex. Fails if an item is occupying that slot
+    /// </summary>
+    /// <param name="prevIndex"></param>
+    /// <param name="nextIndex"></param>
+    /// <returns></returns>
+    public bool SetItemPosition(int prevIndex, int nextIndex)
+    {
+        if (items[nextIndex].Item != null)
+        {
+            items[nextIndex].SetItem(items[prevIndex].Item, items[prevIndex].Stack);
+            items[prevIndex].SetItem(null, 0);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Removes an item from the inventory
     /// </summary>
     /// <param name="item"></param>
@@ -154,7 +173,7 @@ public class Inventory : MonoBehaviour
                     slot = type;
 
                     // insert the item at the previous index
-                    items[index].SetItem(temp);
+                    items[index].Init(temp);
                 }
                 // if there is nothing in the slot, occupy slot
                 else {
@@ -186,7 +205,7 @@ public class Inventory : MonoBehaviour
         // find first empty slot
         foreach(Slot slot in items) {
             if(slot.Item == null) {
-                slot.SetItem(item);
+                slot.Init(item);
                 return true;
             }
         }
