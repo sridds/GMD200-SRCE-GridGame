@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public ItemSO[] testItem;
+
     [SerializeField]
     private Vector2Int dimensions;
 
@@ -12,7 +15,22 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         // initialize
-        slots = new GenericGrid<Slot>(dimensions.x, dimensions.y, (GenericGrid<Slot> g, int x, int y) => new Slot(g, x ,y)); 
+        slots = new GenericGrid<Slot>(dimensions.x, dimensions.y, (GenericGrid<Slot> g, int x, int y) => new Slot(g, x ,y));
+        slots.OnGridObjectChanged += PrintGrid;
+
+        AddItem(testItem[UnityEngine.Random.Range(0, testItem.Length - 1)]);
+        AddItem(testItem[UnityEngine.Random.Range(0, testItem.Length - 1)]);
+        AddItem(testItem[UnityEngine.Random.Range(0, testItem.Length - 1)]);
+        AddItem(testItem[UnityEngine.Random.Range(0, testItem.Length - 1)]);
+
+        RemoveItemAtPosition(1, 0, false);
+    }
+
+    private void PrintGrid(object sender, GenericGrid<Slot>.OnGridObjectChangedArgs e)
+    {
+        Slot s = slots.GetGridObject(e.x, e.y);
+
+        Debug.Log($"Updated: [{e.x}, {e.y}] to {s.Item} of stack {s.Stack}");
     }
 
     public bool AddItem(ItemSO item)
@@ -20,11 +38,11 @@ public class Inventory : MonoBehaviour
         // search for empty item
         if (item.Stack.CanStack)
         {
-            for (int x = 0; x < dimensions.x; x++)
+            for (int x = 0; x < dimensions.y; x++)
             {
-                for (int y = 0; y < dimensions.y; y++)
+                for (int y = 0; y < dimensions.x; y++)
                 {
-                    Slot slot = slots.GetGridObject(x, y);
+                    Slot slot = slots.GetGridObject(y, x);
 
                     // null? set item
                     if (slot.Item == null) continue;
@@ -41,12 +59,31 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Removes item at the specified position, either entirely wiped or removed from the stack.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="removeEntirely"></param>
+    private void RemoveItemAtPosition(int x, int y, bool removeEntirely)
+    {
+        Slot slot = slots.GetGridObject(x, y);
+
+        // if already removed, dont bother
+        if (slot.Item == null) return;
+
+        // reset both item and stack
+        if (removeEntirely) slot.ResetSlot();
+        // remove from stack
+        else slot.RemoveFromStack();
+    }
+
     public bool AddItemAtPosition(ItemSO item, int x, int y)
     {
         Slot slot = slots.GetGridObject(x, y);
 
         // attempt to add item at empty slot
-        if(slot == null) {
+        if(slot.Item == null) {
             slot.SetItem(item);
             return true;
         }
@@ -59,11 +96,12 @@ public class Inventory : MonoBehaviour
 
     private bool TryAddItem(ItemSO item)
     {
-        for (int x = 0; x < dimensions.x; x++)
+        // find first occourance of a null item
+        for (int x = 0; x < dimensions.y; x++)
         {
-            for (int y = 0; y < dimensions.y; y++)
+            for (int y = 0; y < dimensions.x; y++)
             {
-                Slot slot = slots.GetGridObject(x, y);
+                Slot slot = slots.GetGridObject(y, x);
 
                 if(slot.Item == null) {
                     slot.SetItem(item);
@@ -147,6 +185,14 @@ public class Slot
         if(stack == 0) {
             item = null;
         }
+
+        grid.TriggerGridObjectChanged(x, y);
+    }
+
+    public void ResetSlot()
+    {
+        item = null;
+        stack = 0;
 
         grid.TriggerGridObjectChanged(x, y);
     }
