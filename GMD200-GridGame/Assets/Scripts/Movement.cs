@@ -14,6 +14,8 @@ public class Movement : MonoBehaviour
 
     [SerializeField] private float speed = 3f;
 
+    private bool isPaused = false;
+
     private void Start()
     {
         collect = GetComponent<ResourceCollection>();
@@ -22,6 +24,23 @@ public class Movement : MonoBehaviour
     }
 
     private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Pause();
+
+            Move();
+    }
+    void Pause()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+            GameManager.Instance.UpdateGameState(GameState.paused);
+        else
+            GameManager.Instance.UpdateGameState(GameState.playing);
+    }
+
+    void Move()
     {
         //Get Inputs
         float xInput = Input.GetAxisRaw("Horizontal");
