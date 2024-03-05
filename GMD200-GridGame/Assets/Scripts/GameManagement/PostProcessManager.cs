@@ -10,6 +10,13 @@ public class PostProcessManager : MonoBehaviour
 
     private ColorGrading colorGrading;
 
+    private float startTime;
+
+    [Header("Day Night Cycle Settings")]
+
+    public float duration = 5f;
+
+
     [Header("Color Grading Settings")]
 
     [SerializeField] private Color color;
@@ -17,6 +24,7 @@ public class PostProcessManager : MonoBehaviour
     [SerializeField] private Gradient gradient;
 
     [SerializeField] private float brightness;
+
 
     private void Start()
     {
@@ -33,7 +41,13 @@ public class PostProcessManager : MonoBehaviour
 
         colorGrading.brightness.value = this.brightness;
 
-        colorGrading.colorFilter.value = this.color;
+       // colorGrading.colorFilter.value = this.color;
+
+        var timeElapsed = Time.time - startTime;
+        var percentage = Mathf.Sin(timeElapsed / duration * Mathf.PI * 2) * 0.5f + 0.5f;
+        percentage = Mathf.Clamp01(percentage);
+
+        colorGrading.colorFilter.value = gradient.Evaluate(percentage);
     }
 
     public void SetParam(Color color) => this.color = color;
