@@ -65,7 +65,7 @@ public class ItemGrid : MonoBehaviour
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="removeEntirely"></param>
-    private void RemoveItemAtPosition(int x, int y)
+    public void RemoveItemAtPosition(int x, int y)
     {
         Slot slot = slots.GetGridObject(x, y);
 
@@ -78,7 +78,7 @@ public class ItemGrid : MonoBehaviour
     /// <summary>
     /// Takes one from the stack of an item and moves it into a new slot position
     /// </summary>
-    private void SwapFromStack(Vector2Int index, Vector2Int newIndex)
+    public void SwapFromStack(Vector2Int index, Vector2Int newIndex)
     {
         // get old and new slot
         Slot oldSlot = slots.GetGridObject(index.x, index.y);
@@ -101,7 +101,7 @@ public class ItemGrid : MonoBehaviour
     /// <param name="grid"></param>
     /// <param name="index"></param>
     /// <param name="newIndex"></param>
-    private bool MoveSlotContentsToGrid(GenericGrid<Slot> newGrid, Vector2Int index, Vector2Int newIndex)
+    public bool MoveSlotContentsToGrid(GenericGrid<Slot> newGrid, Vector2Int index, Vector2Int newIndex)
     {
         Slot oldSlot = slots.GetGridObject(index.x, index.y);
         Slot newSlot = newGrid.GetGridObject(newIndex.x, newIndex.y);
@@ -123,7 +123,7 @@ public class ItemGrid : MonoBehaviour
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    private void ResetSlotAtPosition(int x, int y)
+    public void ResetSlotAtPosition(int x, int y)
     {
         Slot slot = slots.GetGridObject(x, y);
 
