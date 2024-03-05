@@ -25,6 +25,7 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Escape))
             Pause();
 
@@ -59,11 +60,8 @@ public class Movement : MonoBehaviour
         if (data.tiles[newPosX, newPosY].tileType == TileType.Water) return;
 
         //Resource Collection
-        if (data.tiles[newPosX, newPosY].tileType == TileType.Tree)
-            collect.CollectResource(newPosX, newPosY, TileType.Tree);
-
-        if (data.tiles[newPosX, newPosY].tileType == TileType.Rock)
-            collect.CollectResource(newPosX, newPosY, TileType.Rock);
+        if (data.tiles[newPosX, newPosY].tileType == TileType.Tree || data.tiles[newPosX, newPosY].tileType == TileType.Rock)
+            collect.CollectResource(newPosX, newPosY, data.tiles[newPosX, newPosY]);
 
         //Start movement
         if (isMoving == null)
