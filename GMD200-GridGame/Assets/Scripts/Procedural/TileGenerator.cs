@@ -18,7 +18,9 @@ public class TileGenerator : MonoBehaviour
 
     Dictionary<TileType, GameObject> tilesetGroups;
 
-    // Start is called before the first frame update
+    public delegate void SetTile(int x, int y, TileType newTileType);
+    public static SetTile updateTile;
+
     void Start()
     {
         data = PerlinData.Instance;
@@ -112,20 +114,11 @@ public class TileGenerator : MonoBehaviour
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="newTileType"></param>
-    public void UpdateTileInfo(int x, int y, TileType newTileType)
+    void UpdateTileInfo(int x, int y, TileType newTileType)
     {
         data.tiles[x, y].tileType = newTileType;
         UpdateTile(x, y);
     }
-    /// <summary>
-    /// Takes a cordinate on the grid and changes the data's position (Refreshes after, may cause lag)
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="newTilePosition"></param>
-    public void UpdateTileInfo(int x, int y, Vector2 newTilePosition)
-    {
-        data.tiles[x, y].tilePosition = newTilePosition;
-        UpdateTile(x, y);
-    }
+    private void OnEnable() => updateTile += UpdateTileInfo;
+    private void OnDisable() => updateTile -= UpdateTileInfo;
 }

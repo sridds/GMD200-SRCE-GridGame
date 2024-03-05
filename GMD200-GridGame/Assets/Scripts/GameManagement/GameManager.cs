@@ -12,8 +12,12 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
+    [Header("Resources")]
+    [SerializeField] private int wood;
+    [SerializeField] private int stone;
+
     public GameState currentGameState;
-    void Start()
+    void Awake()
     {
         //Destroy if instance already exsists
         if (Instance != null && Instance != this)
@@ -30,14 +34,31 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.playing:
-                //Call UI manager and Cursor manager
+                UIManager.Instance.Pause(false);
+                CursorManager.setCursorMode?.Invoke(CursorLockMode.Locked);
                 Time.timeScale = 1f;
                 break;
 
             case GameState.paused:
-                //Call UI manager and Cursor manager
+                UIManager.Instance.Pause(true);
+                CursorManager.setCursorMode?.Invoke(CursorLockMode.None);
                 Time.timeScale = 0f;
                 break;
         }
+    }
+
+    public void AddResource(TileType resourceType, int amount)
+    {
+        switch (resourceType)
+        {
+            case TileType.Tree:
+                wood += amount;
+                break;
+
+            case TileType.Rock:
+                stone += amount;
+                break;
+        }
+        UIManager.Instance.UpdateResources(wood, stone);
     }
 }
