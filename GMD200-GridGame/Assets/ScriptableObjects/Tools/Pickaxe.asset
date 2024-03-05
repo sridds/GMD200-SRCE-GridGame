@@ -19,7 +19,13 @@ MonoBehaviour:
   Stack:
     CanStack: 0
     MaxStack: 0
-  Breakables: []
+  Breakables:
+  - Tier: 0
+    RequiredHits: 0
+  - Tier: 0
+    RequiredHits: 0
+  - Tier: 0
+    RequiredHits: 0
   Durability:
     HasDurability: 1
     MaxDurability: 25

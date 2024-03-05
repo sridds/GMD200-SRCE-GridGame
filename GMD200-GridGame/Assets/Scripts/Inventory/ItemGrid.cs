@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This item grid can be used for any grid -- inventory, crafting, etc.
+/// </summary>
 public class ItemGrid : MonoBehaviour
 {
     [SerializeField]
@@ -10,7 +13,11 @@ public class ItemGrid : MonoBehaviour
 
     private GenericGrid<Slot> slots;
 
-    private void Start()
+    // accessors
+    public Vector2Int Dimensions { get { return dimensions; } }
+    public GenericGrid<Slot> Slots { get { return slots; } }
+
+    private void Awake()
     {
         // initialize
         slots = new GenericGrid<Slot>(dimensions.x, dimensions.y, (GenericGrid<Slot> g, int x, int y) => new Slot(g, x ,y));
