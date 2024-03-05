@@ -10,7 +10,9 @@ public class Movement : MonoBehaviour
 
     private PerlinData data;
 
-    [SerializeField] private float moveSpeed = 3f;
+    [Header("Player Settings")]
+
+    [SerializeField] private float speed = 3f;
 
     private void Start()
     {
@@ -21,11 +23,14 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
+        //Get Inputs
         float xInput = Input.GetAxisRaw("Horizontal");
         float yInput = Input.GetAxisRaw("Vertical");
 
+        //If there are no inputs, don't run code
         if (xInput == 0 && yInput == 0) return;
 
+        //Round the new position into an int
         int newPosX = Mathf.FloorToInt(transform.position.x + xInput);
         int newPosY = Mathf.FloorToInt(transform.position.y + yInput);
 
@@ -43,20 +48,25 @@ public class Movement : MonoBehaviour
 
         //Start movement
         if (isMoving == null)
-            isMoving = StartCoroutine(MoveToPoint(newPosX, newPosY, moveSpeed));
+            isMoving = StartCoroutine(MoveToPoint(newPosX, newPosY, speed));
     }
     Coroutine isMoving = null;
     IEnumerator MoveToPoint(int x, int y, float duration)
     {
+        //Initialize
         Vector2 startPos = transform.position;
         Vector2 targetPos = data.tiles[x, y].tilePosition;
         float time = 0;
+
+        //Move player to position
         while (time <= duration)
         {
             time += Time.deltaTime;
             transform.position = Vector2.Lerp(startPos, targetPos, time / duration);
             yield return null;
         }
+
+        //Set player to be at position
         transform.position = targetPos;
         isMoving = null;
     }
