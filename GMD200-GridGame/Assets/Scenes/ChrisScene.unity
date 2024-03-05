@@ -244,8 +244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0caf5517ee739424c8ee7eb0ffe5ca1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 50
-  gridHeight: 50
+  gridWidth: 85
+  gridHeight: 85
   randomOffset: 1
   offsetX: 0
   offsetY: 0
@@ -878,7 +878,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8560818200245483717, guid: f7c497ce759670242b63ac0ec16cb68e, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

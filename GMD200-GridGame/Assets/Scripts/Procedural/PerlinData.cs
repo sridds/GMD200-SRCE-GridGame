@@ -27,9 +27,14 @@ public class PerlinData : MonoBehaviour
     [Tooltip("Increases or decreses the size of the generation on the grid (Reccomended: Between 4 - 20)")]
     [SerializeField] private float magnification = 7f;
 
+    [Header("Resource Settings")]
+
     [Tooltip("The amount of resources that will spawn")]
     [Range(0, 100)]
     [SerializeField] private int resourceRarity = 25;
+
+    [Tooltip("The amount of hitpoints resources will have")]
+    [SerializeField] private int resourceHitpoints = 3;
 
     [Header("Sand Settings")]
 
@@ -108,7 +113,7 @@ public class PerlinData : MonoBehaviour
                     scaledPerlin = PREFAB_COUNT - 2;
 
                 //Set TileData values
-                tiles[x, y] = new TileData((TileType)Mathf.FloorToInt(scaledPerlin), new Vector2(x, y));
+                tiles[x, y] = new TileData((TileType)Mathf.FloorToInt(scaledPerlin), new Vector2(x, y), resourceHitpoints);
             }
         }
     }
