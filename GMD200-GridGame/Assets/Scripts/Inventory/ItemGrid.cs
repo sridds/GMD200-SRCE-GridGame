@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class ItemGrid : MonoBehaviour
 {
-    public ItemSO[] testItem;
-
     [SerializeField]
     private Vector2Int dimensions;
 
@@ -16,17 +14,12 @@ public class Inventory : MonoBehaviour
     {
         // initialize
         slots = new GenericGrid<Slot>(dimensions.x, dimensions.y, (GenericGrid<Slot> g, int x, int y) => new Slot(g, x ,y));
-        slots.OnGridObjectChanged += PrintGrid;
 
-        AddItem(testItem[UnityEngine.Random.Range(0, testItem.Length - 1)]);
-        AddItem(testItem[UnityEngine.Random.Range(0, testItem.Length - 1)]);
-        AddItem(testItem[UnityEngine.Random.Range(0, testItem.Length - 1)]);
-        AddItem(testItem[UnityEngine.Random.Range(0, testItem.Length - 1)]);
-
-        RemoveItemAtPosition(1, 0, false);
+        // subscribe to events
+        slots.OnGridObjectChanged += GridUpdateLog;
     }
 
-    private void PrintGrid(object sender, GenericGrid<Slot>.OnGridObjectChangedArgs e)
+    private void GridUpdateLog(object sender, GenericGrid<Slot>.OnGridObjectChangedArgs e)
     {
         Slot s = slots.GetGridObject(e.x, e.y);
 
@@ -65,17 +58,72 @@ public class Inventory : MonoBehaviour
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="removeEntirely"></param>
-    private void RemoveItemAtPosition(int x, int y, bool removeEntirely)
+    private void RemoveItemAtPosition(int x, int y)
+    {
+        Slot slot = slots.GetGridObject(x, y);
+
+        // if already removed, dont bother
+        if (slot.Item == null) return;
+        // remove from stack
+        slot.RemoveFromStack();
+    }
+
+    /// <summary>
+    /// Takes one from the stack of an item and moves it into a new slot position
+    /// </summary>
+    private void SwapFromStack(Vector2Int index, Vector2Int newIndex)
+    {
+        // get old and new slot
+        Slot oldSlot = slots.GetGridObject(index.x, index.y);
+        Slot newSlot = slots.GetGridObject(newIndex.x, newIndex.y);
+
+        // items must match
+        if (oldSlot.Item == null || newSlot.Item == null) return;
+        if (oldSlot.Item.ItemName != newSlot.Item.ItemName) return;
+
+        // removes from the old slot and adds to the new slot
+        ItemSO item = oldSlot.Item;
+
+        oldSlot.RemoveFromStack(1);
+        AddItemAtPosition(newSlot.Item, newIndex.x, newIndex.y);
+    }
+
+    /// <summary>
+    /// Moves the contents of a slot to a new grid
+    /// </summary>
+    /// <param name="grid"></param>
+    /// <param name="index"></param>
+    /// <param name="newIndex"></param>
+    private bool MoveSlotContentsToGrid(GenericGrid<Slot> newGrid, Vector2Int index, Vector2Int newIndex)
+    {
+        Slot oldSlot = slots.GetGridObject(index.x, index.y);
+        Slot newSlot = newGrid.GetGridObject(newIndex.x, newIndex.y);
+
+        if (oldSlot == null || newSlot == null) return false;
+        if (newSlot.Item != null) return false;
+
+        // set the new slot item
+        newSlot.SetItem(oldSlot.Item, oldSlot.Stack);
+
+        // reset the old slot
+        ResetSlotAtPosition(index.x, index.y);
+
+        return true;
+    }
+
+    /// <summary>
+    /// Resets a slot at the provided x and y position on the grid
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    private void ResetSlotAtPosition(int x, int y)
     {
         Slot slot = slots.GetGridObject(x, y);
 
         // if already removed, dont bother
         if (slot.Item == null) return;
 
-        // reset both item and stack
-        if (removeEntirely) slot.ResetSlot();
-        // remove from stack
-        else slot.RemoveFromStack();
+        slot.ResetSlot();
     }
 
     public bool AddItemAtPosition(ItemSO item, int x, int y)
@@ -134,6 +182,9 @@ public class Inventory : MonoBehaviour
     }
 }
 
+/// <summary>
+/// Handles all necessary functions for slots
+/// </summary>
 public class Slot
 {
     // grid references
