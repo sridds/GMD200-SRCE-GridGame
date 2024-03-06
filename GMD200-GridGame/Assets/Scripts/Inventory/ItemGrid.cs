@@ -180,8 +180,12 @@ public class ItemGrid : MonoBehaviour
         Slot s2 = slots.GetGridObject(j.x, j.y);
 
         // ensure both exist
-        if (s1 == null || s2 == null) return;
-        Slot temp = s1;
+
+        //if (s1 == null || s2 == null) return;
+
+        // temp
+        Slot temp = new Slot(slots, s1.x, s1.y);
+        temp.SetItem(s1.Item, s1.Stack);
 
         // perform swap
         s1.SetItem(s2.Item, s2.Stack);
@@ -189,6 +193,7 @@ public class ItemGrid : MonoBehaviour
     }
 }
 
+[System.Serializable]
 /// <summary>
 /// Handles all necessary functions for slots
 /// </summary>
@@ -196,7 +201,7 @@ public class Slot
 {
     // grid references
     private GenericGrid<Slot> grid;
-    private int x, y;
+    private int _x, _y;
 
     // item variables
     private ItemSO item;
@@ -206,24 +211,28 @@ public class Slot
     public int Stack { get { return stack; } }
     public ItemSO Item { get { return item; } }
     public int MaxStack { get { return item.Stack.CanStack ? item.Stack.MaxStack : 1; } }
+    public int x { get { return _x; } }
+    public int y { get { return _y; } }
 
     public Slot(GenericGrid<Slot> grid, int x, int y)
     {
         // set values
         this.grid = grid;
-        this.x = x;
-        this.y = y;
+        _x = x;
+        _y = y;
         stack = 0;
 
-        grid.TriggerGridObjectChanged(x, y);
+        grid.TriggerGridObjectChanged(_x, _y);
     }
 
     public void SetItem(ItemSO item, int stack = 1)
     {
-        this.item = item.Clone();
+        if (item != null) this.item = item.Clone();
+        else this.item = null;
+
         this.stack = stack;
 
-        grid.TriggerGridObjectChanged(x, y);
+        grid.TriggerGridObjectChanged(_x, _y);
     }
 
     public bool AddToStack(int amount = 1)
@@ -231,7 +240,7 @@ public class Slot
         if (stack >= MaxStack) return false;
 
         stack += amount;
-        grid.TriggerGridObjectChanged(x, y);
+        grid.TriggerGridObjectChanged(_x, _y);
 
         return true;
     }
@@ -244,7 +253,7 @@ public class Slot
             item = null;
         }
 
-        grid.TriggerGridObjectChanged(x, y);
+        grid.TriggerGridObjectChanged(_x, _y);
     }
 
     public void ResetSlot()
@@ -252,6 +261,6 @@ public class Slot
         item = null;
         stack = 0;
 
-        grid.TriggerGridObjectChanged(x, y);
+        grid.TriggerGridObjectChanged(_x, _y);
     }
 }
