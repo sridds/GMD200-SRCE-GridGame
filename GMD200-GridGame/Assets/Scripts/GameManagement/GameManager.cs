@@ -8,8 +8,6 @@ public enum GameState
 }
 public class GameManager : MonoBehaviour
 {
-    public Transform playerPos;
-
     public static GameManager Instance;
 
     [Header("Resources")]

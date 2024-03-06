@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
     [Header("Timer Settings")]
 
-    public float timer = 300;
+    public float timer = 10;
 
     [SerializeField] private TextMeshProUGUI timeText;
 
@@ -31,6 +31,13 @@ public class UIManager : MonoBehaviour
         float minutes = Mathf.FloorToInt(timer / 60);
         float seconds = Mathf.FloorToInt(timer % 60);
         timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+        //Resize and regenerate map
+        if (timer <= 0)
+        {
+            PerlinData.Instance.GenerateNewGrid(85, 85);
+            timer = 10;
+        }
     }
 
     public void Pause(bool isPaused)
