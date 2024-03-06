@@ -84,15 +84,45 @@ public class ItemGrid : MonoBehaviour
         Slot oldSlot = slots.GetGridObject(index.x, index.y);
         Slot newSlot = slots.GetGridObject(newIndex.x, newIndex.y);
 
-        // items must match
-        if (oldSlot.Item == null || newSlot.Item == null) return;
-        if (oldSlot.Item.ItemName != newSlot.Item.ItemName) return;
-
         // removes from the old slot and adds to the new slot
         ItemSO item = oldSlot.Item;
 
         oldSlot.RemoveFromStack(1);
-        AddItemAtPosition(newSlot.Item, newIndex.x, newIndex.y);
+        AddItemAtPosition(item, newIndex.x, newIndex.y);
+    }
+
+    /// <summary>
+    /// Adds to item stacks together
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="newIndex"></param>
+    public void AddMatchingStacks(Vector2Int index, Vector2Int newIndex)
+    {
+        // get old and new slot
+        Slot oldSlot = slots.GetGridObject(index.x, index.y);
+        Slot newSlot = slots.GetGridObject(newIndex.x, newIndex.y);
+
+        // items must match
+        if (oldSlot.Item == null || newSlot.Item == null) return;
+        if (oldSlot.Item.ItemName != newSlot.Item.ItemName) return;
+
+        ItemSO item = oldSlot.Item;
+
+        int stack = oldSlot.Stack;
+        int remainder = (oldSlot.Stack + newSlot.Stack) - newSlot.MaxStack;
+        bool overStacked = (oldSlot.Stack + newSlot.Stack) > newSlot.MaxStack;
+
+        // iterate through stack
+        for (int i = 0; i < stack; i++) {
+            oldSlot.RemoveFromStack(1);
+            AddItemAtPosition(newSlot.Item, newIndex.x, newIndex.y);
+        }
+
+        // add remainder items
+        if (!overStacked) return;
+        for(int i = 0; i < remainder; i++) {
+            AddItemAtPosition(newSlot.Item, oldSlot.x, oldSlot.y);
+        }
     }
 
     /// <summary>

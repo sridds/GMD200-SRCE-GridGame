@@ -77,38 +77,60 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
                 }
                 else if (carriedSlot != this) {
 
+                    // SWAPS TWO ITEMS OF UNLIKE TYPE
                     if(carriedSlot.mySlot.Item == null || mySlot.Item.ItemName != carriedSlot.mySlot.Item.ItemName) {
                         // swap items
                         myItemGrid.SwapItems(new Vector2Int(carriedSlot.mySlot.x, carriedSlot.mySlot.y), new Vector2Int(mySlot.x, mySlot.y));
 
                         // set parent
                         itemImage.transform.SetParent(transform);
-                        return;
+                    }
+
+                    // ADDS TWO MATCHING STACKS
+                    else if(mySlot.Item.ItemName == carriedSlot.mySlot.Item.ItemName) {
+                        myItemGrid.AddMatchingStacks(new Vector2Int(carriedSlot.mySlot.x, carriedSlot.mySlot.y), new Vector2Int(mySlot.x, mySlot.y));
+
+                        // set parent
+                        itemImage.transform.SetParent(transform);
                     }
                 }
+
                 else if(carriedSlot == this) {
                     itemImage.transform.SetParent(transform);
                     carriedSlot = null;
                 }
             }
 
-            // place item
+            // PLACES ITEM BACK DOWN
             else if(carriedSlot != null && carriedSlot != this)
             {
                 myItemGrid.SwapItems(new Vector2Int(mySlot.x, mySlot.y), new Vector2Int(carriedSlot.mySlot.x, carriedSlot.mySlot.y));
 
                 carriedSlot.itemImage.transform.SetParent(carriedSlot.transform);
                 carriedSlot = null;
-
-                return;
             }
         }
 
-        /*
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
+            // PLACE ONE ON ME
+            if (carriedSlot != null && carriedSlot != this) {
+                // compare items
+                if (mySlot.Item == null || mySlot.Item.ItemName == carriedSlot.mySlot.Item.ItemName) {
+                    myItemGrid.SwapFromStack(new Vector2Int(carriedSlot.mySlot.x, carriedSlot.mySlot.y), new Vector2Int(mySlot.x, mySlot.y));
 
-        }*/
+                    if(carriedSlot.mySlot.Stack == 0) {
+                        carriedSlot.itemImage.transform.SetParent(carriedSlot.transform);
+                        carriedSlot = null;
+                    }
+                }
+            }
+
+            // SPLIT STACK
+            else if(mySlot.Item == null && carriedSlot == null){
+
+            }
+        }
     }
 
     private void SetCarriedSlot()
