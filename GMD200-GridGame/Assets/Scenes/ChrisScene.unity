@@ -603,7 +603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a577c8ed2e99fcd4985b48ff78f54785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 360
+  timer: 10
   timeText: {fileID: 952481659}
   pauseMenu: {fileID: 7748788}
   resourcesText: {fileID: 2136893684}

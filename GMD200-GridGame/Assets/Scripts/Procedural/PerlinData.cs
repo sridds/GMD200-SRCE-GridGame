@@ -83,8 +83,14 @@ public class PerlinData : MonoBehaviour
         FindWaterTiles();
         GenerateResources();
     }
-    public void GenerateNewMap()
+    /// <summary>
+    /// Generates a new grid and calls the TileGenerator to update the physical grid
+    /// </summary>
+    public void GenerateNewGrid(int width, int height)
     {
+        gridWidth = width;
+        gridHeight = height;
+
         tiles = new TileData[gridWidth, gridHeight];
 
         //Set random position of perlin noise
@@ -97,6 +103,7 @@ public class PerlinData : MonoBehaviour
         GenerateTileData();
         FindWaterTiles();
         GenerateResources();
+        TileGenerator.updateGrid?.Invoke(gridWidth, gridHeight);
     }
     /// <summary>
     /// Populate TileData with a perlin noise and store position in Tile data

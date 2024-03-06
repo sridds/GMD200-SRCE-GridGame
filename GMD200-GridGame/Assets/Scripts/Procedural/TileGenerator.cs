@@ -21,6 +21,9 @@ public class TileGenerator : MonoBehaviour
     public delegate void SetTile(int x, int y, TileType newTileType);
     public static SetTile updateTile;
 
+    public delegate void RefreshGrid(int width, int height);
+    public static RefreshGrid updateGrid;
+
     void Start()
     {
         data = PerlinData.Instance;
@@ -29,6 +32,28 @@ public class TileGenerator : MonoBehaviour
         PopulateDictionary();
         GenerateTileGroups();
         PopulateGrid();
+    }
+    /// <summary>
+    /// Updates the current grid with new perlin data
+    /// </summary>
+    void UpdateGrid(int width, int height)
+    {
+        ClearGrid();
+
+        currentGrid = new GameObject[width, height];
+
+        PopulateGrid();
+    }
+    /// <summary>
+    /// Destroys Current Grid
+    /// </summary>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
+    void ClearGrid()
+    { 
+        for (int x = 0; x < currentGrid.GetLength(0); x++)
+            for (int y = 0; y < currentGrid.GetLength(1); y++)
+                Destroy(currentGrid[x, y]);
     }
     /// <summary>
     /// Populates dictionary with tile prefabs
@@ -119,6 +144,14 @@ public class TileGenerator : MonoBehaviour
         data.tiles[x, y].tileType = newTileType;
         UpdateTile(x, y);
     }
-    private void OnEnable() => updateTile += UpdateTileInfo;
-    private void OnDisable() => updateTile -= UpdateTileInfo;
+    private void OnEnable()
+    {
+        updateTile += UpdateTileInfo;
+        updateGrid += UpdateGrid;
+    }
+    private void OnDisable()
+    {
+        updateTile -= UpdateTileInfo;
+        updateGrid -= UpdateGrid;
+    }
 }
