@@ -11,8 +11,14 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private Image itemImage;
 
+    [SerializeField]
+    private bool takeOnlySlot;
+
     private ItemGrid myItemGrid;
     private Slot mySlot;
+
+    public delegate void SlotTaken();
+    public SlotTaken OnSlotTaken;
 
     private void Awake() => ResetSlot();
 
@@ -65,10 +71,12 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
 
                     // reset slot entirely
                     myItemGrid.ResetSlotAtPosition(mySlot.x, mySlot.y);
+
+                    OnSlotTaken?.Invoke();
                 }
 
                 // SWAP SLOTS
-                else if (ItemGrid.CarriedSlot.Item == null || mySlot.Item.ItemName != ItemGrid.CarriedSlot.Item.ItemName)
+                else if (ItemGrid.CarriedSlot.Item == null || mySlot.Item.ItemName != ItemGrid.CarriedSlot.Item.ItemName && !takeOnlySlot)
                 {
                     Slot temp = new Slot(mySlot.Grid, mySlot.x, mySlot.y);
                     temp.SetItem(mySlot.Item, mySlot.Stack);
@@ -78,7 +86,7 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
                 }
 
                 // Add stacks
-                else if(ItemGrid.CarriedSlot.Item != null && mySlot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName)
+                else if(ItemGrid.CarriedSlot.Item != null && mySlot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName && !takeOnlySlot)
                 {
                     int stack = ItemGrid.CarriedSlot.Stack;
                     int remainder = (stack + mySlot.Stack) - mySlot.MaxStack;
@@ -93,10 +101,26 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
                     if (overStacked) ItemGrid.CarriedSlot.SetItem(mySlot.Item, remainder);
                     else ItemGrid.CarriedSlot = null;
                 }
+
+                else if(ItemGrid.CarriedSlot.Item != null && mySlot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName && takeOnlySlot)
+                {
+                    int stack = mySlot.Stack;
+                    int remainder = (stack + ItemGrid.CarriedSlot.Stack) - ItemGrid.CarriedSlot.MaxStack;
+                    if (remainder < 0) remainder = 0;
+
+                    for (int i = 0; i < stack - remainder; i++)
+                    {
+                        mySlot.RemoveFromStack();
+                        ItemGrid.CarriedSlot.AddToStack();
+                    }
+
+                    OnSlotTaken?.Invoke();
+                }
             }
 
             // PLACE ITEM DOWN
-            else if(ItemGrid.CarriedSlot != null){
+            else if(ItemGrid.CarriedSlot != null && !takeOnlySlot)
+            {
                 mySlot.SetItem(ItemGrid.CarriedSlot.Item, ItemGrid.CarriedSlot.Stack);
                 ItemGrid.CarriedSlot = null;
             }
@@ -104,7 +128,7 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
 
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            if (ItemGrid.CarriedSlot != null)
+            if (ItemGrid.CarriedSlot != null && !takeOnlySlot)
             {
                 // PLACE ONE
                 if (mySlot.Item == null || (mySlot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName && mySlot.Item != null && mySlot.Stack < mySlot.MaxStack)) {
@@ -117,7 +141,8 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
             }
 
             // SPLIT STACK
-            else if(mySlot.Item != null && mySlot.Stack > 1){
+            else if(mySlot.Item != null && mySlot.Stack > 1)
+            {
                 ItemGrid.CarriedSlot = new Slot(myItemGrid.Slots, -1, -1);
 
                 int resultA = (mySlot.Stack / 2) + (mySlot.Stack % 2);
