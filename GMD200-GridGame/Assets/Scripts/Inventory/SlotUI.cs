@@ -102,73 +102,30 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
             }
         }
 
-        /*
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            // item must be existing to carry
-            if(mySlot.Item != null)
-            {
-                // set carried slot
-                if (carriedSlot == null) {
-                    SetCarriedSlot();
-
-                    return;
-                }
-                else if (carriedSlot != this) {
-
-                    // SWAPS TWO ITEMS OF UNLIKE TYPE
-                    if(carriedSlot.mySlot.Item == null || mySlot.Item.ItemName != carriedSlot.mySlot.Item.ItemName) {
-                        // swap items
-                        myItemGrid.SwapItems(new Vector2Int(carriedSlot.mySlot.x, carriedSlot.mySlot.y), new Vector2Int(mySlot.x, mySlot.y));
-
-                        // set parent
-                        itemImage.transform.SetParent(transform);
-                    }
-
-                    // ADDS TWO MATCHING STACKS
-                    else if(mySlot.Item.ItemName == carriedSlot.mySlot.Item.ItemName) {
-                        myItemGrid.AddMatchingStacks(new Vector2Int(carriedSlot.mySlot.x, carriedSlot.mySlot.y), new Vector2Int(mySlot.x, mySlot.y));
-
-                        // set parent
-                        itemImage.transform.SetParent(transform);
-                    }
-                }
-
-                else if(carriedSlot == this) {
-                    itemImage.transform.SetParent(transform);
-                    carriedSlot = null;
-                }
-            }
-
-            // PLACES ITEM BACK DOWN
-            else if(carriedSlot != null && carriedSlot != this)
-            {
-                myItemGrid.SwapItems(new Vector2Int(mySlot.x, mySlot.y), new Vector2Int(carriedSlot.mySlot.x, carriedSlot.mySlot.y));
-
-                carriedSlot.itemImage.transform.SetParent(carriedSlot.transform);
-                carriedSlot = null;
-            }
-        }
-
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            // PLACE ONE ON ME
-            if (carriedSlot != null && carriedSlot != this) {
-                // compare items
-                if (mySlot.Item == null || mySlot.Item.ItemName == carriedSlot.mySlot.Item.ItemName) {
-                    myItemGrid.SwapFromStack(new Vector2Int(carriedSlot.mySlot.x, carriedSlot.mySlot.y), new Vector2Int(mySlot.x, mySlot.y));
+            if (ItemGrid.CarriedSlot != null)
+            {
+                // PLACE ONE
+                if (mySlot.Item == null || (mySlot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName && mySlot.Item != null && mySlot.Stack < mySlot.MaxStack)) {
+                    myItemGrid.AddItemAtPosition(ItemGrid.CarriedSlot.Item, mySlot.x, mySlot.y);
+                    ItemGrid.CarriedSlot.RemoveFromStack();
 
-                    if(carriedSlot.mySlot.Stack == 0) {
-                        carriedSlot.itemImage.transform.SetParent(carriedSlot.transform);
-                        carriedSlot = null;
-                    }
+                    // place down entirely
+                    if (ItemGrid.CarriedSlot.Stack == 0) ItemGrid.CarriedSlot = null;
                 }
             }
 
             // SPLIT STACK
-            else if(mySlot.Item == null && carriedSlot == null){
+            else if(mySlot.Item != null && mySlot.Stack > 1){
+                ItemGrid.CarriedSlot = new Slot(myItemGrid.Slots, -1, -1);
 
+                int resultA = (mySlot.Stack / 2) + (mySlot.Stack % 2);
+                int resultB = mySlot.Stack / 2;
+
+                ItemGrid.CarriedSlot.SetItem(mySlot.Item, resultB);
+                mySlot.SetItem(mySlot.Item, resultA);
             }
-        }*/
-                }
-            }
+        }
+    }
+}
