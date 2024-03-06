@@ -41,11 +41,11 @@ public class ItemGrid : MonoBehaviour
         // search for empty item
         if (item.Stack.CanStack)
         {
-            for (int x = 0; x < dimensions.y; x++)
+            for (int x = 0; x < dimensions.x; x++)
             {
-                for (int y = 0; y < dimensions.x; y++)
+                for (int y = 0; y < dimensions.y; y++)
                 {
-                    Slot slot = slots.GetGridObject(y, x);
+                    Slot slot = slots.GetGridObject(x, y);
 
                     // null? set item
                     if (slot.Item == null) continue;

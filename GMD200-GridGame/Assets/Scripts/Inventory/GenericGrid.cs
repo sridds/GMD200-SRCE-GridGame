@@ -27,8 +27,8 @@ public class GenericGrid<TGridObject>
         gridArray = new TGridObject[width, height];
 
         // initialize
-        for(int x = 0; x < gridArray.GetLength(0); x++) {
-            for(int y = 0; y < gridArray.GetLength(1); y++) {
+        for(int x = 0; x < width; x++) {
+            for(int y = 0; y < height; y++) {
                 gridArray[x, y] = createGridObject(this, x, y);
             }
         }
