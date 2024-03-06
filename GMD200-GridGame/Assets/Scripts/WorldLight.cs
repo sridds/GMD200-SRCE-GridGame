@@ -25,6 +25,11 @@ public class WorldLight : MonoBehaviour
         var percentage = Mathf.Sin(timeElapsed / duration * Mathf.PI * 2) * 0.5f + 0.5f;
         percentage = Mathf.Clamp01(percentage);
 
+        //When midnight
+        //Enable night UI "Day ___"
+        //Regenerate map
+        //Disable UI
+
         //dayNightLight.color = gradient.Evaluate(percentage);
     }
 }

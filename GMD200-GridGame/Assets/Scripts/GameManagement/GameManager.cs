@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int wood;
     [SerializeField] private int stone;
 
+    [Header("Current Day")]
+    public int day;
+
     public GameState currentGameState;
     void Awake()
     {

@@ -14,7 +14,13 @@ public class Movement : MonoBehaviour
 
     [SerializeField] private float speed = 3f;
 
+    public float collectCooldown = 0.5f;
+
+    public int damage = 1;
+
     private bool isPaused = false;
+
+    private bool canCollect = true;
 
     private void Start()
     {
@@ -25,7 +31,6 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.Escape))
             Pause();
 
@@ -50,18 +55,34 @@ public class Movement : MonoBehaviour
         //If there are no inputs, don't run code
         if (xInput == 0 && yInput == 0) return;
 
-        //Round the new position into an int
-        int newPosX = Mathf.FloorToInt(transform.position.x + xInput);
-        int newPosY = Mathf.FloorToInt(transform.position.y + yInput);
+        //Static cast from float to int
+        int newPosX = (int)(transform.position.x + xInput);
+        int newPosY = (int)(transform.position.y + yInput);
 
         //Impassible Terrain Check
         if (!PerlinData.Instance.InBounds(newPosX, newPosY)) return;
 
         if (data.tiles[newPosX, newPosY].tileType == TileType.Water) return;
 
+        int lastPosX = (int)transform.position.x;
+        int lastPosY = (int)transform.position.y;
+
         //Resource Collection
         if (data.tiles[newPosX, newPosY].tileType == TileType.Tree || data.tiles[newPosX, newPosY].tileType == TileType.Rock)
-            collect.CollectResource(newPosX, newPosY, data.tiles[newPosX, newPosY]);
+        {
+            //Stop current coroutine
+            StopCoroutine(MoveToPoint(newPosX, newPosY, speed));
+
+            if (isMoving == null)
+                isMoving = StartCoroutine(MoveToPoint(lastPosX, lastPosY, speed));
+
+            if (canCollect)
+            {
+                canCollect = false;
+                collect.CollectResource(newPosX, newPosY, data.tiles[newPosX, newPosY], damage);
+                Invoke(nameof(ResetCollectCooldown), 0.5f);
+            }
+        }
 
         //Start movement
         if (isMoving == null)
@@ -87,4 +108,6 @@ public class Movement : MonoBehaviour
         transform.position = targetPos;
         isMoving = null;
     }
+
+    private void ResetCollectCooldown() => canCollect = true;
 }
