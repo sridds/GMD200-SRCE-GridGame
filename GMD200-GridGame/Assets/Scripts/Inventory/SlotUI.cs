@@ -20,6 +20,8 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
     public delegate void SlotTaken();
     public SlotTaken OnSlotTaken;
 
+    private float lastClickTimestamp;
+
     private void Awake() => ResetSlot();
 
     /// <summary>
@@ -60,8 +62,13 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
     {
         if(eventData.button == PointerEventData.InputButton.Left)
         {
+            // GRAB ALL
+            if(Time.time - lastClickTimestamp <= 0.2f) {
+                myItemGrid.GatherAllIntoCarried();
+            }
+
             // PICKUP ITEM
-            if(mySlot.Item != null)
+            else if (mySlot.Item != null)
             {
                 if(ItemGrid.CarriedSlot == null)
                 {
@@ -124,6 +131,8 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
                 mySlot.SetItem(ItemGrid.CarriedSlot.Item, ItemGrid.CarriedSlot.Stack);
                 ItemGrid.CarriedSlot = null;
             }
+
+            lastClickTimestamp = Time.time;
         }
 
         else if (eventData.button == PointerEventData.InputButton.Right)
@@ -148,8 +157,8 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
                 int resultA = (mySlot.Stack / 2) + (mySlot.Stack % 2);
                 int resultB = mySlot.Stack / 2;
 
-                ItemGrid.CarriedSlot.SetItem(mySlot.Item, resultB);
-                mySlot.SetItem(mySlot.Item, resultA);
+                ItemGrid.CarriedSlot.SetItem(mySlot.Item, resultA);
+                mySlot.SetItem(mySlot.Item, resultB);
             }
         }
     }

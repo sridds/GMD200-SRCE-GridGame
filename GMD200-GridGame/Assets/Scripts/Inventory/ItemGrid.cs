@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Seth.OldInventory;
 using UnityEngine;
 
 /// <summary>
@@ -128,6 +129,27 @@ public class ItemGrid : MonoBehaviour
         }
     }
 
+    private void AddMatchingStacks(Slot s1, Slot s2)
+    {
+        int stack = s1.Stack;
+        int remainder = (s1.Stack + s2.Stack) - s2.MaxStack;
+        bool overStacked = (s1.Stack + s2.Stack) > s2.MaxStack;
+
+        // iterate through stack
+        for (int i = 0; i < stack; i++)
+        {
+            s1.RemoveFromStack(1);
+            AddItemAtPosition(s2.Item, s2.x, s2.y);
+        }
+
+        // add remainder items
+        if (!overStacked) return;
+        for (int i = 0; i < remainder; i++)
+        {
+            AddItemAtPosition(s2.Item, s1.x, s1.y);
+        }
+    }
+
     /// <summary>
     /// Moves the contents of a slot to a new grid
     /// </summary>
@@ -221,19 +243,31 @@ public class ItemGrid : MonoBehaviour
         s2.SetItem(temp.Item, temp.Stack);
     }
 
-    public void SwapSlots(Slot s1, Slot s2)
+    public void GatherAllIntoCarried()
     {
-        // temp
-        Slot temp = new Slot(s1.Grid, s1.x, s1.y);
-        temp.SetItem(s1.Item, s1.Stack);
+        if (CarriedSlot == null || CarriedSlot.Item == null) return;
 
-        // perform swap of s1
-        s1 = new Slot(s2.Grid, s2.x, s2.y);
-        s1.SetItem(s2.Item, s2.Stack);
+        for(int x = 0; x < dimensions.x; x++)
+        {
+            for(int y = 0; y < dimensions.y; y++)
+            {
+                if (CarriedSlot.Stack >= CarriedSlot.MaxStack) return;
+                Slot s = slots.GetGridObject(x, y);
 
-        // perform swap of s2
-        s2 = new Slot(temp.Grid, temp.x, temp.y);
-        s2.SetItem(temp.Item, temp.Stack);
+                if(s.Item != null && s.Item.ItemName == CarriedSlot.Item.ItemName) {
+                    int stack = s.Stack;
+                    int remainder = (stack + CarriedSlot.Stack) - CarriedSlot.MaxStack;
+                    if (remainder < 0) remainder = 0;
+
+                    for (int i = 0; i < stack - remainder; i++)
+                    {
+                        s.RemoveFromStack();
+                        CarriedSlot.AddToStack();
+                    }
+
+                }
+            }
+        }
     }
 }
 
