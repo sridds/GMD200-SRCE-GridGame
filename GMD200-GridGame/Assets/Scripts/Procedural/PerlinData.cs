@@ -83,6 +83,21 @@ public class PerlinData : MonoBehaviour
         FindWaterTiles();
         GenerateResources();
     }
+    public void GenerateNewMap()
+    {
+        tiles = new TileData[gridWidth, gridHeight];
+
+        //Set random position of perlin noise
+        if (randomOffset)
+        {
+            offsetX = Random.Range(0, MAX_RANDOM_RANGE);
+            offsetY = Random.Range(0, MAX_RANDOM_RANGE);
+        }
+
+        GenerateTileData();
+        FindWaterTiles();
+        GenerateResources();
+    }
     /// <summary>
     /// Populate TileData with a perlin noise and store position in Tile data
     /// </summary>
