@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
         //Resize and regenerate map
         if (timer <= 0)
         {
-            PerlinData.Instance.GenerateNewGrid(25, 25);
+            PerlinData.Instance.GenerateNewGrid(85, 85);
             timer = 10;
         }
     }

@@ -13,6 +13,9 @@ public class PerlinData : MonoBehaviour
     [Tooltip("The y or height of the map generated")]
     [SerializeField] private int gridHeight;
 
+    [Tooltip("The size of the center spawn area")]
+    [SerializeField] private int spawnAreaSize = 3;
+
     [Tooltip("If Enabled, will generate a random position on load")]
     [SerializeField] private bool randomOffset = true;
 
@@ -70,18 +73,7 @@ public class PerlinData : MonoBehaviour
         else
             Instance = this;
 
-        tiles = new TileData[gridWidth, gridHeight];
-
-        //Set random position of perlin noise
-        if (randomOffset)
-        {
-            offsetX = Random.Range(0, MAX_RANDOM_RANGE);
-            offsetY = Random.Range(0, MAX_RANDOM_RANGE);
-        }
-
-        GenerateTileData();
-        FindWaterTiles();
-        GenerateResources();
+        GenerateNewGrid(gridWidth, gridHeight);
     }
     /// <summary>
     /// Generates a new grid and calls the TileGenerator to update the physical grid
@@ -100,11 +92,21 @@ public class PerlinData : MonoBehaviour
             offsetY = Random.Range(0, MAX_RANDOM_RANGE);
         }
 
-        GenerateTileData();
-        FindWaterTiles();
-        GenerateResources();
+        Initialize();
+        //Updates physical world grid with new data
         TileGenerator.updateGrid?.Invoke(gridWidth, gridHeight);
     }
+    /// <summary>
+    /// Calls all the functions nescsarry to generate the world data
+    /// </summary>
+    void Initialize()
+    {
+        GenerateTileData();
+        GenerateResources();
+        ClearCenter();
+        FindWaterTiles();
+    }
+   
     /// <summary>
     /// Populate TileData with a perlin noise and store position in Tile data
     /// </summary>
@@ -148,6 +150,7 @@ public class PerlinData : MonoBehaviour
         {
             for (int y = 0; y < gridHeight; y++)
             {
+                //Cleanup small sources of water
                 if (cleanRogueParticles)
                     CleanRogueParticles(x, y);
 
@@ -199,6 +202,22 @@ public class PerlinData : MonoBehaviour
                 }
             }
         }
+    }
+    /// <summary>
+    /// Creates a spawn area around center of the map
+    /// </summary>
+    void ClearCenter()
+    {
+        //Find the center of the map
+        int centerX = Mathf.FloorToInt(gridWidth / 2);
+        int centerY = Mathf.FloorToInt(gridHeight / 2);
+
+        //Get tiles surrounding the center
+        List<TileData> neighborTiles = StoreNeighborTiles(centerX, centerY, spawnAreaSize);
+
+        //Replace with grass
+        for (int i = 0; i < neighborTiles.Count; i++)
+            neighborTiles[i].tileType = TileType.Grass;
     }
     /// <summary>
     /// Cleans up solitary water instances
