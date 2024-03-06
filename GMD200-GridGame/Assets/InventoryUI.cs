@@ -28,15 +28,6 @@ public class InventoryUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E)) {
             myItemGrid.AddItem(testItem[Random.Range(0, testItem.Length - 1)]);
         }
-
-        /*
-        if (Input.GetKeyDown(KeyCode.R)) {
-            int x = Random.Range(0, myItemGrid.Dimensions.x);
-            int y = Random.Range(0, myItemGrid.Dimensions.y);
-
-            Debug.Log($"Attempting to remove at: [{x},{y}]");
-            myItemGrid.RemoveItemAtPosition(x, y);
-        }*/
     }
 
     /// <summary>

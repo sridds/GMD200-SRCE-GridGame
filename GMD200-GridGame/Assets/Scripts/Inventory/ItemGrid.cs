@@ -8,6 +8,9 @@ using UnityEngine;
 /// </summary>
 public class ItemGrid : MonoBehaviour
 {
+    // records the currently held slot, doesnt matter what grid its in
+    public static Slot CarriedSlot;
+
     [SerializeField]
     private Vector2Int dimensions;
 
@@ -209,16 +212,27 @@ public class ItemGrid : MonoBehaviour
         Slot s1 = slots.GetGridObject(i.x, i.y);    
         Slot s2 = slots.GetGridObject(j.x, j.y);
 
-        // ensure both exist
-
-        //if (s1 == null || s2 == null) return;
-
         // temp
         Slot temp = new Slot(slots, s1.x, s1.y);
         temp.SetItem(s1.Item, s1.Stack);
 
         // perform swap
         s1.SetItem(s2.Item, s2.Stack);
+        s2.SetItem(temp.Item, temp.Stack);
+    }
+
+    public void SwapSlots(Slot s1, Slot s2)
+    {
+        // temp
+        Slot temp = new Slot(s1.Grid, s1.x, s1.y);
+        temp.SetItem(s1.Item, s1.Stack);
+
+        // perform swap of s1
+        s1 = new Slot(s2.Grid, s2.x, s2.y);
+        s1.SetItem(s2.Item, s2.Stack);
+
+        // perform swap of s2
+        s2 = new Slot(temp.Grid, temp.x, temp.y);
         s2.SetItem(temp.Item, temp.Stack);
     }
 }
@@ -238,6 +252,7 @@ public class Slot
     private int stack;
 
     // accessors
+    public GenericGrid<Slot> Grid { get { return grid; } }
     public int Stack { get { return stack; } }
     public ItemSO Item { get { return item; } }
     public int MaxStack { get { return item.Stack.CanStack ? item.Stack.MaxStack : 1; } }

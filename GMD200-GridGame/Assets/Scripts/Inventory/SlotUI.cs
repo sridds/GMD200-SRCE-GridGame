@@ -5,8 +5,6 @@ using UnityEngine.EventSystems;
 
 public class SlotUI : MonoBehaviour, IPointerClickHandler
 {
-    public static SlotUI carriedSlot;
-
     [SerializeField]
     private TextMeshProUGUI stackText;
 
@@ -46,16 +44,6 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
         stackText.text = stackAmt > 1 ? $"{stackAmt}" : "";
     }
 
-    private void Update() => UpdateCarriedSlot();
-
-    private void UpdateCarriedSlot()
-    {
-        // update position of carried slot
-        if (carriedSlot == this) {
-            itemImage.transform.position = Input.mousePosition;
-        }
-    }
-
     private void ResetSlot()
     {
         itemImage.enabled = false;
@@ -64,6 +52,57 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(eventData.button == PointerEventData.InputButton.Left)
+        {
+            // PICKUP ITEM
+            if(mySlot.Item != null)
+            {
+                if(ItemGrid.CarriedSlot == null)
+                {
+                    // set slot
+                    ItemGrid.CarriedSlot = new Slot(mySlot.Grid, mySlot.x, mySlot.y);
+                    ItemGrid.CarriedSlot.SetItem(mySlot.Item, mySlot.Stack);
+
+                    // reset slot entirely
+                    myItemGrid.ResetSlotAtPosition(mySlot.x, mySlot.y);
+                }
+
+                // SWAP SLOTS
+                else if (ItemGrid.CarriedSlot.Item == null || mySlot.Item.ItemName != ItemGrid.CarriedSlot.Item.ItemName)
+                {
+                    Slot temp = new Slot(mySlot.Grid, mySlot.x, mySlot.y);
+                    temp.SetItem(mySlot.Item, mySlot.Stack);
+
+                    mySlot.SetItem(ItemGrid.CarriedSlot.Item, ItemGrid.CarriedSlot.Stack);
+                    ItemGrid.CarriedSlot.SetItem(temp.Item, temp.Stack);
+                }
+
+                // Add stacks
+                else if(ItemGrid.CarriedSlot.Item != null && mySlot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName)
+                {
+                    int stack = ItemGrid.CarriedSlot.Stack;
+                    int remainder = (stack + mySlot.Stack) - mySlot.MaxStack;
+                    bool overStacked = (stack + mySlot.Stack) > mySlot.MaxStack;
+
+                    for(int i = 0; i < stack; i++) {
+                        ItemGrid.CarriedSlot.RemoveFromStack();
+                        mySlot.AddToStack();
+                    }
+
+                    // check for overstacking
+                    if (overStacked) ItemGrid.CarriedSlot.SetItem(mySlot.Item, remainder);
+                    else ItemGrid.CarriedSlot = null;
+                }
+            }
+
+            // PLACE ITEM DOWN
+            else if(ItemGrid.CarriedSlot != null){
+                mySlot.SetItem(ItemGrid.CarriedSlot.Item, ItemGrid.CarriedSlot.Stack);
+                ItemGrid.CarriedSlot = null;
+            }
+        }
+
+        /*
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             // item must be existing to carry
@@ -130,12 +169,6 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
             else if(mySlot.Item == null && carriedSlot == null){
 
             }
-        }
-    }
-
-    private void SetCarriedSlot()
-    {
-        carriedSlot = this;
-        itemImage.transform.SetParent(transform.root);
-    }
-}
+        }*/
+                }
+            }
