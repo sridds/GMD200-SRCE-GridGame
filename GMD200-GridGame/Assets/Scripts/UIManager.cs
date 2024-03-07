@@ -7,9 +7,9 @@ public class UIManager : MonoBehaviour
 {
     [Header("Timer Settings")]
 
-    public float timer = 10;
+    //public float timer = 10;
 
-    [SerializeField] private TextMeshProUGUI timeText;
+    //[SerializeField] private TextMeshProUGUI timeText;
 
     [Header("Pause Settings")]
     [SerializeField] private GameObject pauseMenu;
@@ -27,17 +27,17 @@ public class UIManager : MonoBehaviour
     }
     private void Update()
     {
-        timer -= Time.deltaTime;
+        /*timer -= Time.deltaTime;
         float minutes = Mathf.FloorToInt(timer / 60);
         float seconds = Mathf.FloorToInt(timer % 60);
-        timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);*/
 
-        //Resize and regenerate map
+        /*//Resize and regenerate map
         if (timer <= 0)
         {
             PerlinData.Instance.GenerateNewGrid(85, 85);
-            timer = 10;
-        }
+            timer = 2;
+        }*/
     }
 
     public void Pause(bool isPaused)

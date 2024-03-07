@@ -35,6 +35,10 @@ public class Movement : MonoBehaviour
             Pause();
 
             Move();
+
+        //Debug
+        if (Input.GetKeyDown(KeyCode.R))
+            PerlinData.Instance.GenerateNewGrid(85, 85);
     }
     void Pause()
     {
