@@ -63,7 +63,7 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
         if(eventData.button == PointerEventData.InputButton.Left)
         {
             // GRAB ALL
-            if(Time.time - lastClickTimestamp <= 0.2f) {
+            if(Time.time - lastClickTimestamp <= 0.2f && !takeOnlySlot) {
                 myItemGrid.GatherAllIntoCarried();
             }
 
@@ -84,31 +84,12 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
                 // Add stacks
                 else if(ItemGrid.CarriedSlot.Item != null && mySlot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName && !takeOnlySlot)
                 {
-                    int stack = ItemGrid.CarriedSlot.Stack;
-                    int remainder = (stack + mySlot.Stack) - mySlot.MaxStack;
-                    bool overStacked = (stack + mySlot.Stack) > mySlot.MaxStack;
-
-                    for(int i = 0; i < stack; i++) {
-                        ItemGrid.CarriedSlot.RemoveFromStack();
-                        mySlot.AddToStack();
-                    }
-
-                    // check for overstacking
-                    if (overStacked) ItemGrid.CarriedSlot.SetItem(mySlot.Item, remainder);
-                    else ItemGrid.CarriedSlot = null;
+                    myItemGrid.AddStackIntoCarried(mySlot);
                 }
 
                 else if(ItemGrid.CarriedSlot.Item != null && mySlot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName && takeOnlySlot)
                 {
-                    int stack = mySlot.Stack;
-                    int remainder = (stack + ItemGrid.CarriedSlot.Stack) - ItemGrid.CarriedSlot.MaxStack;
-                    if (remainder < 0) remainder = 0;
-
-                    for (int i = 0; i < stack - remainder; i++)
-                    {
-                        mySlot.RemoveFromStack();
-                        ItemGrid.CarriedSlot.AddToStack();
-                    }
+                    myItemGrid.AddTillMaxStack(mySlot, ItemGrid.CarriedSlot);
 
                     OnSlotTaken?.Invoke();
                 }

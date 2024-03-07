@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Seth.OldInventory;
 using UnityEngine;
-using static SlotUI;
 
 /// <summary>
 /// This item grid can be used for any grid -- inventory, crafting, etc.
@@ -248,6 +246,36 @@ public class ItemGrid : MonoBehaviour
 
         ItemGrid.CarriedSlot.SetItem(slot.Item, resultA);
         slot.SetItem(slot.Item, resultB);
+    }
+
+    public void AddStackIntoCarried(Slot slot)
+    {
+        int stack = CarriedSlot.Stack;
+        int remainder = (stack + slot.Stack) - slot.MaxStack;
+        bool overStacked = (stack + slot.Stack) > slot.MaxStack;
+
+        for (int i = 0; i < stack; i++)
+        {
+            CarriedSlot.RemoveFromStack();
+            slot.AddToStack();
+        }
+
+        // check for overstacking
+        if (overStacked) CarriedSlot.SetItem(slot.Item, remainder);
+        else CarriedSlot = null;
+    }
+
+    public void AddTillMaxStack(Slot s1, Slot s2)
+    {
+        int stack = s1.Stack;
+        int remainder = (stack + s2.Stack) - s2.MaxStack;
+        if (remainder < 0) remainder = 0;
+
+        for (int i = 0; i < stack - remainder; i++)
+        {
+            s1.RemoveFromStack();
+            s2.AddToStack();
+        }
     }
 }
 
