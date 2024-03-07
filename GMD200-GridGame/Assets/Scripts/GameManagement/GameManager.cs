@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public Transform player;
+
     [Header("Resources")]
     [SerializeField] private int wood;
     [SerializeField] private int stone;

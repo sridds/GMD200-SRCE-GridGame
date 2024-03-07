@@ -218,6 +218,9 @@ public class PerlinData : MonoBehaviour
         //Replace with grass
         for (int i = 0; i < neighborTiles.Count; i++)
             neighborTiles[i].tileType = TileType.Grass;
+
+        //Move player to center
+        GameManager.Instance.player.position = tiles[centerX, centerY].tilePosition;
     }
     /// <summary>
     /// Cleans up solitary water instances
@@ -226,8 +229,10 @@ public class PerlinData : MonoBehaviour
     /// <param name="y"></param>
     void CleanRogueParticles(int x, int y)
     {
+        //Initialize list to store water tiles
         List<TileData> particleList = new();
 
+        //Get neighboring tiles
         List<TileData> neighborTiles = StoreNeighborTiles(x, y, rogueParticleThreshold);
 
         for (int i = 0; i < neighborTiles.Count; i++)
