@@ -18,8 +18,6 @@ public class InventoryUI : MonoBehaviour
 
         // initialize each slot w reference to item grid
         for(int i = 0; i < mySlots.Count; i++) {
-            Debug.Log($"INIT // i: {i}, x: {i % myItemGrid.Dimensions.x}, y: {i / myItemGrid.Dimensions.x}");
-
             mySlots[i].Initialize(myItemGrid.Slots.GetGridObject(i % myItemGrid.Dimensions.x, i / myItemGrid.Dimensions.x), myItemGrid);
         }
     }

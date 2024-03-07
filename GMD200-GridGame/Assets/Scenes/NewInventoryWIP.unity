@@ -763,7 +763,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7780756919248003815, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_Name
-      value: CraftingSlot
+      value: CraftingSlot_02
       objectReference: {fileID: 0}
     - target: {fileID: 8107694287216293238, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1046,7 +1046,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7780756919248003815, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_Name
-      value: CraftingSlot
+      value: CraftingSlot_11
       objectReference: {fileID: 0}
     - target: {fileID: 8107694287216293238, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1512,7 +1512,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7780756919248003815, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_Name
-      value: CraftingSlot
+      value: CraftingSlot_21
       objectReference: {fileID: 0}
     - target: {fileID: 8107694287216293238, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2331,7 +2331,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7780756919248003815, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_Name
-      value: CraftingSlot
+      value: CraftingSlot_10
       objectReference: {fileID: 0}
     - target: {fileID: 8107694287216293238, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2429,7 +2429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.77647066, g: 0.77647066, b: 0.77647066, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2789,7 +2789,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7780756919248003815, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_Name
-      value: CraftingSlot
+      value: CraftingSlot_12
       objectReference: {fileID: 0}
     - target: {fileID: 8107694287216293238, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3593,7 +3593,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7780756919248003815, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_Name
-      value: CraftingSlot
+      value: CraftingSlot_00
       objectReference: {fileID: 0}
     - target: {fileID: 8107694287216293238, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3794,7 +3794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7780756919248003815, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_Name
-      value: CraftingSlot
+      value: CraftingSlot_22
       objectReference: {fileID: 0}
     - target: {fileID: 8107694287216293238, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4333,13 +4333,13 @@ MonoBehaviour:
   testItem: []
   mySlots:
   - {fileID: 1890941070}
-  - {fileID: 1628677197}
-  - {fileID: 540514875}
   - {fileID: 565672297}
-  - {fileID: 553192534}
-  - {fileID: 1568746741}
   - {fileID: 2055405359}
+  - {fileID: 1628677197}
+  - {fileID: 553192534}
   - {fileID: 992838445}
+  - {fileID: 540514875}
+  - {fileID: 1568746741}
   - {fileID: 1315016976}
 --- !u!114 &944555300
 MonoBehaviour:
@@ -5182,7 +5182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7780756919248003815, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_Name
-      value: CraftingSlot
+      value: CraftingSlot_20
       objectReference: {fileID: 0}
     - target: {fileID: 8107694287216293238, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6412,7 +6412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7780756919248003815, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_Name
-      value: CraftingSlot
+      value: CraftingSlot_01
       objectReference: {fileID: 0}
     - target: {fileID: 8107694287216293238, guid: ffe0650a56e1f4fe9a0f9fbc90dd0304, type: 3}
       propertyPath: m_AnchorMax.x

@@ -70,26 +70,15 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
             // PICKUP ITEM
             else if (mySlot.Item != null)
             {
-                if(ItemGrid.CarriedSlot == null)
-                {
-                    // set slot
-                    ItemGrid.CarriedSlot = new Slot(mySlot.Grid, mySlot.x, mySlot.y);
-                    ItemGrid.CarriedSlot.SetItem(mySlot.Item, mySlot.Stack);
-
-                    // reset slot entirely
-                    myItemGrid.ResetSlotAtPosition(mySlot.x, mySlot.y);
-
+                if(ItemGrid.CarriedSlot == null) {
+                    myItemGrid.SetCarriedSlot(mySlot);
                     OnSlotTaken?.Invoke();
                 }
 
                 // SWAP SLOTS
                 else if (ItemGrid.CarriedSlot.Item == null || mySlot.Item.ItemName != ItemGrid.CarriedSlot.Item.ItemName && !takeOnlySlot)
                 {
-                    Slot temp = new Slot(mySlot.Grid, mySlot.x, mySlot.y);
-                    temp.SetItem(mySlot.Item, mySlot.Stack);
-
-                    mySlot.SetItem(ItemGrid.CarriedSlot.Item, ItemGrid.CarriedSlot.Stack);
-                    ItemGrid.CarriedSlot.SetItem(temp.Item, temp.Stack);
+                    myItemGrid.SwapIntoCarried(mySlot);
                 }
 
                 // Add stacks
@@ -139,26 +128,13 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
         {
             if (ItemGrid.CarriedSlot != null && !takeOnlySlot)
             {
-                // PLACE ONE
-                if (mySlot.Item == null || (mySlot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName && mySlot.Item != null && mySlot.Stack < mySlot.MaxStack)) {
-                    myItemGrid.AddItemAtPosition(ItemGrid.CarriedSlot.Item, mySlot.x, mySlot.y);
-                    ItemGrid.CarriedSlot.RemoveFromStack();
-
-                    // place down entirely
-                    if (ItemGrid.CarriedSlot.Stack == 0) ItemGrid.CarriedSlot = null;
-                }
+                myItemGrid.PlaceOneFromCarried(mySlot);
             }
 
             // SPLIT STACK
             else if(mySlot.Item != null && mySlot.Stack > 1)
             {
-                ItemGrid.CarriedSlot = new Slot(myItemGrid.Slots, -1, -1);
-
-                int resultA = (mySlot.Stack / 2) + (mySlot.Stack % 2);
-                int resultB = mySlot.Stack / 2;
-
-                ItemGrid.CarriedSlot.SetItem(mySlot.Item, resultA);
-                mySlot.SetItem(mySlot.Item, resultB);
+                myItemGrid.SplitSlotIntoCarried(mySlot);
             }
         }
     }

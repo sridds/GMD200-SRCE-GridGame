@@ -68,10 +68,7 @@ public class CraftingGrid : MonoBehaviour
                 }
             }
         }
-
-        // return output item
-        if (completeRecipe) return true;
-        return false;
+        return completeRecipe;
     }
 
     private void DecrementMatchingItems(RecipeSO recipe)
