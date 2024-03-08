@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a68cbe5e93d3147faa406031520a6dbd, type: 3}
+  m_Name: Iron Armor
+  m_EditorClassIdentifier: 
+  ItemName: Iron Armor
+  ItemDescription: 
+  ItemSprite: {fileID: 1188584149, guid: 514c75653fb6e473096a58cd09e3fa29, type: 3}
+  SellPrice: 25
+  Stack:
+    CanStack: 0
+    MaxStack: 0
+  Defence: 2
+  Durability:
+    HasDurability: 0
+    MaxDurability: 0

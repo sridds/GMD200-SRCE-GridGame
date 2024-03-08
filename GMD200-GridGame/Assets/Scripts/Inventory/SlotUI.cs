@@ -72,6 +72,7 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
             {
                 if(ItemGrid.CarriedSlot == null) {
                     myItemGrid.SetCarriedSlot(mySlot);
+
                     OnSlotTaken?.Invoke();
                 }
 
@@ -89,9 +90,12 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
 
                 else if(ItemGrid.CarriedSlot.Item != null && mySlot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName && takeOnlySlot)
                 {
-                    myItemGrid.AddTillMaxStack(mySlot, ItemGrid.CarriedSlot);
+                    if(mySlot.Stack + ItemGrid.CarriedSlot.Stack <= ItemGrid.CarriedSlot.MaxStack)
+                    {
+                        myItemGrid.AddTillMaxStack(mySlot, ItemGrid.CarriedSlot);
 
-                    OnSlotTaken?.Invoke();
+                        OnSlotTaken?.Invoke();
+                    }
                 }
             }
 
