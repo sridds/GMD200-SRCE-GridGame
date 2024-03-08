@@ -9,6 +9,10 @@ public enum TileType
     Tree,
     Rock,
 }
+public enum ResourceType
+{
+
+}
 public class TileData
 {
     public TileType tileType;
