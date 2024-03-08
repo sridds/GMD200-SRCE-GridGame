@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Seth.OldInventory;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -25,16 +25,6 @@ public class ItemGrid : MonoBehaviour
     {
         // initialize
         slots = new GenericGrid<Slot>(dimensions.x, dimensions.y, (GenericGrid<Slot> g, int x, int y) => new Slot(g, x ,y));
-
-        // subscribe to events
-        slots.OnGridObjectChanged += GridUpdateLog;
-    }
-
-    private void GridUpdateLog(object sender, GenericGrid<Slot>.OnGridObjectChangedArgs e)
-    {
-        Slot s = slots.GetGridObject(e.x, e.y);
-
-        Debug.Log($"Updated: [{e.x}, {e.y}] to {s.Item} of stack {s.Stack}");
     }
 
     public bool AddItem(ItemSO item)
@@ -77,77 +67,6 @@ public class ItemGrid : MonoBehaviour
         if (slot.Item == null) return;
         // remove from stack
         slot.RemoveFromStack();
-    }
-
-    /// <summary>
-    /// Takes one from the stack of an item and moves it into a new slot position
-    /// </summary>
-    public void SwapFromStack(Vector2Int index, Vector2Int newIndex)
-    {
-        // get old and new slot
-        Slot oldSlot = slots.GetGridObject(index.x, index.y);
-        Slot newSlot = slots.GetGridObject(newIndex.x, newIndex.y);
-
-        // removes from the old slot and adds to the new slot
-        ItemSO item = oldSlot.Item;
-
-        oldSlot.RemoveFromStack(1);
-        AddItemAtPosition(item, newIndex.x, newIndex.y);
-    }
-
-    /// <summary>
-    /// Adds to item stacks together
-    /// </summary>
-    /// <param name="index"></param>
-    /// <param name="newIndex"></param>
-    public void AddMatchingStacks(Vector2Int index, Vector2Int newIndex)
-    {
-        // get old and new slot
-        Slot oldSlot = slots.GetGridObject(index.x, index.y);
-        Slot newSlot = slots.GetGridObject(newIndex.x, newIndex.y);
-
-        // items must match
-        if (oldSlot.Item == null || newSlot.Item == null) return;
-        if (oldSlot.Item.ItemName != newSlot.Item.ItemName) return;
-
-        ItemSO item = oldSlot.Item;
-
-        int stack = oldSlot.Stack;
-        int remainder = (oldSlot.Stack + newSlot.Stack) - newSlot.MaxStack;
-        bool overStacked = (oldSlot.Stack + newSlot.Stack) > newSlot.MaxStack;
-
-        // iterate through stack
-        for (int i = 0; i < stack; i++) {
-            oldSlot.RemoveFromStack(1);
-            AddItemAtPosition(newSlot.Item, newIndex.x, newIndex.y);
-        }
-
-        // add remainder items
-        if (!overStacked) return;
-        for(int i = 0; i < remainder; i++) {
-            AddItemAtPosition(newSlot.Item, oldSlot.x, oldSlot.y);
-        }
-    }
-
-    private void AddMatchingStacks(Slot s1, Slot s2)
-    {
-        int stack = s1.Stack;
-        int remainder = (s1.Stack + s2.Stack) - s2.MaxStack;
-        bool overStacked = (s1.Stack + s2.Stack) > s2.MaxStack;
-
-        // iterate through stack
-        for (int i = 0; i < stack; i++)
-        {
-            s1.RemoveFromStack(1);
-            AddItemAtPosition(s2.Item, s2.x, s2.y);
-        }
-
-        // add remainder items
-        if (!overStacked) return;
-        for (int i = 0; i < remainder; i++)
-        {
-            AddItemAtPosition(s2.Item, s1.x, s1.y);
-        }
     }
 
     /// <summary>
@@ -224,49 +143,138 @@ public class ItemGrid : MonoBehaviour
     }
 
     /// <summary>
-    /// Swaps two items at the provided indexes
+    /// Handles gathering all of a specified type into the carried slot. Gathers all into a list and prioritizes the stacks that are fewer
     /// </summary>
-    /// <param name="i"></param>
-    /// <param name="j"></param>
-    public void SwapItems(Vector2Int i, Vector2Int j)
-    {
-        // get corresponding slots
-        Slot s1 = slots.GetGridObject(i.x, i.y);    
-        Slot s2 = slots.GetGridObject(j.x, j.y);
-
-        // temp
-        Slot temp = new Slot(slots, s1.x, s1.y);
-        temp.SetItem(s1.Item, s1.Stack);
-
-        // perform swap
-        s1.SetItem(s2.Item, s2.Stack);
-        s2.SetItem(temp.Item, temp.Stack);
-    }
-
     public void GatherAllIntoCarried()
     {
+        // Must be existant
         if (CarriedSlot == null || CarriedSlot.Item == null) return;
 
+        List<Slot> matchingTypes = new List<Slot>();
+
+        // iterate through inventory
         for(int x = 0; x < dimensions.x; x++)
         {
             for(int y = 0; y < dimensions.y; y++)
             {
+                // ensure does not surpass the stack max
                 if (CarriedSlot.Stack >= CarriedSlot.MaxStack) return;
                 Slot s = slots.GetGridObject(x, y);
 
+                // ensure items match
                 if(s.Item != null && s.Item.ItemName == CarriedSlot.Item.ItemName) {
-                    int stack = s.Stack;
-                    int remainder = (stack + CarriedSlot.Stack) - CarriedSlot.MaxStack;
-                    if (remainder < 0) remainder = 0;
-
-                    for (int i = 0; i < stack - remainder; i++)
-                    {
-                        s.RemoveFromStack();
-                        CarriedSlot.AddToStack();
-                    }
-
+                    // add to matching types
+                    matchingTypes.Add(s);
                 }
             }
+        }
+
+        // Order by the stack amount to ensure smaller stacks are grabbed first before larger stacks
+        foreach(Slot s in matchingTypes.OrderBy(x => x.Stack))
+        {
+            int stack = s.Stack;
+            int remainder = (stack + CarriedSlot.Stack) - CarriedSlot.MaxStack;
+            if (remainder < 0) remainder = 0;
+
+            for (int i = 0; i < stack - remainder; i++)
+            {
+                s.RemoveFromStack();
+                CarriedSlot.AddToStack();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Sets the static carried slot to the contents of the provided slot, resetting the provided slot.
+    /// </summary>
+    /// <param name="slot"></param>
+    public bool SetCarriedSlot(Slot slot)
+    {
+        if (CarriedSlot != null) return false;
+
+        // set slot
+        CarriedSlot = new Slot(slot.Grid, slot.x, slot.y);
+        CarriedSlot.SetItem(slot.Item, slot.Stack);
+
+        // reset slot entirely
+        ResetSlotAtPosition(slot.x, slot.y);
+        return true;
+    }
+
+    /// <summary>
+    /// Swaps two items from the grid into the carried slot
+    /// </summary>
+    /// <param name="slot"></param>
+    public bool SwapIntoCarried(Slot slot)
+    {
+        if (ItemGrid.CarriedSlot.Item != null && slot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName) return false;
+
+        Slot temp = new Slot(slot.Grid, slot.x, slot.y);
+        temp.SetItem(slot.Item, slot.Stack);
+
+        slot.SetItem(CarriedSlot.Item, CarriedSlot.Stack);
+        CarriedSlot.SetItem(temp.Item, temp.Stack);
+
+        return true;
+    }
+
+    /// <summary>
+    /// Takes one from carried slot and places into the provided slot
+    /// </summary>
+    /// <param name="slot"></param>
+    public void PlaceOneFromCarried(Slot slot)
+    {
+        if (slot.Item != null && (slot.Item.ItemName != ItemGrid.CarriedSlot.Item.ItemName || slot.Item == null || slot.Stack >= slot.MaxStack)) return;
+
+        AddItemAtPosition(ItemGrid.CarriedSlot.Item, slot.x, slot.y);
+        CarriedSlot.RemoveFromStack();
+
+        // place down entirely
+        if (CarriedSlot.Stack == 0) CarriedSlot = null;
+    }
+
+    /// <summary>
+    /// Splits provided slot in (roughly) half and puts the other, greater half into the carried slot
+    /// </summary>
+    /// <param name="slot"></param>
+    public void SplitSlotIntoCarried(Slot slot)
+    {
+        CarriedSlot = new Slot(slots, -1, -1);
+
+        int resultA = (slot.Stack / 2) + (slot.Stack % 2);
+        int resultB = slot.Stack / 2;
+
+        ItemGrid.CarriedSlot.SetItem(slot.Item, resultA);
+        slot.SetItem(slot.Item, resultB);
+    }
+
+    public void AddStackIntoCarried(Slot slot)
+    {
+        int stack = CarriedSlot.Stack;
+        int remainder = (stack + slot.Stack) - slot.MaxStack;
+        bool overStacked = (stack + slot.Stack) > slot.MaxStack;
+
+        for (int i = 0; i < stack; i++)
+        {
+            CarriedSlot.RemoveFromStack();
+            slot.AddToStack();
+        }
+
+        // check for overstacking
+        if (overStacked) CarriedSlot.SetItem(slot.Item, remainder);
+        else CarriedSlot = null;
+    }
+
+    public void AddTillMaxStack(Slot s1, Slot s2)
+    {
+        int stack = s1.Stack;
+        int remainder = (stack + s2.Stack) - s2.MaxStack;
+        if (remainder < 0) remainder = 0;
+
+        for (int i = 0; i < stack - remainder; i++)
+        {
+            s1.RemoveFromStack();
+            s2.AddToStack();
         }
     }
 }

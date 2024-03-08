@@ -44,6 +44,7 @@ public class PostProcessManager : MonoBehaviour
        // colorGrading.colorFilter.value = this.color;
 
         var timeElapsed = Time.time - startTime;
+        Debug.Log(timeElapsed);
         var percentage = Mathf.Sin(timeElapsed / duration * Mathf.PI * 2) * 0.5f + 0.5f;
         percentage = Mathf.Clamp01(percentage);
 

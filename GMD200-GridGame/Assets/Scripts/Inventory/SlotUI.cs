@@ -63,63 +63,33 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
         if(eventData.button == PointerEventData.InputButton.Left)
         {
             // GRAB ALL
-            if(Time.time - lastClickTimestamp <= 0.2f) {
+            if(Time.time - lastClickTimestamp <= 0.2f && !takeOnlySlot) {
                 myItemGrid.GatherAllIntoCarried();
             }
 
             // PICKUP ITEM
             else if (mySlot.Item != null)
             {
-                if(ItemGrid.CarriedSlot == null)
-                {
-                    // set slot
-                    ItemGrid.CarriedSlot = new Slot(mySlot.Grid, mySlot.x, mySlot.y);
-                    ItemGrid.CarriedSlot.SetItem(mySlot.Item, mySlot.Stack);
-
-                    // reset slot entirely
-                    myItemGrid.ResetSlotAtPosition(mySlot.x, mySlot.y);
-
+                if(ItemGrid.CarriedSlot == null) {
+                    myItemGrid.SetCarriedSlot(mySlot);
                     OnSlotTaken?.Invoke();
                 }
 
                 // SWAP SLOTS
                 else if (ItemGrid.CarriedSlot.Item == null || mySlot.Item.ItemName != ItemGrid.CarriedSlot.Item.ItemName && !takeOnlySlot)
                 {
-                    Slot temp = new Slot(mySlot.Grid, mySlot.x, mySlot.y);
-                    temp.SetItem(mySlot.Item, mySlot.Stack);
-
-                    mySlot.SetItem(ItemGrid.CarriedSlot.Item, ItemGrid.CarriedSlot.Stack);
-                    ItemGrid.CarriedSlot.SetItem(temp.Item, temp.Stack);
+                    myItemGrid.SwapIntoCarried(mySlot);
                 }
 
                 // Add stacks
                 else if(ItemGrid.CarriedSlot.Item != null && mySlot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName && !takeOnlySlot)
                 {
-                    int stack = ItemGrid.CarriedSlot.Stack;
-                    int remainder = (stack + mySlot.Stack) - mySlot.MaxStack;
-                    bool overStacked = (stack + mySlot.Stack) > mySlot.MaxStack;
-
-                    for(int i = 0; i < stack; i++) {
-                        ItemGrid.CarriedSlot.RemoveFromStack();
-                        mySlot.AddToStack();
-                    }
-
-                    // check for overstacking
-                    if (overStacked) ItemGrid.CarriedSlot.SetItem(mySlot.Item, remainder);
-                    else ItemGrid.CarriedSlot = null;
+                    myItemGrid.AddStackIntoCarried(mySlot);
                 }
 
                 else if(ItemGrid.CarriedSlot.Item != null && mySlot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName && takeOnlySlot)
                 {
-                    int stack = mySlot.Stack;
-                    int remainder = (stack + ItemGrid.CarriedSlot.Stack) - ItemGrid.CarriedSlot.MaxStack;
-                    if (remainder < 0) remainder = 0;
-
-                    for (int i = 0; i < stack - remainder; i++)
-                    {
-                        mySlot.RemoveFromStack();
-                        ItemGrid.CarriedSlot.AddToStack();
-                    }
+                    myItemGrid.AddTillMaxStack(mySlot, ItemGrid.CarriedSlot);
 
                     OnSlotTaken?.Invoke();
                 }
@@ -139,26 +109,13 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
         {
             if (ItemGrid.CarriedSlot != null && !takeOnlySlot)
             {
-                // PLACE ONE
-                if (mySlot.Item == null || (mySlot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName && mySlot.Item != null && mySlot.Stack < mySlot.MaxStack)) {
-                    myItemGrid.AddItemAtPosition(ItemGrid.CarriedSlot.Item, mySlot.x, mySlot.y);
-                    ItemGrid.CarriedSlot.RemoveFromStack();
-
-                    // place down entirely
-                    if (ItemGrid.CarriedSlot.Stack == 0) ItemGrid.CarriedSlot = null;
-                }
+                myItemGrid.PlaceOneFromCarried(mySlot);
             }
 
             // SPLIT STACK
             else if(mySlot.Item != null && mySlot.Stack > 1)
             {
-                ItemGrid.CarriedSlot = new Slot(myItemGrid.Slots, -1, -1);
-
-                int resultA = (mySlot.Stack / 2) + (mySlot.Stack % 2);
-                int resultB = mySlot.Stack / 2;
-
-                ItemGrid.CarriedSlot.SetItem(mySlot.Item, resultA);
-                mySlot.SetItem(mySlot.Item, resultB);
+                myItemGrid.SplitSlotIntoCarried(mySlot);
             }
         }
     }
