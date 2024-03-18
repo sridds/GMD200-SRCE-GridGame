@@ -68,10 +68,10 @@ public class Movement : MonoBehaviour
 
         if (data.tiles[newPosX, newPosY].tileType == TileType.Water) return;
 
-        int lastPosX = (int)transform.position.x;
-        int lastPosY = (int)transform.position.y;
+        //int lastPosX = (int)transform.position.x;
+        //int lastPosY = (int)transform.position.y;
 
-        //Resource Collection
+        /*//Resource Collection
         if (data.tiles[newPosX, newPosY].tileType == TileType.Tree || data.tiles[newPosX, newPosY].tileType == TileType.Rock)
         {
             //Stop current coroutine
@@ -86,7 +86,7 @@ public class Movement : MonoBehaviour
                 collect.CollectResource(newPosX, newPosY, data.tiles[newPosX, newPosY], damage);
                 Invoke(nameof(ResetCollectCooldown), 0.5f);
             }
-        }
+        }*/
 
         //Start movement
         if (isMoving == null)

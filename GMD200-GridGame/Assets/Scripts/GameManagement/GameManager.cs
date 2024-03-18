@@ -50,11 +50,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddResource(TileType resourceType, int amount)
+    /*public void AddResource(ResourceSO resourceType, int amount)
     {
         switch (resourceType)
         {
-            case TileType.Tree:
+            case :
                 wood += amount;
                 break;
 
@@ -63,5 +63,5 @@ public class GameManager : MonoBehaviour
                 break;
         }
         UIManager.Instance.UpdateResources(wood, stone);
-    }
+    }*/
 }

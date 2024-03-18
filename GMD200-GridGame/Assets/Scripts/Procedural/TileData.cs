@@ -6,18 +6,14 @@ public enum TileType
     Grass,
     Water,
     Sand,
-    Tree,
-    Rock,
-}
-public enum ResourceType
-{
-
 }
 public class TileData
 {
     public TileType tileType;
     public Vector2 tilePosition;
     public int hitPoints;
+
+    public ResourceSO resource;
 
     public TileData(TileType tileType, Vector2 tilePosition, int hitPoints)
     {

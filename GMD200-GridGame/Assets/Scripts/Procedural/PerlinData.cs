@@ -39,6 +39,8 @@ public class PerlinData : MonoBehaviour
     [Tooltip("The amount of hitpoints resources will have")]
     [SerializeField] private int resourceHitpoints = 3;
 
+    [SerializeField] private List<ResourceSO> resourceList;
+
     [Header("Sand Settings")]
 
     [Tooltip("The density of sand generated around water")]
@@ -183,21 +185,31 @@ public class PerlinData : MonoBehaviour
     /// </summary>
     void GenerateResources()
     {
-        int spawnChance;
-        TileType resourceType = TileType.Tree;
+        int spawnChance = Random.Range(0, 1000);
+        
+
         for (int x = 0; x < gridWidth; x++)
         {
             for (int y = 0; y < gridHeight; y++)
             {
                 if (tiles[x, y].tileType == TileType.Grass)
                 {
-                    //Determine whether resource will spawn on this tile
-                    spawnChance = Random.Range(0, 1000);
-                    if (spawnChance <= resourceRarity)
+                    //Weighted list
+                    List<ResourceSO> resourcePool = new();
+
+                    //Determine potential resource spawns
+                    foreach (ResourceSO currentResource in resourceList)
+                        if (spawnChance <= currentResource.rarity)
+                            resourcePool.Add(currentResource);
+
+                    if (resourcePool.Count > 0)
                     {
-                        //Range of resource values
-                        resourceType = resourceType == TileType.Tree ? TileType.Rock : TileType.Tree;
-                        tiles[x, y].tileType = resourceType;
+                        //Find specific resource
+                        ResourceSO resourceInstance = resourcePool[Random.Range(0, resourcePool.Count)];
+                        tiles[x, y].resource = resourceInstance;
+
+                        //Create tile
+                        Instantiate(resourceInstance.resourceTile, tiles[x, y].tilePosition, resourceInstance.resourceTile.transform.rotation);
                     }
                 }
             }
