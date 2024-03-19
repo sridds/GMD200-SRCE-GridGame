@@ -18,6 +18,8 @@ public class TileGenerator : MonoBehaviour
 
     Dictionary<TileType, GameObject> tilesetGroups;
 
+    Dictionary<ResourceSO, GameObject> resourceGroups;
+
     public delegate void SetTile(int x, int y, TileType newTileType);
     public static SetTile updateTile;
 
@@ -31,6 +33,7 @@ public class TileGenerator : MonoBehaviour
 
         PopulateDictionary();
         GenerateTileGroups();
+        GenerateResourceGroups();
         PopulateGrid();
     }
     /// <summary>
@@ -53,7 +56,12 @@ public class TileGenerator : MonoBehaviour
     { 
         for (int x = 0; x < currentGrid.GetLength(0); x++)
             for (int y = 0; y < currentGrid.GetLength(1); y++)
+            {
                 Destroy(currentGrid[x, y]);
+                if (data.tiles[x, y].resourceInstance != null)
+                    Destroy(data.tiles[x, y].resourceInstance);
+            }
+                
     }
     /// <summary>
     /// Populates dictionary with tile prefabs
@@ -85,6 +93,21 @@ public class TileGenerator : MonoBehaviour
             tilesetGroups.Add(prefabPair.Key, tileGroupInstance);
         }
     }
+    void GenerateResourceGroups()
+    {
+        resourceGroups = new Dictionary<ResourceSO, GameObject>();
+
+        foreach (ResourceSO instance in data.resourceList)
+        {
+            GameObject resourceGroupInstance = new(instance.name);
+
+            resourceGroupInstance.transform.parent = gameObject.transform;
+
+            resourceGroupInstance.transform.localPosition = Vector3.zero;
+
+            resourceGroups.Add(instance, resourceGroupInstance);
+        }
+    }
     /// <summary>
     /// Populate gamespace grid with gameobjects 
     /// </summary>
@@ -95,6 +118,12 @@ public class TileGenerator : MonoBehaviour
             for (int y = 0; y < data._gridHeight; y++)
             {
                 InstantiateTile(x, y);
+
+                //Generate resource if tileData has stored resource
+                if (data.tiles[x, y].resource != null)
+                {
+                    InstantiateResource(x, y);
+                }
             }
         }
     }
@@ -122,6 +151,19 @@ public class TileGenerator : MonoBehaviour
         //Set object in grid
         currentGrid[x, y] = tileInstance;
     }
+    void InstantiateResource(int x, int y)
+    {
+        //Find resource group to child resource to
+        GameObject resourceGroup = resourceGroups[data.tiles[x, y].resource];
+
+        //Create Resource
+        GameObject resourceInstance = Instantiate(data.tiles[x, y].resource.resourceTile,
+            data.tiles[x, y].tilePosition, 
+            Quaternion.identity, 
+            resourceGroup.transform);
+
+        data.tiles[x, y].resourceInstance = resourceInstance;
+    }
     /// <summary>
     /// Takes a tiles position and updates its information
     /// </summary>
@@ -142,6 +184,11 @@ public class TileGenerator : MonoBehaviour
     void UpdateTileInfo(int x, int y, TileType newTileType)
     {
         data.tiles[x, y].tileType = newTileType;
+        UpdateTile(x, y);
+    }
+    void UpdateTileInfo(int x, int y, ResourceSO resource)
+    {
+        data.tiles[x, y].resource = resource;
         UpdateTile(x, y);
     }
     private void OnEnable()

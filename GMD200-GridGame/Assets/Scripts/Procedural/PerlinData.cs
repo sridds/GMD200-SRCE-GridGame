@@ -39,7 +39,7 @@ public class PerlinData : MonoBehaviour
     [Tooltip("The amount of hitpoints resources will have")]
     [SerializeField] private int resourceHitpoints = 3;
 
-    [SerializeField] private List<ResourceSO> resourceList;
+    public List<ResourceSO> resourceList;
 
     [Header("Sand Settings")]
 
@@ -185,15 +185,13 @@ public class PerlinData : MonoBehaviour
     /// </summary>
     void GenerateResources()
     {
-        int spawnChance = Random.Range(0, 1000);
-        
-
         for (int x = 0; x < gridWidth; x++)
         {
             for (int y = 0; y < gridHeight; y++)
             {
                 if (tiles[x, y].tileType == TileType.Grass)
                 {
+                    int spawnChance = Random.Range(0, 100);
                     //Weighted list
                     List<ResourceSO> resourcePool = new();
 
@@ -207,10 +205,9 @@ public class PerlinData : MonoBehaviour
                         //Find specific resource
                         ResourceSO resourceInstance = resourcePool[Random.Range(0, resourcePool.Count)];
                         tiles[x, y].resource = resourceInstance;
-
-                        //Create tile
-                        Instantiate(resourceInstance.resourceTile, tiles[x, y].tilePosition, resourceInstance.resourceTile.transform.rotation);
                     }
+                    else
+                        tiles[x, y].resource = null;
                 }
             }
         }
@@ -313,6 +310,9 @@ public class PerlinData : MonoBehaviour
         else
             return true;
     }
-
+    /// <summary>
+    /// Set Water variable before generation
+    /// </summary>
+    /// <param name="waterLevel"></param>
     public void SetWaterLevel(float waterLevel) => waterAmount = waterLevel;
 }
