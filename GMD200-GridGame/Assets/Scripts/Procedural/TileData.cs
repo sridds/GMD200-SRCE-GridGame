@@ -6,12 +6,6 @@ public enum TileType
     Grass,
     Water,
     Sand,
-    Tree,
-    Rock,
-}
-public enum ResourceType
-{
-
 }
 public class TileData
 {
@@ -19,10 +13,14 @@ public class TileData
     public Vector2 tilePosition;
     public int hitPoints;
 
+    public ResourceSO resource;
+    public GameObject resourceInstance;
+
     public TileData(TileType tileType, Vector2 tilePosition, int hitPoints)
     {
         this.tileType = tileType;
         this.tilePosition = tilePosition;
         this.hitPoints = hitPoints;
+        resource = null;
     }
 }

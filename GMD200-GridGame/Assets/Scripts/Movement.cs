@@ -72,7 +72,7 @@ public class Movement : MonoBehaviour
         int lastPosY = (int)transform.position.y;
 
         //Resource Collection
-        if (data.tiles[newPosX, newPosY].tileType == TileType.Tree || data.tiles[newPosX, newPosY].tileType == TileType.Rock)
+        if (data.tiles[newPosX, newPosY].resource != null)
         {
             //Stop current coroutine
             StopCoroutine(MoveToPoint(newPosX, newPosY, speed));

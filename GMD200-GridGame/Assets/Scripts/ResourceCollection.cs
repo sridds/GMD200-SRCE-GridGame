@@ -13,9 +13,11 @@ public class ResourceCollection : MonoBehaviour
 
         if (tileData.hitPoints <= 0)
         {
+            //Drop amount
             int amount = Random.Range(1, maxResources);
-            GameManager.Instance.AddResource(tileData.tileType, amount);
-            TileGenerator.updateTile?.Invoke(x, y, TileType.Grass);
+            //GameManager.Instance.AddResource(tileData.tileType, amount);
+            Destroy(tileData.resourceInstance);
+            tileData.resource = null;
         }
     }
 }
