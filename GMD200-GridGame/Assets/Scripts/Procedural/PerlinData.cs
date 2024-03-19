@@ -313,4 +313,6 @@ public class PerlinData : MonoBehaviour
         else
             return true;
     }
+
+    public void SetWaterLevel(float waterLevel) => waterAmount = waterLevel;
 }
