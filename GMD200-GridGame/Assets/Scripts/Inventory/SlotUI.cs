@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class SlotUI : MonoBehaviour, IPointerClickHandler
 {
@@ -46,6 +47,9 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
             ResetSlot();
             return;
         }
+
+        itemImage.rectTransform.DOKill(true);
+        itemImage.rectTransform.DOPunchScale(new Vector3(0.5f, 0.5f, 0), 0.2f, 10, 1.3f);
 
         itemImage.enabled = true;
         itemImage.sprite = spr;
