@@ -4,4 +4,7 @@ using UnityEngine;
 public class MaterialSO : ItemSO
 {
     public override ItemSO Clone() => CloneGeneric<MaterialSO>();
+
+    [Tooltip("The chance of this material dropping")]
+    public int rarity;
 }

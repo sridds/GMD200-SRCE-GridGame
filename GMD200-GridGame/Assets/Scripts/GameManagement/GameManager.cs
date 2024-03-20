@@ -8,13 +8,13 @@ public enum GameState
 }
 public class GameManager : MonoBehaviour
 {
+    [Header("Global Refrences")]
+
     public static GameManager Instance;
 
     public Transform player;
 
-    [Header("Resources")]
-    [SerializeField] private int wood;
-    [SerializeField] private int stone;
+    public ItemGrid inventory;
 
     [Header("Current Day")]
     public int day;
@@ -49,19 +49,9 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-
-    /*public void AddResource(ResourceSO resourceType, int amount)
+    public void NextDay()
     {
-        switch (resourceType)
-        {
-            case :
-                wood += amount;
-                break;
-
-            case TileType.Rock:
-                stone += amount;
-                break;
-        }
-        UIManager.Instance.UpdateResources(wood, stone);
-    }*/
+        day++;
+        UIManager.Instance.DayTransitionUI();
+    }
 }
