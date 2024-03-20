@@ -5,17 +5,14 @@ using UnityEngine.UI;
 using TMPro;
 public class UIManager : MonoBehaviour
 {
-    [Header("Timer Settings")]
-
-    //public float timer = 10;
-
-    //[SerializeField] private TextMeshProUGUI timeText;
-
     [Header("Pause Settings")]
     [SerializeField] private GameObject pauseMenu;
 
-    [Header("Resource Settings")]
-    [SerializeField] private TextMeshProUGUI resourcesText;
+    [Header("Day Transition Refrences")]
+
+    [SerializeField] private GameObject dayTransition;
+
+    [SerializeField] private TextMeshProUGUI dayText;
 
     public static UIManager Instance { get; private set; }
     private void Awake()
@@ -47,8 +44,13 @@ public class UIManager : MonoBehaviour
         else
             pauseMenu.SetActive(true);
     }
-    public void UpdateResources(int wood, int stone)
+    public void DayTransitionUI()
     {
-        resourcesText.text = $"Wood: {wood} \n Stone: {stone}";
+        dayTransition.SetActive(true);
+        dayText.text = GameManager.Instance.day.ToString();
+    }
+    public void DisableTransition()
+    {
+        dayTransition.SetActive(false);
     }
 }

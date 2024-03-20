@@ -16,10 +16,7 @@ public class PostProcessManager : MonoBehaviour
 
     public float duration = 5f;
 
-
     [Header("Color Grading Settings")]
-
-    [SerializeField] private Color color;
 
     [SerializeField] private Gradient gradient;
 
@@ -35,13 +32,9 @@ public class PostProcessManager : MonoBehaviour
     {
         if (profile == null) return;
 
-
         if (colorGrading == null) profile.TryGetSettings(out colorGrading);
 
-
         colorGrading.brightness.value = this.brightness;
-
-       // colorGrading.colorFilter.value = this.color;
 
         var timeElapsed = Time.time - startTime;
         //Debug.Log(timeElapsed);
@@ -49,10 +42,11 @@ public class PostProcessManager : MonoBehaviour
         percentage = Mathf.Clamp01(percentage);
         Debug.Log(percentage);
 
+        if (percentage >= 1)
+            GameManager.Instance.NextDay();
+
 
         colorGrading.colorFilter.value = gradient.Evaluate(percentage);
     }
-
-    public void SetParam(Color color) => this.color = color;
     public void SetParam(float brightness) => this.brightness = brightness;
 }
