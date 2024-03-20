@@ -10,16 +10,10 @@ public class ItemDrop : MonoBehaviour
     [SerializeField] private float _magnetRadius = 3.0f;
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private SpriteRenderer _multiSpriteIndicator;
-    [SerializeField] private ItemSO _debugItem;
-    [SerializeField] private int _debugStack;
+
     private int stack;
     private ItemSO myItem;
     private Transform target;
-
-    private void Awake()
-    {
-        Init(GameObject.FindWithTag("Player").transform, _debugItem, _debugStack);
-    }
 
     /// <summary>
     /// Initalizes the item drop
