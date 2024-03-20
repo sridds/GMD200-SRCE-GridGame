@@ -277,6 +277,28 @@ public class ItemGrid : MonoBehaviour
             s2.AddToStack();
         }
     }
+
+    /// <summary>
+    /// Checks the entire inventory, searching for if there inventory is completely full and theres no way this item will fit.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public bool IsFullOfItem(ItemSO item)
+    {
+        // iterate through inventory
+        for (int x = 0; x < dimensions.x; x++)
+        {
+            for (int y = 0; y < dimensions.y; y++)
+            {
+                Slot slot = slots.GetGridObject(x, y);
+
+                // empty slot detected or slot not full enough
+                if (slot.Item == null || (slot.Item == item && slot.Stack < slot.MaxStack)) return false;
+            }
+        }
+
+        return true;
+    }
 }
 
 [System.Serializable]

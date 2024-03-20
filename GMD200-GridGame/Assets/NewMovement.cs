@@ -13,7 +13,7 @@ public class NewMovement : MonoBehaviour
 
     // getters
     public Direction MyDirection;
-    public bool IsMoving { get { return input != Vector2.zero; } }
+    public bool IsMoving { get { return rb.velocity.magnitude > 0.01f; } }
 
     private void Awake() => rb = GetComponent<Rigidbody2D>();
 

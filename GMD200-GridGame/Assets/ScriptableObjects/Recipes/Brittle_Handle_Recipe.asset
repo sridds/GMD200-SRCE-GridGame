@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0b28720584754ef4903466ba0aa63cc, type: 3}
-  m_Name: IronArmor
+  m_Name: Brittle_Handle_Recipe
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 11400000, guid: ab89d4c6a2eec4f889b6c049a3bc12a9, type: 2}
