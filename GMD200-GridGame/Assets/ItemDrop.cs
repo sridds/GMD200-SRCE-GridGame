@@ -6,6 +6,8 @@ public class ItemDrop : MonoBehaviour
 {
     private Rigidbody2D rb;
 
+    [Tooltip("Indicates how long it takes until the item can be picked up by the player")]
+    [SerializeField] private float _spawnCooldown = 1.0f;
     [SerializeField] private float _magnetSpeed = 5.0f;
     [SerializeField] private float _magnetRadius = 3.0f;
     [SerializeField] private SpriteRenderer _renderer;

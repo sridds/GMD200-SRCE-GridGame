@@ -37,6 +37,28 @@ public class NewMovement : MonoBehaviour
         input.Normalize();
     }
 
+    public Vector2 GetDirectionFacing()
+    {
+        Vector2 dir = Vector2.zero;
+
+        switch (MyDirection)
+        {
+            case Direction.Right:
+                dir = Vector2.right;
+                break;
+            case Direction.Left:
+                dir = Vector2.left;
+                break;
+            case Direction.Up:
+                dir = Vector2.up;
+                break;
+            case Direction.Down:
+                dir = Vector2.down;
+                break;
+        }
+        return dir;
+    }
+
     private void FixedUpdate()
     {
         rb.velocity = new Vector2(input.x, input.y) * _moveSpeed;

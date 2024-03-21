@@ -6,20 +6,21 @@ public class Breakable : MonoBehaviour, Interactable
     [Header("Resource Settings")]
 
     [Tooltip("The health of the resource")]
-    [SerializeField] private int durability = 3;
+    [SerializeField] private Health myHealth;
 
     [Tooltip("How many materials the resource drops on collection")]
     [SerializeField] private int materialAmount = 3;
 
     [SerializeField] private List<MaterialSO> dropList;
-    public void Interact()
-    {
-        //Subject to change for damage implementation
-        durability--;
 
-        if (durability <= 0)
-            Break();
+    private void Start()
+    {
+        // subscribe to health events
+        myHealth.OnHealthDepleted += Break;
     }
+
+    public void Interact() => myHealth.TakeDamage(1);
+
     /// <summary>
     /// Destroys object and drops items
     /// </summary>

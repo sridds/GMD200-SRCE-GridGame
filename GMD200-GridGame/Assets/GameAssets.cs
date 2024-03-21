@@ -17,13 +17,14 @@ public class GameAssets : MonoBehaviour
     }
 
     public GameSound[] GameSounds;
+    public Hitmarker HitmarkerAsset;
 
-    public AudioData GetSoundFromKey(string key)
+    public AudioClip GetSoundFromKey(string key)
     {
         // loop through and search for sound
         foreach(GameSound sound in GameSounds) {
             if(key == sound.Key) {
-                return sound.Data;
+                return sound.Clip;
             }
         }
 
@@ -35,6 +36,6 @@ public class GameAssets : MonoBehaviour
     public struct GameSound
     {
         public string Key;
-        public AudioData Data;
+        public AudioClip Clip;
     }
 }
