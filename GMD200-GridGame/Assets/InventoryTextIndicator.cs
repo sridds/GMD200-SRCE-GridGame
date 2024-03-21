@@ -17,13 +17,11 @@ public class InventoryTextIndicator : MonoBehaviour
 
     public void CreateTextIndicator(ItemSO item, int count)
     {
-        Debug.Log("Create");
         // find matching indicator to iterate
         foreach(InventoryTextBehaviour i in activeIndicators)
         {
             if(i.MyItem.ItemName == item.ItemName) {
                 i.SetItem(item, i.Count + count);
-                Debug.Log("Err what");
 
                 return;
             }
