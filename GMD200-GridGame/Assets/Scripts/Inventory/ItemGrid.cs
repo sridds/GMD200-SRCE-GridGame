@@ -21,6 +21,9 @@ public class ItemGrid : MonoBehaviour
     public Vector2Int Dimensions { get { return dimensions; } }
     public GenericGrid<Slot> Slots { get { return slots; } }
 
+    public delegate void ItemAdded(ItemSO item);
+    public ItemAdded OnItemAdded;
+
     private void Awake()
     {
         // initialize
@@ -42,14 +45,19 @@ public class ItemGrid : MonoBehaviour
                     if (slot.Item == null) continue;
 
                     // try add to stack
-                    else if (slot.Item.ItemName == item.ItemName && slot.AddToStack()) return true;
+                    else if (slot.Item.ItemName == item.ItemName && slot.AddToStack())
+                    {
+                        OnItemAdded?.Invoke(item);
+                        return true;
+                    }
                 }
             }
         }
 
         // attempt to add item anywhere
-        if (TryAddItem(item)) return true;
-
+        if (TryAddItem(item)) {
+            return true;
+        }
         return false;
     }
 
@@ -134,6 +142,7 @@ public class ItemGrid : MonoBehaviour
 
                 if(slot.Item == null) {
                     slot.SetItem(item);
+                    OnItemAdded?.Invoke(item);
                     return true;
                 }
             }

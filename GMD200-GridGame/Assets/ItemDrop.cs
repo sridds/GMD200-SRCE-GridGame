@@ -79,12 +79,15 @@ public class ItemDrop : MonoBehaviour
         if (collision.gameObject.tag != "Player") return;
 
         int stackCount = stack;
+        int num = 0;
+
         for (int i = 0; i < stackCount; i++)
         {
             if (!GameManager.Instance.inventory.AddItem(myItem)) return;
             stack--;
+            num++;
 
-            if(stack == 1) _multiSpriteIndicator.enabled = false;
+            if (stack == 1) _multiSpriteIndicator.enabled = false;
         }
 
         Destroy(gameObject);
