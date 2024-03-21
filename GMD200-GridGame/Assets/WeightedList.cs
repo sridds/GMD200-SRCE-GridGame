@@ -18,14 +18,12 @@ public class WeightedList<T>
     }
 
     public List<Pair> list = new List<Pair>();
-
     public int Count { get => list.Count; }
 
-    public void Add(T item, float weight)
-    {
-        list.Add(new Pair(item, weight));
-    }
+    // Adds an item to the list of the specified weight value
+    public void Add(T item, float weight) => list.Add(new Pair(item, weight));
 
+    // Returns a random value of type T
     public T GetRandom()
     {
         float totalWeight = 0;
