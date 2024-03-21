@@ -17,10 +17,6 @@ public class PlayerInteractor : MonoBehaviour
     private LayerMask interactableLayer;
 
     float interactionCooldownTimer = 0.0f;
-    public int CurrentSlot { get; private set; }
-
-    public delegate void CurrentSlotUpdate(int slot);
-    public CurrentSlotUpdate OnUpdateCurrentSlot;
 
     private void Awake() => movement = GetComponent<NewMovement>();
 
@@ -31,36 +27,11 @@ public class PlayerInteractor : MonoBehaviour
         // increment timers
         interactionCooldownTimer += Time.deltaTime;
 
-        UpdateCurrentSlot(); // update current slot input
-
         // handle item usage
         if (CanUseItem()) UseItem();
 
         // handle basic interaction
         if (CanInteract()) Interact();
-    }
-
-    /// <summary>
-    /// Gets scroll input and updates the current slot index accordingly
-    /// </summary>
-    private void UpdateCurrentSlot()
-    {
-        // get scroll value of player
-        float scrollValue = Input.mouseScrollDelta.y;
-
-        // get sign of value. if 0, return. no change
-        int val = (int)Mathf.Sign(scrollValue);
-        if (scrollValue == 0) return;
-
-        // assumes the hotbar is
-        int length = GameManager.Instance.inventory.Dimensions.x;
-        int previousWeaponIndex = CurrentSlot;
-
-        // add value to current slot, ensure it doesnt go out of range
-        CurrentSlot += val;
-        CurrentSlot = (CurrentSlot % length + length) % length;
-
-        OnUpdateCurrentSlot?.Invoke(CurrentSlot);
     }
 
     /// <summary>

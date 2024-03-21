@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+
+[System.Serializable]
+public struct BreakableData
+{
+    public ToolSO CachedTool;
+    public int DamageDealt;
+}
 
 public class Breakable : MonoBehaviour
 {
@@ -9,6 +15,7 @@ public class Breakable : MonoBehaviour
     [Tooltip("The health of the resource")]
     [SerializeField] private Health myHealth;
     [SerializeField] private ItemDropper dropper;
+    [SerializeField] private List<BreakableData> breakableData;
 
     [Header("Visuals")]
     [SerializeField] private ParticleSystem destroyParticle;

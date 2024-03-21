@@ -10,11 +10,11 @@ public class SelectedSlotUI : MonoBehaviour
     [SerializeField]
     private Vector3 posOffset = new Vector3(0, -0.5f, 0);
 
-    PlayerInteractor interactor;
+    InventoryController controller;
 
     void Start(){
-        interactor = FindObjectOfType<PlayerInteractor>();
-        interactor.OnUpdateCurrentSlot += UpdatePosition;
+        controller = FindObjectOfType<InventoryController>();
+        controller.OnUpdateCurrentSlot += UpdatePosition;
     }
 
     private void UpdatePosition(int slot)
