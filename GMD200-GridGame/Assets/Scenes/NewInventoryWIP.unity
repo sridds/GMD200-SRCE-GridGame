@@ -1020,7 +1020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37850720b3ddd4d6d931f2d0c5f1b599, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemDropPrefab: {fileID: 2675989421615546945, guid: 4f71da143494040798cf062af7ab037c, type: 3}
+  grid: {fileID: 63176420}
 --- !u!1001 &154841568
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -288,6 +288,41 @@ public class ItemGrid : MonoBehaviour
     }
 
     /// <summary>
+    /// Drops all from the carried slot onto the ground as item drops
+    /// </summary>
+    public static void DropCarried()
+    {
+        if (ItemGrid.CarriedSlot == null || ItemGrid.CarriedSlot.Item == null) return;
+
+        ItemDrop drop = Instantiate(GameAssets.Instance.ItemDropPrefab, GameManager.Instance.player.transform.position, Quaternion.identity);
+        drop.Init(GameManager.Instance.player.transform, ItemGrid.CarriedSlot.Item, ItemGrid.CarriedSlot.Stack);
+
+        ItemGrid.CarriedSlot.ResetSlot();
+        ItemGrid.CarriedSlot = null;
+    }
+
+    /// <summary>
+    /// Drops one from the carried slot
+    /// </summary>
+    public static void DropOneFromCarried()
+    {
+        if (ItemGrid.CarriedSlot == null || ItemGrid.CarriedSlot.Item == null) return;
+
+        ItemDrop drop = Instantiate(GameAssets.Instance.ItemDropPrefab, GameManager.Instance.player.transform.position, Quaternion.identity);
+        drop.Init(GameManager.Instance.player.transform, ItemGrid.CarriedSlot.Item, 1);
+
+        // reset stack
+        if (ItemGrid.CarriedSlot.Stack - 1 == 0) {
+            ItemGrid.CarriedSlot.ResetSlot();
+            ItemGrid.CarriedSlot = null;
+        }
+        // remove 1
+        else {
+            ItemGrid.CarriedSlot.RemoveFromStack(1);
+        }
+    }
+
+    /// <summary>
     /// Checks the entire inventory, searching for if there inventory is completely full and theres no way this item will fit.
     /// </summary>
     /// <param name="item"></param>

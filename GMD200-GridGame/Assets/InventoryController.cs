@@ -24,7 +24,14 @@ public class InventoryController : MonoBehaviour
         inventoryDisplaying = !inventoryDisplaying;
         inventoryRect.gameObject.SetActive(inventoryDisplaying);
 
-        if (inventoryDisplaying) GameManager.Instance.currentGameState = GameState.UI;
-        else GameManager.Instance.currentGameState = GameState.Playing;
+        if (inventoryDisplaying)
+        {
+            GameManager.Instance.currentGameState = GameState.UI;
+        }
+        else
+        {
+            GameManager.Instance.currentGameState = GameState.Playing;
+            ItemGrid.DropCarried();
+        }
     }
 }

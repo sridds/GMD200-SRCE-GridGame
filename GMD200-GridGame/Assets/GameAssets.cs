@@ -18,6 +18,7 @@ public class GameAssets : MonoBehaviour
 
     public GameSound[] GameSounds;
     public Hitmarker HitmarkerAsset;
+    public ItemDrop ItemDropPrefab;
 
     public AudioClip GetSoundFromKey(string key)
     {
