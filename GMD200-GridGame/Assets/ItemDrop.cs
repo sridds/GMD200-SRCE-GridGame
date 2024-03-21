@@ -89,7 +89,6 @@ public class ItemDrop : MonoBehaviour
 
             if (stack == 1) _multiSpriteIndicator.enabled = false;
         }
-
         Destroy(gameObject);
     }
 }
