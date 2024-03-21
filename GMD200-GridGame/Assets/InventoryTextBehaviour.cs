@@ -26,14 +26,10 @@ public class InventoryTextBehaviour : MonoBehaviour
 
     private void Start()
     {   
-        timer = new Timer(lifetime);
-        timer.OnTimerEnd += () => StartCoroutine(Death());
         myIndicator = GetComponentInParent<InventoryTextIndicator>();
     }
 
     private void Update() => timer.Tick(Time.deltaTime);
-
-    float alphaInit = 0.0f;
 
     /// <summary>
     /// Handles death
@@ -68,6 +64,10 @@ public class InventoryTextBehaviour : MonoBehaviour
         Count = count;
 
         textMesh.text = $"{Count} {myItem.name}";
+
+        // set timer
+        timer = new Timer(lifetime);
+        timer.OnTimerEnd += () => StartCoroutine(Death());
 
         // stop and reset color
         StopAllCoroutines();

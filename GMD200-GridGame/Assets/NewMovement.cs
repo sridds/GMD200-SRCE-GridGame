@@ -19,6 +19,8 @@ public class NewMovement : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.currentGameState == GameState.Paused || GameManager.Instance.currentGameState == GameState.UI) return;
+
         GetInputs();
 
         if (input.x > 0) MyDirection = Direction.Right;
@@ -61,6 +63,12 @@ public class NewMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GameManager.Instance.currentGameState == GameState.Paused || GameManager.Instance.currentGameState == GameState.UI)
+        {
+            rb.velocity = Vector2.zero;
+            return;
+        }
+
         rb.velocity = new Vector2(input.x, input.y) * _moveSpeed;
     }
 }

@@ -7,9 +7,6 @@ public class InventoryUI : MonoBehaviour
     [SerializeField]
     private ItemGrid myItemGrid;
 
-    /*[SerializeField]
-    private ItemSO[] testItem;*/
-
     [SerializeField]
     private List<SlotUI> mySlots;
 
@@ -20,16 +17,6 @@ public class InventoryUI : MonoBehaviour
         for(int i = 0; i < mySlots.Count; i++) {
             mySlots[i].Initialize(myItemGrid.Slots.GetGridObject(i % myItemGrid.Dimensions.x, i / myItemGrid.Dimensions.x), myItemGrid);
         }
-    }
-
-    private void Update()
-    {
-        // debug key
-
-        /*
-        if (Input.GetKeyDown(KeyCode.E) && testItem.Length > 0) {
-            myItemGrid.AddItem(testItem[Random.Range(0, testItem.Length)]);
-        }*/
     }
 
     /// <summary>

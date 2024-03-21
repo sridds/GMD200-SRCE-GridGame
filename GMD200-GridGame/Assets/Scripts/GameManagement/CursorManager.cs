@@ -7,7 +7,7 @@ public class CursorManager : MonoBehaviour
     public static SetCursor setCursorMode;
 
     //Set default state in this scene
-    private void Awake() => Cursor.lockState = cursorState;
+    //private void Awake() => Cursor.lockState = cursorState;
 
     void SetCursorMode(CursorLockMode lockMode) => Cursor.lockState = lockMode;
 

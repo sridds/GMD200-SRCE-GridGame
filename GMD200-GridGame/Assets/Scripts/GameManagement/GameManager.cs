@@ -4,8 +4,9 @@ using UnityEngine;
 
 public enum GameState
 {
-    playing,
-    paused,
+    Playing,
+    Paused,
+    UI
 }
 
 public class GameManager : MonoBehaviour
@@ -38,16 +39,20 @@ public class GameManager : MonoBehaviour
     {
         switch (state)
         {
-            case GameState.playing:
+            case GameState.Playing:
                 UIManager.Instance.Pause(false);
-                CursorManager.setCursorMode?.Invoke(CursorLockMode.Locked);
+                Cursor.lockState = CursorLockMode.Locked;
                 Time.timeScale = 1f;
                 break;
 
-            case GameState.paused:
+            case GameState.Paused:
                 UIManager.Instance.Pause(true);
-                CursorManager.setCursorMode?.Invoke(CursorLockMode.None);
+                Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0f;
+                break;
+            case GameState.UI:
+                Cursor.lockState = CursorLockMode.None;
+                Time.timeScale = 1f;
                 break;
         }
     }

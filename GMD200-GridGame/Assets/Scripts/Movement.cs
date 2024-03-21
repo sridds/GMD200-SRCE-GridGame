@@ -45,9 +45,9 @@ public class Movement : MonoBehaviour
         isPaused = !isPaused;
 
         if (isPaused)
-            GameManager.Instance.UpdateGameState(GameState.paused);
+            GameManager.Instance.UpdateGameState(GameState.Paused);
         else
-            GameManager.Instance.UpdateGameState(GameState.playing);
+            GameManager.Instance.UpdateGameState(GameState.Playing);
     }
 
     void Move()

@@ -23,7 +23,7 @@ public class CameraShake : MonoBehaviour
     private void LateUpdate()
     {
         // don't shake while paused
-        if (GameManager.Instance.currentGameState == GameState.paused) return;
+        if (GameManager.Instance.currentGameState == GameState.Paused) return;
 
         if (shakeTimeRemaining > 0.0f)
         {
