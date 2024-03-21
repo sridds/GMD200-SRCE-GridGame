@@ -12,6 +12,8 @@ public class PlayerInteractor : MonoBehaviour
     private Vector2 rayOffset = new Vector2(0, 0.5f);
     [SerializeField]
     private float interactionCooldown = 0.3f;
+    [SerializeField]
+    private LayerMask interactableLayer;
 
     float interactionCooldownTimer = 0.0f;
 
@@ -26,8 +28,12 @@ public class PlayerInteractor : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E)) {
 
             interactionCooldownTimer = 0.0f;
-            // draw debug ray
-            Debug.DrawRay(new Vector2(transform.position.x, transform.position.y) + rayOffset, movement.GetDirectionFacing() * rayDistance, Color.magenta, 2.0f);
+            RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y) + rayOffset, movement.GetDirectionFacing(), rayDistance, interactableLayer);
+
+            if (hit.collider != null && hit.collider.TryGetComponent<Interactable>(out Interactable interactable))
+            {
+                interactable.Interact();
+            }
         }
     }
 }

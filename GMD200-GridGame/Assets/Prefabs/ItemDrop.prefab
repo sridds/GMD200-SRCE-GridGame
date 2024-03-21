@@ -83,6 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c07a27dcee2e4a51bef363bfce7789c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawnCooldown: 1
   _magnetSpeed: 25
   _magnetRadius: 3
   _renderer: {fileID: 7459906536369807043}
@@ -209,7 +210,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: -1486155764, guid: a8a66fb4f978f46cc922b0f6a9451a16, type: 3}
+  m_Sprite: {fileID: -240273735, guid: a8a66fb4f978f46cc922b0f6a9451a16, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

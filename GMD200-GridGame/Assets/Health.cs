@@ -37,6 +37,10 @@ public class Health : MonoBehaviour
     [SerializeField]
     private SpriteRenderer _blinker;
 
+    [Header("Hitmarker")]
+    [SerializeField]
+    private bool _doHitmarker = true;
+
     // ACCESSORS
     public int CurrentHealth { get; private set; }
     public int MaxHealth { get { return mode == HealthMode.Value ? _maxHealth : _maxHits; } }
@@ -68,6 +72,12 @@ public class Health : MonoBehaviour
 
         // call the iframes coroutine
         if (_doIFrames) StartCoroutine(HandleIFrames(_maxIFrames, _IFrameInterval));
+
+        // Create hitmarker
+        if (_doHitmarker) {
+            Vector2 pos = new Vector2(Random.Range(transform.position.x - 0.4f, transform.position.x + 0.4f), Random.Range(transform.position.y - 0.4f, transform.position.x + 0.4f));
+            Hitmarker.CreateHitmarker(pos, 1);
+        }
 
         // call events
         if (CurrentHealth <= 0)

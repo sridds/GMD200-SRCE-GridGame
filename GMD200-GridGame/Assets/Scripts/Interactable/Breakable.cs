@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Breakable : MonoBehaviour, Interactable
 {
@@ -12,6 +13,7 @@ public class Breakable : MonoBehaviour, Interactable
     [SerializeField] private int materialAmount = 3;
 
     [SerializeField] private List<MaterialSO> dropList;
+    [SerializeField] private ItemDrop itemDropPrefab;
 
     private void Start()
     {
@@ -19,7 +21,10 @@ public class Breakable : MonoBehaviour, Interactable
         myHealth.OnHealthDepleted += Break;
     }
 
-    public void Interact() => myHealth.TakeDamage(1);
+    public void Interact()
+    {
+        myHealth.TakeDamage(1);
+    }
 
     /// <summary>
     /// Destroys object and drops items
@@ -48,8 +53,9 @@ public class Breakable : MonoBehaviour, Interactable
                 int material = Random.Range(0, spawnPool.Count - 1);
                 MaterialSO materialInstance = spawnPool[material];
 
-                //Add to inventory
-                GameManager.Instance.inventory.AddItem(materialInstance);
+                // drop
+                ItemDrop drop = Instantiate(itemDropPrefab, transform.position, Quaternion.identity);
+                drop.Init(GameManager.Instance.player.transform, materialInstance);
             }
         }
         //Destroy resource after its been harvested

@@ -8,14 +8,20 @@ public class ItemDrop : MonoBehaviour
 
     [Tooltip("Indicates how long it takes until the item can be picked up by the player")]
     [SerializeField] private float _spawnCooldown = 1.0f;
+
+    [Header("Magnet Settings")]
     [SerializeField] private float _magnetSpeed = 5.0f;
     [SerializeField] private float _magnetRadius = 3.0f;
+
+    [Header("References")]
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private SpriteRenderer _multiSpriteIndicator;
 
     private int stack;
     private ItemSO myItem;
     private Transform target;
+
+    private Timer cooldownTimer;
 
     /// <summary>
     /// Initalizes the item drop
@@ -35,11 +41,26 @@ public class ItemDrop : MonoBehaviour
             _multiSpriteIndicator.sprite = _renderer.sprite;
         }
 
+        // create timer and set timer to null once it ends
+        cooldownTimer = new Timer(_spawnCooldown);
+        cooldownTimer.OnTimerEnd += () => cooldownTimer = null;
+
         rb = GetComponent<Rigidbody2D>();
+
+        // add initial force
+        rb.AddForce(Random.insideUnitCircle * 2.0f, ForceMode2D.Impulse);
+    }
+
+    private void Update()
+    {
+        // tick timer
+        if (cooldownTimer != null) cooldownTimer.Tick(Time.deltaTime);
     }
 
     private void FixedUpdate()
     {
+        // guard clauses
+        if (cooldownTimer != null) return; // is the timer still ticking?
         if (target == null) return;
         if (GameManager.Instance.inventory.IsFullOfItem(myItem)) return;
 
@@ -53,6 +74,7 @@ public class ItemDrop : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if (cooldownTimer != null) return; // is the timer still ticking?
         if (target == null) return;
         if (collision.gameObject.tag != "Player") return;
 
