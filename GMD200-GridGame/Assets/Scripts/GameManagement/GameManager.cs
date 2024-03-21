@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public enum GameState
 {
     playing,
     paused,
 }
+
 public class GameManager : MonoBehaviour
 {
     [Header("Global Refrences")]
