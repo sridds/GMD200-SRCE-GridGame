@@ -25,4 +25,6 @@ public class Hitmarker : MonoBehaviour
     /// </summary>
     /// <param name="value"></param>
     private void SetValue(int value) => text.SetText(value.ToString());
+
+    private void Cleanup() => Destroy(gameObject);
 }

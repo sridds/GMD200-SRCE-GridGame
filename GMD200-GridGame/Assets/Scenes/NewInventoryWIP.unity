@@ -92944,6 +92944,7 @@ GameObject:
   - component: {fileID: 1327426722}
   - component: {fileID: 1327426724}
   - component: {fileID: 1327426723}
+  - component: {fileID: 1327426725}
   - component: {fileID: 1327426721}
   m_Layer: 6
   m_Name: Tree
@@ -93033,6 +93034,7 @@ MonoBehaviour:
   _maxIFrames: 30
   _IFrameInterval: 0.05
   _blinker: {fileID: 0}
+  _doHitmarker: 1
 --- !u!114 &1327426724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93046,11 +93048,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myHealth: {fileID: 1327426723}
-  materialAmount: 3
-  dropList:
-  - {fileID: 11400000, guid: 58633829f3971444a8aac3ac006b4bcc, type: 2}
-  - {fileID: 11400000, guid: bafd724e5be3142f8850c882aec8f91f, type: 2}
-  itemDropPrefab: {fileID: 2675989421615546945, guid: 4f71da143494040798cf062af7ab037c, type: 3}
+  dropper: {fileID: 1327426725}
+--- !u!114 &1327426725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327426720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca18d2f0746344d35be7b83f4181b4f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemDrops:
+    list:
+    - item: {fileID: 11400000, guid: 58633829f3971444a8aac3ac006b4bcc, type: 2}
+      weight: 1
+    - item: {fileID: 11400000, guid: bafd724e5be3142f8850c882aec8f91f, type: 2}
+      weight: 4
+  _itemDropPrefab: {fileID: 2675989421615546945, guid: 4f71da143494040798cf062af7ab037c, type: 3}
+  _defaultDropCount: 3
 --- !u!1001 &1328064083
 PrefabInstance:
   m_ObjectHideFlags: 0
