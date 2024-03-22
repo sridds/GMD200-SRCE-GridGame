@@ -51,9 +51,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myHealth: {fileID: 5408694630321835858}
   dropper: {fileID: 7606053601927975567}
-  breakableData:
+  <BreakableDatas>k__BackingField:
   - CachedTool: {fileID: 11400000, guid: 25b93ebdf7bd143c1bab31381de5a004, type: 2}
     DamageDealt: 2
+    IsRandomDamage: 1
+    MaxDamageDealt: 3
   destroyParticle: {fileID: 5838221137742848562, guid: 44871ac18584f4f3f9e3e2587e7efc7c, type: 3}
 --- !u!114 &5408694630321835858
 MonoBehaviour:
@@ -67,8 +69,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed63e73fd04b464a873640a8cf06e0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 1
-  _maxHealth: 0
+  mode: 0
+  _maxHealth: 40
   _maxHits: 15
   _doIFrames: 0
   _maxIFrames: 30

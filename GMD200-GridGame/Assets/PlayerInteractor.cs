@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerInteractor : MonoBehaviour
 {
     NewMovement movement;
+    InventoryController controller;
 
     [Header("Ray Settings")]
     [SerializeField]
@@ -16,21 +17,30 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField]
     private LayerMask interactableLayer;
 
+    [SerializeField]
+    private ToolSO tool;
+
     float interactionCooldownTimer = 0.0f;
 
-    private void Awake() => movement = GetComponent<NewMovement>();
+    private void Start() {
+        movement = GetComponent<NewMovement>();
+        controller = FindObjectOfType<InventoryController>();
+    }
 
     void Update()
     {
         if (GameManager.Instance.currentGameState == GameState.Paused || GameManager.Instance.currentGameState == GameState.UI) return;
 
+        //DEBUG
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            GameManager.Instance.inventory.AddItem(tool);
+        }
+
         // increment timers
         interactionCooldownTimer += Time.deltaTime;
 
-        // handle item usage
         if (CanUseItem()) UseItem();
-
-        // handle basic interaction
         if (CanInteract()) Interact();
     }
 
@@ -43,7 +53,13 @@ public class PlayerInteractor : MonoBehaviour
         if (!TryCastInteractionRay(out RaycastHit2D hit)) return;
 
         // check for health
-        if (hit.collider.TryGetComponent<Health>(out Health health)) health.TakeDamage(1);
+        //if (hit.collider.TryGetComponent<Health>(out Health health)) health.TakeDamage(1);
+        if(hit.collider.TryGetComponent<IBreakable>(out IBreakable breakable)) {
+
+            ItemSO item = GameManager.Instance.inventory.GetSlot(controller.CurrentSlot, 0).Item;
+            // i dont like this
+            if (item is ToolSO) breakable.Damage(item as ToolSO);
+        }
     }
 
     /// <summary>

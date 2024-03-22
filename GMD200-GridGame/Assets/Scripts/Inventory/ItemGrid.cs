@@ -138,6 +138,7 @@ public class ItemGrid : MonoBehaviour
         {
             for (int y = 0; y < dimensions.x; y++)
             {
+                // ???
                 Slot slot = slots.GetGridObject(y, x);
 
                 if(slot.Item == null) {
@@ -150,6 +151,8 @@ public class ItemGrid : MonoBehaviour
 
         return false;
     }
+
+    public Slot GetSlot(int x, int y) => slots.GetGridObject(x, y);
 
     /// <summary>
     /// Handles gathering all of a specified type into the carried slot. Gathers all into a list and prioritizes the stacks that are fewer

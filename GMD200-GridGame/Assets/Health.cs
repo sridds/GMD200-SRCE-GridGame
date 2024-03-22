@@ -76,7 +76,7 @@ public class Health : MonoBehaviour
         // Create hitmarker
         if (_doHitmarker) {
             Vector2 pos = new Vector2(Random.Range(transform.position.x - 0.4f, transform.position.x + 0.4f), Random.Range(transform.position.y - 0.4f, transform.position.y + 0.4f));
-            Hitmarker.CreateHitmarker(pos, 1);
+            Hitmarker.CreateHitmarker(pos, mode == HealthMode.Value ? damageAmount : 1);
         }
 
         // call events
