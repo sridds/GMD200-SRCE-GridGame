@@ -41,12 +41,11 @@ public class PostProcessManager : MonoBehaviour
         var percentage = Mathf.Sin(timeElapsed / duration * Mathf.PI * 2) * 0.5f + 0.5f;
         percentage = Mathf.Clamp01(percentage);
         Debug.Log(percentage);
-
-        if (percentage >= 1)
-            GameManager.Instance.NextDay();
-
-
+       
         colorGrading.colorFilter.value = gradient.Evaluate(percentage);
+
+        if (percentage >= 0.99f)
+            GameManager.Instance.NextDay();
     }
     public void SetParam(float brightness) => this.brightness = brightness;
 }
