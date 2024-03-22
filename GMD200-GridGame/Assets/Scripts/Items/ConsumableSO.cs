@@ -10,7 +10,7 @@ public class ConsumableSO : ItemSO
     public override ItemSO Clone() => CloneGeneric<ConsumableSO>();
 
     public override void OnUse(UseContext ctx) {
-        Debug.Log("fuck piss shit");
+        // currently just removes from stack. thats it
         ctx.mySlot.RemoveFromStack(1);
     }
 }

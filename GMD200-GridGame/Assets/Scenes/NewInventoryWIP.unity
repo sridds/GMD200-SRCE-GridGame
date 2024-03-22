@@ -747,6 +747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryRect: {fileID: 2037211700}
+  _slotSwitchCooldown: 0.1
 --- !u!4 &69439046 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6727336464520691289, guid: 65958149a48a64368b8e29e04f72b741, type: 3}

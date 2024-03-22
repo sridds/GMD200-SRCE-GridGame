@@ -7,11 +7,16 @@ public class InventoryController : MonoBehaviour
     [SerializeField]
     private RectTransform inventoryRect;
 
+    [SerializeField]
+    private float _slotSwitchCooldown = 0.05f;
+
     public int CurrentSlot { get; private set; }
     private bool inventoryDisplaying;
 
     public delegate void CurrentSlotUpdate(int slot);
     public CurrentSlotUpdate OnUpdateCurrentSlot;
+
+    float slotSwitchTimer;
 
     private void Update()
     {
@@ -53,6 +58,10 @@ public class InventoryController : MonoBehaviour
     private void UpdateCurrentSlot()
     {
         if (GameManager.Instance.currentGameState == GameState.UI) return;
+        if (slotSwitchTimer > 0.0f) {
+            slotSwitchTimer -= Time.deltaTime;
+            return;
+        }
 
         // get scroll value of player
         float scrollValue = Input.mouseScrollDelta.y;
@@ -68,6 +77,7 @@ public class InventoryController : MonoBehaviour
         // add value to current slot, ensure it doesnt go out of range
         CurrentSlot += val;
         CurrentSlot = (CurrentSlot % length + length) % length;
+        slotSwitchTimer = _slotSwitchCooldown;
 
         OnUpdateCurrentSlot?.Invoke(CurrentSlot);
     }
