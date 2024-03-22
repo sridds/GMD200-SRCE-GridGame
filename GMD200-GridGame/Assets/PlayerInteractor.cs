@@ -58,13 +58,13 @@ public class PlayerInteractor : MonoBehaviour
     private void UseItem()
     {
         interactionCooldownTimer = 0.0f;
-        if (!TryCastInteractionRay(out RaycastHit2D hit)) return;
 
+        TryCastInteractionRay(out RaycastHit2D hit);
         ItemSO item = GameManager.Instance.inventory.GetSlot(controller.CurrentSlot, 0).Item;
         if (item == null) return;
 
         // use
-        item.OnUseDown(new UseContext(hit, GameManager.Instance.inventory.GetSlot(controller.CurrentSlot, 0)));
+        item.OnUse(new UseContext(hit, GameManager.Instance.inventory.GetSlot(controller.CurrentSlot, 0)));
     }
 
     /// <summary>

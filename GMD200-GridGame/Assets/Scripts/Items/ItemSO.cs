@@ -48,8 +48,6 @@ public abstract class ItemSO : ScriptableObject
     // this method must be overwritten by inheriting types to call the CloneGeneric method, passing in the type of item it is
     public abstract ItemSO Clone();
 
-    public abstract void OnUseDown(UseContext ctx);
-
     public abstract void OnUse(UseContext ctx);
 
     #region Helpers

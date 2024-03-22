@@ -73,7 +73,7 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
         if (mySlot.Item == null) return;
         if (!mySlot.Item.HasDurability) return;
 
-        durabilitySlider.gameObject.SetActive(true);
+        if(mySlot.Item.MaxDurability != mySlot.Item.CurrentDurability) durabilitySlider.gameObject.SetActive(true);
 
         durabilitySlider.maxValue = mySlot.Item.MaxDurability;
         durabilitySlider.value = mySlot.Item.CurrentDurability;

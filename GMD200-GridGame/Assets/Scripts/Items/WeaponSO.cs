@@ -10,10 +10,10 @@ public class WeaponSO : ItemSO
 
     public override ItemSO Clone() => CloneGeneric<WeaponSO>();
 
-    public override void OnUse(UseContext ctx) => OnUseDown(ctx);
-
-    public override void OnUseDown(UseContext ctx)
+    public override void OnUse(UseContext ctx)
     {
+        if (ctx.raycast.collider == null) return;
+
         // don't try breakign it
         if (ctx.raycast.collider.TryGetComponent<IBreakable>(out IBreakable breakable)) return;
 

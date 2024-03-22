@@ -10,6 +10,4 @@ public class ArmorSO : ItemSO
     public override ItemSO Clone() => CloneGeneric<ArmorSO>();
 
     public override void OnUse(UseContext ctx) { }
-
-    public override void OnUseDown(UseContext ctx) { }
 }
