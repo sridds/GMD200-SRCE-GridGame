@@ -103,7 +103,7 @@ public class PlayerInteractor : MonoBehaviour
     private bool CanUseItem()
     {
         if (interactionCooldownTimer < interactionCooldown) return false;
-        if (!Input.GetMouseButtonDown(0)) return false;
+        if (!Input.GetMouseButton(0)) return false;
 
         return true;
     }

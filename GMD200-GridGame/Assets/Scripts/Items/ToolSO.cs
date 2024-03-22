@@ -14,7 +14,6 @@ public class ToolSO : ItemSO
         if (ctx.raycast.collider.TryGetComponent<IBreakable>(out IBreakable breakable))
         {
             breakable.Damage(this);
-            //ctx.mySlot.DecreaseDurability(2);
             CurrentDurability -= 2;
 
             if(CurrentDurability <= 0) {

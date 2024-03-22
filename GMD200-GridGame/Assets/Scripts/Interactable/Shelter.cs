@@ -5,6 +5,8 @@ using TMPro;
 
 public class Shelter : MonoBehaviour, Interactable
 {
-    [SerializeField] private string prompt = "Press [E] to sleep";
+    [field: SerializeField]
+    public string InteractText { get; private set; } 
+
     public void Interact() => GameManager.Instance.NextDay();
 }
