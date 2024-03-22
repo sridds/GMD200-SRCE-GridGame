@@ -66,21 +66,17 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
         stackText.text = stackAmt > 1 ? $"{stackAmt}" : "";
 
         if (mySlot.Item == null) return;
-
-        if (mySlot.Item.Durability.HasDurability && mySlot.Durability != mySlot.Item.Durability.MaxDurability)
-        {
-            durabilitySlider.gameObject.SetActive(true);
-        }
     }
 
     private void Update()
     {
         if (mySlot.Item == null) return;
+        if (!mySlot.Item.HasDurability) return;
 
-        if (!mySlot.Item.Durability.HasDurability) return;
+        durabilitySlider.gameObject.SetActive(true);
 
-        durabilitySlider.maxValue = mySlot.Item.Durability.MaxDurability;
-        durabilitySlider.value = mySlot.Durability;
+        durabilitySlider.maxValue = mySlot.Item.MaxDurability;
+        durabilitySlider.value = mySlot.Item.CurrentDurability;
 
         // evaluate
         durabilityFill.color = durabilityGradient.Evaluate((durabilitySlider.value / durabilitySlider.maxValue));
@@ -137,7 +133,7 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
             // PLACE ITEM DOWN
             else if(ItemGrid.CarriedSlot != null && !takeOnlySlot)
             {
-                mySlot.SetItem(ItemGrid.CarriedSlot.Item, ItemGrid.CarriedSlot.Stack, ItemGrid.CarriedSlot.Durability);
+                mySlot.SetItem(ItemGrid.CarriedSlot.Item, ItemGrid.CarriedSlot.Stack);
                 ItemGrid.CarriedSlot = null;
             }
 

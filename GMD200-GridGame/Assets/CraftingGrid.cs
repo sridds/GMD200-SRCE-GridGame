@@ -40,7 +40,7 @@ public class CraftingGrid : MonoBehaviour
         foreach (RecipeSO recipe in recipies)
         {
             if (ValidateRecipe(recipe)) {
-                output.SetItem(recipe.OutputItem, recipe.OutputAmount, recipe.OutputItem.Durability.MaxDurability);
+                output.SetItem(recipe.OutputItem, recipe.OutputAmount);
                 activeRecipe = recipe;
 
                 break;

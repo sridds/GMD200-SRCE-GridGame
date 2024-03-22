@@ -34,7 +34,15 @@ public abstract class ItemSO : ScriptableObject
     [Tooltip("The data that determines whether or not the item can be stacked")]
     public StackableData Stack;
 
-    public DurabilityData Durability;
+    [Header("Durability")]
+    public bool HasDurability;
+
+    [AllowNesting]
+    [ShowIf(nameof(HasDurability))]
+    public int MaxDurability;
+
+    [HideInInspector]
+    public int CurrentDurability = -1;
 
 
     // this method must be overwritten by inheriting types to call the CloneGeneric method, passing in the type of item it is
@@ -54,8 +62,11 @@ public abstract class ItemSO : ScriptableObject
     {
         T Instance = ScriptableObject.CreateInstance<T>();
         Instance.name = ItemName;
+        Instance = CopyValuesReflection(Instance);
 
-        return CopyValuesReflection(Instance);
+        if (Instance.CurrentDurability == -1) Instance.CurrentDurability = MaxDurability;
+
+        return Instance;
     }
 
     /// <summary>
@@ -75,17 +86,6 @@ public abstract class ItemSO : ScriptableObject
         return Instance;
     }
     #endregion
-}
-
-[System.Serializable]
-public class DurabilityData
-{
-    // Durability settings
-    public bool HasDurability;
-
-    [AllowNesting]
-    [ShowIf(nameof(HasDurability))]
-    public int MaxDurability;
 }
 
 [System.Serializable]
