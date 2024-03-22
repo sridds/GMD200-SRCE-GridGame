@@ -83,9 +83,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c07a27dcee2e4a51bef363bfce7789c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnCooldown: 1
+  _spawnCooldown: 1.5
   _magnetSpeed: 25
-  _magnetRadius: 3
+  _magnetRadius: 2
   _renderer: {fileID: 7459906536369807043}
   _multiSpriteIndicator: {fileID: 2331981085112293910}
 --- !u!50 &2323160125916943048

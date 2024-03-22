@@ -78,6 +78,21 @@ public class ItemGrid : MonoBehaviour
         slot.RemoveFromStack();
     }
 
+    public void DropFromSlot(int x, int y)
+    {
+        Slot slot = slots.GetGridObject(x, y);
+
+        // if already removed, dont bother
+        if (slot.Item == null) return;
+
+        // create drop
+        ItemDrop drop = Instantiate(GameAssets.Instance.ItemDropPrefab, GameManager.Instance.player.transform.position, Quaternion.identity);
+        drop.Init(GameManager.Instance.player.transform, slot.Item, 1);
+
+        // remove from stack
+        slot.RemoveFromStack(1);
+    }
+
     /// <summary>
     /// Moves the contents of a slot to a new grid
     /// </summary>

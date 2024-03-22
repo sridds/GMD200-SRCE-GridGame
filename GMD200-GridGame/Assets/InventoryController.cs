@@ -18,9 +18,15 @@ public class InventoryController : MonoBehaviour
         if (GameManager.Instance.currentGameState == GameState.Paused) return;
 
         UpdateCurrentSlot(); // update current slot input
+        if (Input.GetKeyDown(KeyCode.Q) && !inventoryDisplaying) DropCurrentItem();
 
         // toggles the inventory on and off
         if (Input.GetKeyDown(KeyCode.E)) ToggleInventory();
+    }
+
+    private void DropCurrentItem()
+    {
+        GameManager.Instance.inventory.DropFromSlot(CurrentSlot, 0);
     }
 
     public void ToggleInventory()
