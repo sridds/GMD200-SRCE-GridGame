@@ -97484,6 +97484,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   tool: {fileID: 11400000, guid: 25b93ebdf7bd143c1bab31381de5a004, type: 2}
+  weapon: {fileID: 11400000, guid: 005df84d95040444a97ba8eadd21ecb4, type: 2}
 --- !u!114 &4997962561250328769
 MonoBehaviour:
   m_ObjectHideFlags: 0

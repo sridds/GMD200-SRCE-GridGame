@@ -11,17 +11,16 @@ public class WeaponSO : ItemSO
 
     public override ItemSO Clone() => CloneGeneric<WeaponSO>();
 
-    public override void OnUse(UseContext ctx) { }
+    public override void OnUse(UseContext ctx) => OnUseDown(ctx);
 
-    public override void OnUseDown(UseContext ctx) { }
-}
-
-public struct UseContext
-{
-    public RaycastHit2D raycast;
-
-    public UseContext(RaycastHit2D raycast)
+    public override void OnUseDown(UseContext ctx)
     {
-        this.raycast = raycast;
+        // don't try breakign it
+        if (ctx.raycast.collider.TryGetComponent<IBreakable>(out IBreakable breakable)) return;
+
+        if (ctx.raycast.collider.TryGetComponent<Health>(out Health health))
+        {
+            health.TakeDamage(Attack);
+        }
     }
 }

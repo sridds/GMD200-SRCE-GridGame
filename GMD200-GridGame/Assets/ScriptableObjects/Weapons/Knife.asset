@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 342ac12a344144775a6556b3e33488a8, type: 3}
-  m_Name: Weapon_Test
+  m_Name: Knife
   m_EditorClassIdentifier: 
-  ItemName: Stone Knife
-  ItemDescription: A jagged blade crafted of a chipped stone
-  ItemSprite: {fileID: 1732408704, guid: 514c75653fb6e473096a58cd09e3fa29, type: 3}
-  SellPrice: 12
+  ItemName: Flint Dagger
+  ItemDescription: A jagged blade crafted of a chipped flint stone
+  ItemSprite: {fileID: -1206586672, guid: a8a66fb4f978f46cc922b0f6a9451a16, type: 3}
+  SellPrice: 4
   Stack:
     CanStack: 0
     MaxStack: 0
   Attack: 3
   Durability:
     HasDurability: 1
-    MaxDurability: 250
+    MaxDurability: 15

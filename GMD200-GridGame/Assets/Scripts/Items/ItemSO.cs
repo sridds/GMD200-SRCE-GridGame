@@ -3,6 +3,16 @@ using UnityEngine;
 using System.Reflection;
 using System;
 
+public struct UseContext
+{
+    public RaycastHit2D raycast;
+
+    public UseContext(RaycastHit2D raycast)
+    {
+        this.raycast = raycast;
+    }
+}
+
 public abstract class ItemSO : ScriptableObject
 {
     [Header("Item Settings")]

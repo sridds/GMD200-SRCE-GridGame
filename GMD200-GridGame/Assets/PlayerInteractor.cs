@@ -19,6 +19,8 @@ public class PlayerInteractor : MonoBehaviour
 
     [SerializeField]
     private ToolSO tool;
+    [SerializeField]
+    private WeaponSO weapon;
 
     float interactionCooldownTimer = 0.0f;
 
@@ -36,6 +38,11 @@ public class PlayerInteractor : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             GameManager.Instance.inventory.AddItem(tool);
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            GameManager.Instance.inventory.AddItem(weapon);
         }
 #endif
         // increment timers
