@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -28,7 +27,7 @@ public class ItemGrid : MonoBehaviour
     private void Awake()
     {
         // initialize
-        slots = new GenericGrid<Slot>(dimensions.x, dimensions.y, (GenericGrid<Slot> g, int x, int y) => new Slot(g, x ,y));
+        slots = new GenericGrid<Slot>(dimensions.x, dimensions.y, (GenericGrid<Slot> g, int x, int y) => new Slot(g, x, y));
     }
 
     public bool AddItem(ItemSO item)
@@ -56,7 +55,8 @@ public class ItemGrid : MonoBehaviour
         }
 
         // attempt to add item anywhere
-        if (TryAddItem(item)) {
+        if (TryAddItem(item))
+        {
             return true;
         }
         return false;
@@ -121,8 +121,9 @@ public class ItemGrid : MonoBehaviour
         Slot slot = slots.GetGridObject(x, y);
 
         // attempt to add item at empty slot
-        if(slot.Item == null) {
-            slot.SetItem(item, 1);
+        if (slot.Item == null)
+        {
+            slot.SetItem(item);
             return true;
         }
         // stack item as long as they match
@@ -142,13 +143,15 @@ public class ItemGrid : MonoBehaviour
                 // ???
                 Slot slot = slots.GetGridObject(y, x);
 
-                if(slot.Item == null) {
-                    slot.SetItem(item, 1);
-                    OnItemAdded?.Invoke(slot.Item);
+                if (slot.Item == null)
+                {
+                    slot.SetItem(item);
+                    OnItemAdded?.Invoke(item);
                     return true;
                 }
             }
         }
+
         return false;
     }
 
@@ -165,16 +168,17 @@ public class ItemGrid : MonoBehaviour
         List<Slot> matchingTypes = new List<Slot>();
 
         // iterate through inventory
-        for(int x = 0; x < dimensions.x; x++)
+        for (int x = 0; x < dimensions.x; x++)
         {
-            for(int y = 0; y < dimensions.y; y++)
+            for (int y = 0; y < dimensions.y; y++)
             {
                 // ensure does not surpass the stack max
                 if (CarriedSlot.Stack >= CarriedSlot.MaxStack) return;
                 Slot s = slots.GetGridObject(x, y);
 
                 // ensure items match
-                if(s.Item != null && s.Item.ItemName == CarriedSlot.Item.ItemName) {
+                if (s.Item != null && s.Item.ItemName == CarriedSlot.Item.ItemName)
+                {
                     // add to matching types
                     matchingTypes.Add(s);
                 }
@@ -182,7 +186,7 @@ public class ItemGrid : MonoBehaviour
         }
 
         // Order by the stack amount to ensure smaller stacks are grabbed first before larger stacks
-        foreach(Slot s in matchingTypes.OrderBy(x => x.Stack))
+        foreach (Slot s in matchingTypes.OrderBy(x => x.Stack))
         {
             int stack = s.Stack;
             int remainder = (stack + CarriedSlot.Stack) - CarriedSlot.MaxStack;
@@ -315,12 +319,14 @@ public class ItemGrid : MonoBehaviour
         drop.Init(GameManager.Instance.player.transform, ItemGrid.CarriedSlot.Item, 1);
 
         // reset stack
-        if (ItemGrid.CarriedSlot.Stack - 1 == 0) {
+        if (ItemGrid.CarriedSlot.Stack - 1 == 0)
+        {
             ItemGrid.CarriedSlot.ResetSlot();
             ItemGrid.CarriedSlot = null;
         }
         // remove 1
-        else {
+        else
+        {
             ItemGrid.CarriedSlot.RemoveFromStack(1);
         }
     }
@@ -381,12 +387,9 @@ public class Slot
         grid.TriggerGridObjectChanged(_x, _y);
     }
 
-    public void SetItem(ItemSO item, int stack)
+    public void SetItem(ItemSO item, int stack = 1)
     {
-        if (item != null)
-        {
-            this.item = item.Clone();
-        }
+        if (item != null) this.item = item.Clone();
         else this.item = null;
 
         this.stack = stack;
@@ -408,7 +411,8 @@ public class Slot
     {
         stack -= amount;
 
-        if(stack == 0) {
+        if (stack == 0)
+        {
             item = null;
         }
 

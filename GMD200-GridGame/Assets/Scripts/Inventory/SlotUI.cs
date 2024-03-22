@@ -57,23 +57,47 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
             ResetSlot();
             return;
         }
-
-        itemImage.rectTransform.DOKill(true);
-        itemImage.rectTransform.DOPunchScale(new Vector3(0.5f, 0.5f, 0), 0.2f, 10, 1.3f);
-
-        itemImage.enabled = true;
-        itemImage.sprite = spr;
-        stackText.text = stackAmt > 1 ? $"{stackAmt}" : "";
-
-        if (mySlot.Item == null) return;
     }
 
     private void Update()
     {
+        UpdateItem();
+
         if (mySlot.Item == null) return;
+        UpdateDurability();
+    }
+
+
+    int lastStack;
+    ItemSO lastItem;
+
+    private void UpdateItem()
+    {
+        if (mySlot.Item == null)
+        {
+            lastItem = null;
+
+            ResetSlot();
+            return;
+        }
+
+        if ((lastItem == null && mySlot.Item != null) || lastItem.name != mySlot.Item.name) lastItem = mySlot.Item;
+        else if (lastStack != mySlot.Stack) lastStack = mySlot.Stack;
+        else return;
+
+        itemImage.enabled = true;
+        itemImage.sprite = mySlot.Item.ItemSprite;
+        stackText.text = mySlot.Stack > 1 ? $"{mySlot.Stack}" : "";
+
+        itemImage.rectTransform.DOKill(true);
+        itemImage.rectTransform.DOPunchScale(new Vector3(0.5f, 0.5f, 0), 0.2f, 10, 1.3f);
+    }
+
+    private void UpdateDurability()
+    {
         if (!mySlot.Item.HasDurability) return;
 
-        if(mySlot.Item.MaxDurability != mySlot.Item.CurrentDurability) durabilitySlider.gameObject.SetActive(true);
+        if (mySlot.Item.MaxDurability != mySlot.Item.CurrentDurability) durabilitySlider.gameObject.SetActive(true);
 
         durabilitySlider.maxValue = mySlot.Item.MaxDurability;
         durabilitySlider.value = mySlot.Item.CurrentDurability;
@@ -81,6 +105,7 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
         // evaluate
         durabilityFill.color = durabilityGradient.Evaluate((durabilitySlider.value / durabilitySlider.maxValue));
     }
+
     private void ResetSlot()
     {
         itemImage.enabled = false;
