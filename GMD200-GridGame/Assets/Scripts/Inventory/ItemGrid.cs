@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -143,12 +144,13 @@ public class ItemGrid : MonoBehaviour
 
                 if(slot.Item == null) {
                     slot.SetItem(item);
+                    // set to max
+                    if (slot.Item.Durability.CurrentDurability == -1) slot.Item.Durability.CurrentDurability = slot.Item.Durability.MaxDurability;
                     OnItemAdded?.Invoke(item);
                     return true;
                 }
             }
         }
-
         return false;
     }
 

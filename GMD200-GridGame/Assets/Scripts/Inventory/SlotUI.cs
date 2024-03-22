@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using System.Linq;
 
 public class SlotUI : MonoBehaviour, IPointerClickHandler
 {
@@ -11,6 +12,9 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
 
     [SerializeField]
     private Image itemImage;
+
+    [SerializeField]
+    private Slider durabilitySlider;
 
     [SerializeField]
     private bool takeOnlySlot;
@@ -54,12 +58,30 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
         itemImage.enabled = true;
         itemImage.sprite = spr;
         stackText.text = stackAmt > 1 ? $"{stackAmt}" : "";
+
+        if (mySlot.Item == null) return;
+
+        if (mySlot.Item.Durability.HasDurability)
+        {
+            durabilitySlider.gameObject.SetActive(true);
+        }
     }
 
+    private void Update()
+    {
+        if (mySlot.Item == null) return;
+
+        if (!mySlot.Item.Durability.HasDurability) return;
+
+        durabilitySlider.maxValue = mySlot.Item.Durability.MaxDurability;
+        durabilitySlider.value = mySlot.Item.Durability.CurrentDurability;
+    }
     private void ResetSlot()
     {
         itemImage.enabled = false;
+        if(durabilitySlider != null) durabilitySlider.gameObject.SetActive(false);
         stackText.text = "";
+        //mySlot = null;
     }
 
     public void OnPointerClick(PointerEventData eventData)

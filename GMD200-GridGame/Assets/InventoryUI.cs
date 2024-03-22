@@ -30,6 +30,7 @@ public class InventoryUI : MonoBehaviour
 
         // ensure the sprite doesnt throw a null reference exception when trying to access a null item
         Sprite spr = s.Item == null ? null : s.Item.ItemSprite;
+
         mySlots[e.y * myItemGrid.Dimensions.x + e.x].UpdateValues(spr, s.Stack);
     }
 }

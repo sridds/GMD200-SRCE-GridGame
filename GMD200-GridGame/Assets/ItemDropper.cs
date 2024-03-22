@@ -8,9 +8,6 @@ public class ItemDropper : MonoBehaviour
     private WeightedList<ItemSO> _itemDrops = new WeightedList<ItemSO>();
 
     [SerializeField]
-    private ItemDrop _itemDropPrefab;
-
-    [SerializeField]
     private int _defaultDropCount = 1;
 
     public void DropItem(int count) {
@@ -20,7 +17,7 @@ public class ItemDropper : MonoBehaviour
             ItemSO item = _itemDrops.GetRandom();
 
             // create drop
-            ItemDrop drop = Instantiate(_itemDropPrefab, transform.position, Quaternion.identity);
+            ItemDrop drop = Instantiate(GameAssets.Instance.ItemDropPrefab, transform.position, Quaternion.identity);
 
             // initalize dropper with the new item
             drop.Init(GameManager.Instance.player.transform, item);

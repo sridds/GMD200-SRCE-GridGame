@@ -7,9 +7,6 @@ public class ArmorSO : ItemSO
     [Min(1)]
     public int Defence;
 
-    // Durability settings
-    public DurabilityData Durability;
-
     public override ItemSO Clone() => CloneGeneric<ArmorSO>();
 
     public override void OnUse(UseContext ctx) { }
