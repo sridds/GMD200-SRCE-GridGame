@@ -21,5 +21,4 @@ MonoBehaviour:
     MaxStack: 0
   Durability:
     HasDurability: 1
-    MaxDurability: 20
-    CurrentDurability: 20
+    MaxDurability: 40

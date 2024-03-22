@@ -86,8 +86,6 @@ public class DurabilityData
     [AllowNesting]
     [ShowIf(nameof(HasDurability))]
     public int MaxDurability;
-
-    public int CurrentDurability = -1;
 }
 
 [System.Serializable]

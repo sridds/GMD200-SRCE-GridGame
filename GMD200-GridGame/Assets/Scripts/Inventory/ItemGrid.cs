@@ -144,8 +144,6 @@ public class ItemGrid : MonoBehaviour
 
                 if(slot.Item == null) {
                     slot.SetItem(item, 1, -1);
-                    // set to max
-                    if (slot.Item.Durability.CurrentDurability == -1) slot.Item.Durability.CurrentDurability = slot.Item.Durability.MaxDurability;
                     OnItemAdded?.Invoke(slot.Item);
                     return true;
                 }
