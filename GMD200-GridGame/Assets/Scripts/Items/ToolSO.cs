@@ -7,4 +7,14 @@ public class ToolSO : ItemSO
     public DurabilityData Durability;
 
     public override ItemSO Clone() => CloneGeneric<ToolSO>();
+
+    public override void OnUse(UseContext ctx) => OnUseDown(ctx);
+
+    public override void OnUseDown(UseContext ctx)
+    {
+        if (ctx.raycast.collider.TryGetComponent<IBreakable>(out IBreakable breakable))
+        {
+            breakable.Damage(this);
+        }
+    }
 }

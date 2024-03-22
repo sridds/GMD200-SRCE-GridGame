@@ -32,11 +32,12 @@ public class PlayerInteractor : MonoBehaviour
         if (GameManager.Instance.currentGameState == GameState.Paused || GameManager.Instance.currentGameState == GameState.UI) return;
 
         //DEBUG
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.F))
         {
             GameManager.Instance.inventory.AddItem(tool);
         }
-
+#endif
         // increment timers
         interactionCooldownTimer += Time.deltaTime;
 
@@ -52,14 +53,10 @@ public class PlayerInteractor : MonoBehaviour
         interactionCooldownTimer = 0.0f;
         if (!TryCastInteractionRay(out RaycastHit2D hit)) return;
 
-        // check for health
-        //if (hit.collider.TryGetComponent<Health>(out Health health)) health.TakeDamage(1);
-        if(hit.collider.TryGetComponent<IBreakable>(out IBreakable breakable)) {
+        ItemSO item = GameManager.Instance.inventory.GetSlot(controller.CurrentSlot, 0).Item;
+        if (item == null) return;
 
-            ItemSO item = GameManager.Instance.inventory.GetSlot(controller.CurrentSlot, 0).Item;
-            // i dont like this
-            if (item is ToolSO) breakable.Damage(item as ToolSO);
-        }
+        item.OnUseDown(new UseContext(hit));
     }
 
     /// <summary>

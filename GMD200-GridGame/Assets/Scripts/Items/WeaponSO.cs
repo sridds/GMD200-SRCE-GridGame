@@ -10,4 +10,18 @@ public class WeaponSO : ItemSO
     public DurabilityData Durability;
 
     public override ItemSO Clone() => CloneGeneric<WeaponSO>();
+
+    public override void OnUse(UseContext ctx) { }
+
+    public override void OnUseDown(UseContext ctx) { }
+}
+
+public struct UseContext
+{
+    public RaycastHit2D raycast;
+
+    public UseContext(RaycastHit2D raycast)
+    {
+        this.raycast = raycast;
+    }
 }

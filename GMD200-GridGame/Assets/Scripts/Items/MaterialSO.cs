@@ -7,4 +7,8 @@ public class MaterialSO : ItemSO
 
     [Tooltip("The chance of this material dropping")]
     public int rarity;
+
+    public override void OnUse(UseContext ctx) { }
+
+    public override void OnUseDown(UseContext ctx) { }
 }
