@@ -27,7 +27,7 @@ namespace Seth.OldInventory
 
         public void Init(ItemSO item, int stack = 1)
         {
-            this.item = item.Clone();
+            //this.item = item.Clone();
             this.stack = stack;
 
             // instantiate

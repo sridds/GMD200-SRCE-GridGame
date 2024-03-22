@@ -17,6 +17,12 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
     private Slider durabilitySlider;
 
     [SerializeField]
+    private Image durabilityFill;
+
+    [SerializeField]
+    private Gradient durabilityGradient;
+
+    [SerializeField]
     private bool takeOnlySlot;
 
     private ItemGrid myItemGrid;
@@ -61,7 +67,7 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
 
         if (mySlot.Item == null) return;
 
-        if (mySlot.Item.Durability.HasDurability)
+        if (mySlot.Item.Durability.HasDurability && mySlot.Durability != mySlot.Item.Durability.MaxDurability)
         {
             durabilitySlider.gameObject.SetActive(true);
         }
@@ -74,7 +80,10 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
         if (!mySlot.Item.Durability.HasDurability) return;
 
         durabilitySlider.maxValue = mySlot.Item.Durability.MaxDurability;
-        durabilitySlider.value = mySlot.Item.Durability.CurrentDurability;
+        durabilitySlider.value = mySlot.Durability;
+
+        // evaluate
+        durabilityFill.color = durabilityGradient.Evaluate((durabilitySlider.value / durabilitySlider.maxValue));
     }
     private void ResetSlot()
     {
@@ -128,7 +137,7 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
             // PLACE ITEM DOWN
             else if(ItemGrid.CarriedSlot != null && !takeOnlySlot)
             {
-                mySlot.SetItem(ItemGrid.CarriedSlot.Item, ItemGrid.CarriedSlot.Stack);
+                mySlot.SetItem(ItemGrid.CarriedSlot.Item, ItemGrid.CarriedSlot.Stack, ItemGrid.CarriedSlot.Durability);
                 ItemGrid.CarriedSlot = null;
             }
 

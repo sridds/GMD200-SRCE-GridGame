@@ -22,3 +22,4 @@ MonoBehaviour:
   Durability:
     HasDurability: 1
     MaxDurability: 10
+    CurrentDurability: -1

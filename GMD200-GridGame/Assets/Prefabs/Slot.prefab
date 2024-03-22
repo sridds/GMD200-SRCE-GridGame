@@ -183,8 +183,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -0.0056991577, y: 0}
-  m_SizeDelta: {x: -10.0115, y: 0}
+  m_AnchoredPosition: {x: 0.000038146973, y: 0}
+  m_SizeDelta: {x: 0.000022888, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3823695308390558092
 GameObject:
@@ -259,7 +259,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8347882239630177518
 CanvasRenderer:
@@ -639,4 +639,35 @@ MonoBehaviour:
   stackText: {fileID: 4997962561548731050}
   itemImage: {fileID: 5022635053180597097}
   durabilitySlider: {fileID: 3204737041116009728}
+  durabilityFill: {fileID: 1835834795374717686}
+  durabilityGradient:
+    serializedVersion: 2
+    key0: {r: 0.3773585, g: 0, b: 0, a: 1}
+    key1: {r: 1, g: 0, b: 0, a: 1}
+    key2: {r: 1, g: 0.55099326, b: 0, a: 0}
+    key3: {r: 1, g: 0.87172514, b: 0.08018869, a: 0}
+    key4: {r: 0.06978583, g: 1, b: 0, a: 0}
+    key5: {r: 0.06978583, g: 1, b: 0, a: 0}
+    key6: {r: 0.06978583, g: 1, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 2506
+    ctime1: 16191
+    ctime2: 29491
+    ctime3: 44140
+    ctime4: 65535
+    ctime5: 65535
+    ctime6: 65535
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 2
+    m_ColorSpace: 0
+    m_NumColorKeys: 5
+    m_NumAlphaKeys: 2
   takeOnlySlot: 0

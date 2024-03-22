@@ -63,7 +63,8 @@ public class PlayerInteractor : MonoBehaviour
         ItemSO item = GameManager.Instance.inventory.GetSlot(controller.CurrentSlot, 0).Item;
         if (item == null) return;
 
-        item.OnUseDown(new UseContext(hit));
+        // use
+        item.OnUseDown(new UseContext(hit, GameManager.Instance.inventory.GetSlot(controller.CurrentSlot, 0)));
     }
 
     /// <summary>

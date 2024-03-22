@@ -93,7 +93,7 @@ public class ItemGrid : MonoBehaviour
         if (newSlot.Item != null) return false;
 
         // set the new slot item
-        newSlot.SetItem(oldSlot.Item, oldSlot.Stack);
+        newSlot.SetItem(oldSlot.Item, oldSlot.Stack, oldSlot.Durability);
 
         // reset the old slot
         ResetSlotAtPosition(index.x, index.y);
@@ -122,7 +122,7 @@ public class ItemGrid : MonoBehaviour
 
         // attempt to add item at empty slot
         if(slot.Item == null) {
-            slot.SetItem(item);
+            slot.SetItem(item, 1, -1);
             return true;
         }
         // stack item as long as they match
@@ -143,10 +143,10 @@ public class ItemGrid : MonoBehaviour
                 Slot slot = slots.GetGridObject(y, x);
 
                 if(slot.Item == null) {
-                    slot.SetItem(item);
+                    slot.SetItem(item, 1, -1);
                     // set to max
                     if (slot.Item.Durability.CurrentDurability == -1) slot.Item.Durability.CurrentDurability = slot.Item.Durability.MaxDurability;
-                    OnItemAdded?.Invoke(item);
+                    OnItemAdded?.Invoke(slot.Item);
                     return true;
                 }
             }
@@ -208,7 +208,7 @@ public class ItemGrid : MonoBehaviour
 
         // set slot
         CarriedSlot = new Slot(slot.Grid, slot.x, slot.y);
-        CarriedSlot.SetItem(slot.Item, slot.Stack);
+        CarriedSlot.SetItem(slot.Item, slot.Stack, slot.Durability);
 
         // reset slot entirely
         ResetSlotAtPosition(slot.x, slot.y);
@@ -224,10 +224,10 @@ public class ItemGrid : MonoBehaviour
         if (ItemGrid.CarriedSlot.Item != null && slot.Item.ItemName == ItemGrid.CarriedSlot.Item.ItemName) return false;
 
         Slot temp = new Slot(slot.Grid, slot.x, slot.y);
-        temp.SetItem(slot.Item, slot.Stack);
+        temp.SetItem(slot.Item, slot.Stack, slot.Durability);
 
-        slot.SetItem(CarriedSlot.Item, CarriedSlot.Stack);
-        CarriedSlot.SetItem(temp.Item, temp.Stack);
+        slot.SetItem(CarriedSlot.Item, CarriedSlot.Stack, CarriedSlot.Durability);
+        CarriedSlot.SetItem(temp.Item, temp.Stack, temp.Durability);
 
         return true;
     }
@@ -258,8 +258,8 @@ public class ItemGrid : MonoBehaviour
         int resultA = (slot.Stack / 2) + (slot.Stack % 2);
         int resultB = slot.Stack / 2;
 
-        ItemGrid.CarriedSlot.SetItem(slot.Item, resultA);
-        slot.SetItem(slot.Item, resultB);
+        ItemGrid.CarriedSlot.SetItem(slot.Item, resultA, slot.Durability);
+        slot.SetItem(slot.Item, resultB, slot.Durability);
     }
 
     public void AddStackIntoCarried(Slot slot)
@@ -275,7 +275,7 @@ public class ItemGrid : MonoBehaviour
         }
 
         // check for overstacking
-        if (overStacked) CarriedSlot.SetItem(slot.Item, remainder);
+        if (overStacked) CarriedSlot.SetItem(slot.Item, remainder, slot.Durability);
         else CarriedSlot = null;
     }
 
@@ -362,11 +362,13 @@ public class Slot
 
     // item variables
     private ItemSO item;
+    private int durability = -1;
     private int stack;
 
     // accessors
     public GenericGrid<Slot> Grid { get { return grid; } }
     public int Stack { get { return stack; } }
+    public int Durability { get { return durability; } }
     public ItemSO Item { get { return item; } }
     public int MaxStack { get { return item.Stack.CanStack ? item.Stack.MaxStack : 1; } }
     public int x { get { return _x; } }
@@ -383,12 +385,33 @@ public class Slot
         grid.TriggerGridObjectChanged(_x, _y);
     }
 
-    public void SetItem(ItemSO item, int stack = 1)
+    public void SetItem(ItemSO item, int stack, int durability)
     {
-        if (item != null) this.item = item.Clone();
+        this.durability = durability;
+
+        if (item != null)
+        {
+            this.item = item.Clone();
+
+            // set to max durability
+            if (durability == -1) this.durability = item.Durability.MaxDurability;
+        }
         else this.item = null;
 
         this.stack = stack;
+
+        grid.TriggerGridObjectChanged(_x, _y);
+    }
+
+    public void DecreaseDurability(int decreaseAmt)
+    {
+        if (!item.Durability.HasDurability) return;
+
+        durability -= decreaseAmt;
+        if(durability <= 0) {
+            item = null;
+            stack = 0;
+        }
 
         grid.TriggerGridObjectChanged(_x, _y);
     }

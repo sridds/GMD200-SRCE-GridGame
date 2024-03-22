@@ -6,10 +6,12 @@ using System;
 public struct UseContext
 {
     public RaycastHit2D raycast;
+    public Slot mySlot;
 
-    public UseContext(RaycastHit2D raycast)
+    public UseContext(RaycastHit2D raycast, Slot mySlot)
     {
         this.raycast = raycast;
+        this.mySlot = mySlot;
     }
 }
 
@@ -32,7 +34,7 @@ public abstract class ItemSO : ScriptableObject
     [Tooltip("The data that determines whether or not the item can be stacked")]
     public StackableData Stack;
 
-    public DurabilityData Durability = new();
+    public DurabilityData Durability;
 
 
     // this method must be overwritten by inheriting types to call the CloneGeneric method, passing in the type of item it is
@@ -85,7 +87,6 @@ public class DurabilityData
     [ShowIf(nameof(HasDurability))]
     public int MaxDurability;
 
-    [HideInInspector]
     public int CurrentDurability = -1;
 }
 
