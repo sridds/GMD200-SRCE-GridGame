@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 using System.Linq;
 
-public class SlotUI : MonoBehaviour, IPointerClickHandler
+public class SlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private TextMeshProUGUI stackText;
@@ -32,6 +32,8 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
     public SlotTaken OnSlotTaken;
 
     private float lastClickTimestamp;
+
+    public Slot MySlot { get => mySlot; }
 
     private void Awake() => ResetSlot();
 
@@ -183,4 +185,16 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler
             }
         }
     }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        hoveredUI = this;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (hoveredUI == this) hoveredUI = null;
+    }
+
+    public static SlotUI hoveredUI;
 }
