@@ -19,7 +19,7 @@ public class WeaponSO : ItemSO
 
         if (ctx.raycast.collider.TryGetComponent<Health>(out Health health))
         {
-            health.TakeDamage(Attack);
+            health.DecreaseStat(Attack);
         }
     }
 }

@@ -2,9 +2,10 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public struct Stat : IStat
+public class Stat
 {
     public event Action OnValueZero;
+    public event Action OnValueChanged;
 
     // serializable in the inspector and also accessible to others
     [field: SerializeField] public float MaxValue { get; private set; }
@@ -26,17 +27,20 @@ public struct Stat : IStat
         }
     }
 
-    public void Init() => CurrentValue = MaxValue;
+    public void Init()
+    {
+        CurrentValue = MaxValue;
+        OnValueChanged?.Invoke();
+    }
 
-    public void Increase(float amount) => CurrentValue += amount;
-    public void Decrease(float amount) => CurrentValue -= amount;
-}
-
-public interface IStat
-{
-    public float CurrentValue { get; }
-    public float MaxValue { get; }
-
-    void Increase(float amount);
-    void Decrease(float amount);
+    public void Increase(float amount)
+    {
+        CurrentValue += amount;
+        OnValueChanged?.Invoke();
+    }
+    public void Decrease(float amount)
+    {
+        CurrentValue -= amount;
+        OnValueChanged?.Invoke();
+    }
 }

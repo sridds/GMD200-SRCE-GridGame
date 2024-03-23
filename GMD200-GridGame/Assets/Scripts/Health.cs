@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour, IStatHandler
 {
     public enum HealthMode
     {
@@ -15,13 +15,8 @@ public class Health : MonoBehaviour
     [SerializeField]
     private HealthMode mode;
 
-    [ShowIf(nameof(mode), HealthMode.Value)]
-    [SerializeField, Min(1)]
-    private int _maxHealth;
-
-    [ShowIf(nameof(mode), HealthMode.Increments)]
-    [SerializeField, Min(1)]
-    private int _maxHits;
+    [field: SerializeField]
+    public Stat myStat { get; private set; }
 
     [Header("IFrames")]
     [SerializeField]
@@ -42,8 +37,8 @@ public class Health : MonoBehaviour
     private bool _doHitmarker = true;
 
     // ACCESSORS
-    public int CurrentHealth { get; private set; }
-    public int MaxHealth { get { return mode == HealthMode.Value ? _maxHealth : _maxHits; } }
+    public int CurrentHealth { get => (int)myStat.CurrentValue; }
+    public int MaxHealth { get => (int)myStat.MaxValue; }
     public bool IFramesActive { get; private set; }
 
     private bool canDamage = true;
@@ -57,18 +52,19 @@ public class Health : MonoBehaviour
     public HealthDepleted OnHealthDepleted;
 
     // set health
-    private void Start() => CurrentHealth = mode == HealthMode.Value ? _maxHealth : _maxHits;
+    private void Start() => myStat.Init();
 
     /// <summary>
     /// Takes damage and calls an event
     /// </summary>
     /// <param name="damageAmount"></param>
-    public void TakeDamage(int damageAmount)
+    public void DecreaseStat(float damageAmount)
     {
         if (!canDamage) return;
         if (healthDepleted) return;
 
-        CurrentHealth -= mode == HealthMode.Value ? damageAmount : 1;
+        // Decrease stat
+        myStat.Decrease(mode == HealthMode.Value ? damageAmount : 1);
 
         // call the iframes coroutine
         if (_doIFrames) StartCoroutine(HandleIFrames(_maxIFrames, _IFrameInterval));
@@ -76,18 +72,16 @@ public class Health : MonoBehaviour
         // Create hitmarker
         if (_doHitmarker) {
             Vector2 pos = new Vector2(Random.Range(transform.position.x - 0.4f, transform.position.x + 0.4f), Random.Range(transform.position.y - 0.4f, transform.position.y + 0.4f));
-            Hitmarker.CreateHitmarker(pos, mode == HealthMode.Value ? damageAmount : 1);
+            Hitmarker.CreateHitmarker(pos, (int)(mode == HealthMode.Value ? damageAmount : 1));
         }
 
         // call events
-        if (CurrentHealth <= 0)
-        {
+        if (myStat.CurrentValue <= 0) {
             OnHealthDepleted?.Invoke();
             healthDepleted = true;
         }
-        else
-        {
-            OnHealthUpdate?.Invoke(CurrentHealth + damageAmount, CurrentHealth);
+        else {
+            OnHealthUpdate?.Invoke(CurrentHealth + (int)damageAmount, CurrentHealth);
         }
     }
 
@@ -124,5 +118,10 @@ public class Health : MonoBehaviour
 
         IFramesActive = false;
         canDamage = true;
+    }
+
+    public void IncreaseStat(float amount)
+    {
+        throw new System.NotImplementedException();
     }
 }

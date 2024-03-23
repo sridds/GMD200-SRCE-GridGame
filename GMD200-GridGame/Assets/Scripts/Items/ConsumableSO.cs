@@ -6,11 +6,23 @@ using UnityEngine;
 public class ConsumableSO : ItemSO
 {
     public int HealAmount;
+    public int SaturationAmount;
 
     public override ItemSO Clone() => CloneGeneric<ConsumableSO>();
 
+    Hunger hungerInstance;
+
     public override void OnUse(UseContext ctx) {
-        // currently just removes from stack. thats it
+        if (hungerInstance == null) hungerInstance = FindObjectOfType<Hunger>();
+
+        // dont surpass current hunger
+        if (hungerInstance.myStat.CurrentValue == hungerInstance.myStat.MaxValue) return;
+
+        // remove from stack
         ctx.mySlot.RemoveFromStack(1);
+
+        // increase stats
+        hungerInstance.IncreaseStat(HealAmount);
+        hungerInstance.IncreaseSaturation(SaturationAmount);
     }
 }

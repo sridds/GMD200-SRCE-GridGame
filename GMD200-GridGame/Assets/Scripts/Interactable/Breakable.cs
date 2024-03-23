@@ -51,14 +51,14 @@ public class Breakable : MonoBehaviour, IBreakable
         {
             if(data.CachedTool.ItemName == tool.ItemName)
             {
-                myHealth.TakeDamage(data.IsRandomDamage ? Random.Range(data.DamageDealt, data.MaxDamageDealt + 1) : data.DamageDealt);
+                myHealth.DecreaseStat(data.IsRandomDamage ? Random.Range(data.DamageDealt, data.MaxDamageDealt + 1) : data.DamageDealt);
 
                 return;
             }
         }
 
         // take no damage if tool is too weak
-        myHealth.TakeDamage(0);
+        myHealth.DecreaseStat(0);
     }
 
     /// <summary>

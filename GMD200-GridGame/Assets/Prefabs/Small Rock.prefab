@@ -73,8 +73,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
-  _maxHealth: 20
-  _maxHits: 15
+  <myStat>k__BackingField:
+    <MaxValue>k__BackingField: 20
   _doIFrames: 0
   _maxIFrames: 30
   _IFrameInterval: 0.05
@@ -98,8 +98,9 @@ MonoBehaviour:
       weight: 3
     - item: {fileID: 11400000, guid: a8945b748293c4146b5c03186c5324d7, type: 2}
       weight: 4
-  _itemDropPrefab: {fileID: 2675989421615546945, guid: 4f71da143494040798cf062af7ab037c, type: 3}
+  _requiredDrops: []
   _defaultDropCount: 3
+  _randomizeDropCount: 0
 --- !u!61 &404692588354456248
 BoxCollider2D:
   m_ObjectHideFlags: 0
