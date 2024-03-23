@@ -5,12 +5,27 @@ using UnityEngine.UI;
 using TMPro;
 public class UIManager : MonoBehaviour
 {
+    private Transition transitionManager;
+
     [Header("Pause Settings")]
     [SerializeField] private GameObject pauseMenu;
 
     [Header("Day Transition Refrences")]
 
-    [SerializeField] private GameObject dayTransition;
+    [SerializeField] private Image dayTransitionBG;
+
+    [SerializeField] private TextMeshProUGUI dayTransitionText;
+
+    [Tooltip("The target alpha")]
+    [Range(0, 1)]
+    [SerializeField] private float targetTransitionAlpha = 1f;
+
+    [Tooltip("The time it takes to fade into black")]
+    [SerializeField] private float transitionTime = 1f;
+
+    [Tooltip("The time until it fades out of black")]
+    [SerializeField] private float fadeOutWaitTime = 1f;
+
 
     [SerializeField] private TextMeshProUGUI dayText;
 
@@ -21,6 +36,8 @@ public class UIManager : MonoBehaviour
             Destroy(this);
         else
             Instance = this;
+
+        transitionManager = GetComponentInChildren<Transition>();
     }
     private void Update()
     {
@@ -46,11 +63,10 @@ public class UIManager : MonoBehaviour
     }
     public void DayTransitionUI()
     {
-        dayTransition.SetActive(true);
+        //Transition text and background
+        transitionManager.StartTransition(dayTransitionBG, targetTransitionAlpha, transitionTime, fadeOutWaitTime);
+        transitionManager.StartTransition(dayTransitionText, targetTransitionAlpha, transitionTime, fadeOutWaitTime);
+
         dayText.text = GameManager.Instance.day.ToString();
-    }
-    public void DisableTransition()
-    {
-        dayTransition.SetActive(false);
     }
 }
