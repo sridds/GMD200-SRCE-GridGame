@@ -13,6 +13,7 @@ public class RecipeBottle : MonoBehaviour, Interactable
     public void Interact()
     {
         FindObjectOfType<CraftingGrid>().AddRecipe(myRecipe);
+        FindObjectOfType<TooltipManager>().CreateTooltip(new TooltipData { headerText = "New Recipe!", icon = myRecipe.OutputItem.ItemSprite, subheaderText = myRecipe.OutputItem.ItemName });
         Destroy(gameObject);
     }
 }

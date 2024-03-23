@@ -15,9 +15,10 @@ public class ItemNameHolder : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject()) {
 
             if(SlotUI.hoveredUI != null && SlotUI.hoveredUI.MySlot.Item != null) {
-                holder.gameObject.SetActive(true);
                 text.SetText(SlotUI.hoveredUI.MySlot.Item.ItemName);
                 transform.position = Input.mousePosition + new Vector3(holder.rect.width / 2, holder.rect.height / 2);
+
+                holder.gameObject.SetActive(true);
 
                 return;
             }
