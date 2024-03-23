@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+    [ContextMenu("Button")]
     public void NextDay()
     {
         day++;
