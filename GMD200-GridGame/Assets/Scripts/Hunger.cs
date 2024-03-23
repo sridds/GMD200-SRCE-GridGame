@@ -29,6 +29,12 @@ public class Hunger : MonoBehaviour, IStatHandler
     private float healthDecreaseRate;
 
     [SerializeField]
+    private float saturationIgnoreThreshold;
+
+    [SerializeField]
+    private AnimationCurve hungerRateCurve;
+
+    [SerializeField]
     private Health playerHealth;
 
     private float saturationDecreaseTimer;
@@ -103,9 +109,11 @@ public class Hunger : MonoBehaviour, IStatHandler
 
     private void UpdateHunger()
     {
+        if (saturation.CurrentValue > saturationIgnoreThreshold) return;
+
         hungerDecreaseTimer += Time.deltaTime;
 
-        if (hungerDecreaseTimer > hungerDecreaseRate)
+        if (hungerDecreaseTimer > (hungerDecreaseRate * hungerRateCurve.Evaluate(saturation.CurrentValue / saturation.MaxValue)))
         {
             hungerDecreaseTimer = 0.0f;
             myStat.Decrease(1);
