@@ -7,12 +7,16 @@ public class RecipeDisplay : MonoBehaviour
     private Listing _listOption;
 
     [SerializeField]
+    private GameObject _recipeBookHolder;
+
+    [SerializeField]
     private RectTransform _content;
 
     [SerializeField]
     private Image[] _slots;
 
     private CraftingGrid craftingGrid;
+    private bool isOpen;
 
     // Start is called before the first frame update
     void Start()
@@ -47,5 +51,30 @@ public class RecipeDisplay : MonoBehaviour
                 _slots[i].enabled = false;
             }
         }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) Close();
+    }
+
+    public void Open()
+    {
+        // some other UI is open
+        if (!isOpen && GameManager.Instance.currentGameState == GameState.UI) return;
+        if (GameManager.Instance.currentGameState == GameState.Paused) return;
+
+        isOpen = true;
+
+        GameManager.Instance.currentGameState = GameState.UI;
+        _recipeBookHolder.gameObject.SetActive(true);
+    }
+
+    public void Close()
+    {
+        if (!isOpen) return;
+
+        GameManager.Instance.currentGameState = GameState.Playing;
+        _recipeBookHolder.gameObject.SetActive(false);
     }
 }

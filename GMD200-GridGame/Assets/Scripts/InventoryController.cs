@@ -36,6 +36,8 @@ public class InventoryController : MonoBehaviour
 
     public void ToggleInventory()
     {
+        if (!inventoryDisplaying && GameManager.Instance.currentGameState == GameState.UI) return;
+
         inventoryDisplaying = !inventoryDisplaying;
         inventoryRect.gameObject.SetActive(inventoryDisplaying);
 

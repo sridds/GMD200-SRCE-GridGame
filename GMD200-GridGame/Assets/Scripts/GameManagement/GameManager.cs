@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.Playing:
-                UIManager.Instance.Pause(false);
+//                UIManager.Instance.Pause(false);
                 Cursor.lockState = CursorLockMode.Locked;
                 Time.timeScale = 1f;
                 break;
