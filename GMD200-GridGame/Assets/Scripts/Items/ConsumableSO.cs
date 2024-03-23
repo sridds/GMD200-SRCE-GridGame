@@ -20,6 +20,7 @@ public class ConsumableSO : ItemSO
 
         // remove from stack
         ctx.mySlot.RemoveFromStack(1);
+        AudioHandler.instance.ProcessAudioData(hungerInstance.transform, "eat");
 
         // increase stats
         hungerInstance.IncreaseStat(HealAmount);

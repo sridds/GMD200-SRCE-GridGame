@@ -50,6 +50,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myHealth: {fileID: 4685174742464184000}
   dropper: {fileID: 3697388495252088676}
+  damageSoundKey: mine_wood
+  destroySoundKey: break
   <BreakableDatas>k__BackingField:
   - CachedTool: {fileID: 11400000, guid: 18cfa675db92f4e538c6efdc1bffc0e4, type: 2}
     DamageDealt: 3

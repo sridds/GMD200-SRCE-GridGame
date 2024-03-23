@@ -17,6 +17,8 @@ public class ItemDrop : MonoBehaviour
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private SpriteRenderer _multiSpriteIndicator;
 
+    [SerializeField] private string pickupSoundKey = "pop";
+
     private int stack;
     private ItemSO myItem;
     private Transform target;
@@ -89,6 +91,9 @@ public class ItemDrop : MonoBehaviour
 
             if (stack == 1) _multiSpriteIndicator.enabled = false;
         }
+
+        AudioHandler.instance.ProcessAudioData(transform, pickupSoundKey);
+
         Destroy(gameObject);
     }
 }

@@ -198,44 +198,35 @@ public class AudioHandler : MonoBehaviour
     /// Processes audio data and plays according to the specified AudioData settings
     /// </summary>
     /// <param name="data"></param>
-    public void ProcessAudioData(AudioData data)
+    private void ProcessAudioData(Transform sender, GameSound data)
     {
         // creates a new audio instance
 
         //GameObject go = ObjectPooler.SpawnObject(soundPrefab.gameObject, data.spawnPosition, Quaternion.identity, ObjectPooler.PoolType.AudioSource);
-        AudioSource source = Instantiate(soundPrefab, data.spawnPosition, Quaternion.identity);
+        AudioSource source = Instantiate(soundPrefab, sender.transform.position, Quaternion.identity);
         //AudioSource source = go.GetComponent<AudioSource>();
 
         // Set volume
-        source.volume = data.volume;
+        source.volume = data.DefaultVolume;
 
         // Randomize pitch if data wants to
-        source.pitch = data.randomizePitch ? Random.Range(data.minPitch, data.maxPitch) : data.minPitch;
-        source.clip = data.clip;
+        source.pitch = data.RandomizePitch ? Random.Range(data.Pitch, data.MaxPitch) : data.Pitch;
+        source.clip = data.Clips[Random.Range(0, data.Clips.Length)];
 
         // Play
         source.Play();
     }
-}
 
-[System.Serializable]
-public class AudioData
-{
-    public AudioClip clip;
+    /// <summary>
+    /// Requests key from game assets, processes audio data
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="key"></param>
+    public void ProcessAudioData(Transform sender, string key)
+    {
+        GameSound sound = GameAssets.Instance.GetSoundFromKey(key);
 
-    [Header("Properties")]
-    [Range(0, 1)] public float volume;
-
-    [Header("Pitch")]
-    [Tooltip("If set to false, the minPitch will be the default pitch")]
-    public bool randomizePitch;
-
-    [Range(-3, 3)] public float minPitch;
-
-    [ShowIf(nameof(randomizePitch))]
-    [AllowNesting]
-    [Range(-3, 3)] public float maxPitch;
-
-    [HideInInspector]
-    public Vector3 spawnPosition;
+        if (sound == null) return;
+        ProcessAudioData(sender, sound);
+    }
 }

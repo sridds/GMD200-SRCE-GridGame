@@ -10,6 +10,9 @@ public class Teleporter : MonoBehaviour
     [SerializeField]
     private Vector3 offset;
 
+    [SerializeField]
+    private string teleportSoundKey;
+
     [Tooltip("Indicates whether or not the teleport function must be called or if it is handled on trigger")]
     [SerializeField]
     private bool independent = false;
@@ -21,6 +24,7 @@ public class Teleporter : MonoBehaviour
     public void Teleport(Transform target)
     {
         target.position = teleportPoint.position + offset;
+        AudioHandler.instance.ProcessAudioData(target, teleportSoundKey);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

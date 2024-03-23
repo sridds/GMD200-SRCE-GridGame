@@ -44,6 +44,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c6d7ce49768045e7819070376a92f11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameSounds: []
+  GameSounds:
+  - Key: step
+    Clips:
+    - {fileID: 8300000, guid: 179fb7e3b801742bd9adb789b083b8da, type: 3}
+    - {fileID: 8300000, guid: 3e10f499de6424abba20d8cf4c48f6f9, type: 3}
+    - {fileID: 8300000, guid: bc3202baa75034b548d73e3959620a97, type: 3}
+    - {fileID: 8300000, guid: 0a2edcfb528324d8ab6129116e48ccbb, type: 3}
+    - {fileID: 8300000, guid: 0a7ee94d5264141cea17ead7d4ff43c8, type: 3}
+    DefaultVolume: 0.3
+    RandomizePitch: 1
+    Pitch: 0.9
+    MaxPitch: 1.1
+  - Key: eat
+    Clips:
+    - {fileID: 8300000, guid: e9855ae4808044e878e14b389e895729, type: 3}
+    DefaultVolume: 0.7
+    RandomizePitch: 1
+    Pitch: 0.9
+    MaxPitch: 1.1
+  - Key: mine_stone
+    Clips:
+    - {fileID: 8300000, guid: 308acadcf860d4d0f8888970670a6d39, type: 3}
+    - {fileID: 8300000, guid: 881a29e4acad14e1f83baab4724c0a6d, type: 3}
+    - {fileID: 8300000, guid: 02a0055904150435db4206783d6892e1, type: 3}
+    DefaultVolume: 0.7
+    RandomizePitch: 1
+    Pitch: 0.9
+    MaxPitch: 1.1
+  - Key: mine_wood
+    Clips:
+    - {fileID: 8300000, guid: 1fbad704d3ab24dfcba62a9c6b8a7463, type: 3}
+    - {fileID: 8300000, guid: 57125b208af7843b29dd2fd24427e5da, type: 3}
+    - {fileID: 8300000, guid: 6877586b121cc461495a1f673a1a9b43, type: 3}
+    - {fileID: 8300000, guid: 9fbbf51280a3f4d9e9b6ff42fcc3d4ba, type: 3}
+    - {fileID: 8300000, guid: df994cd45be384631ae364e354f71f5d, type: 3}
+    - {fileID: 8300000, guid: cb92c1f6362f543b0a4f31321a45b0e3, type: 3}
+    DefaultVolume: 0.6
+    RandomizePitch: 1
+    Pitch: 0.9
+    MaxPitch: 1.1
+  - Key: door
+    Clips:
+    - {fileID: 8300000, guid: 078527875eaec4529a569c4b6f822661, type: 3}
+    DefaultVolume: 0.4
+    RandomizePitch: 1
+    Pitch: 1
+    MaxPitch: 1.1
+  - Key: break
+    Clips:
+    - {fileID: 8300000, guid: ec7a15feb8b974f9db3df64eb01d8f66, type: 3}
+    DefaultVolume: 0.9
+    RandomizePitch: 1
+    Pitch: 1
+    MaxPitch: 1.1
+  - Key: page
+    Clips:
+    - {fileID: 8300000, guid: 4dbfe72b606b2455f865c4a6f1beaa36, type: 3}
+    DefaultVolume: 0.7
+    RandomizePitch: 1
+    Pitch: 0.9
+    MaxPitch: 1.1
+  - Key: pop
+    Clips:
+    - {fileID: 8300000, guid: f664723080f104d379c84f16a0114eb6, type: 3}
+    DefaultVolume: 0.7
+    RandomizePitch: 1
+    Pitch: 0.8
+    MaxPitch: 1.2
+  - Key: tool_break
+    Clips:
+    - {fileID: 8300000, guid: f2650654a52ce4dfea3c6823777fb0d4, type: 3}
+    DefaultVolume: 0.4
+    RandomizePitch: 1
+    Pitch: 0.8
+    MaxPitch: 1.2
   HitmarkerAsset: {fileID: 678568415337537932, guid: 1ad7b4a5396f84fd3ac6b1f49e648b83, type: 3}
   ItemDropPrefab: {fileID: 2675989421615546945, guid: 4f71da143494040798cf062af7ab037c, type: 3}

@@ -11,6 +11,8 @@ public class PlayerAnimator : MonoBehaviour
     private SpriteRenderer renderer;
     [SerializeField]
     private float spriteChangeTime = 0.25f;
+    [SerializeField]
+    private string footstepSoundKey = "foot";
 
     [SerializeField]
     private Sprite[] leftSprites;
@@ -53,6 +55,8 @@ public class PlayerAnimator : MonoBehaviour
                 renderer.sprite = activeSprites[index];
                 index++;
                 index = index % activeSprites.Length;
+
+                if(index % 2 == 0) AudioHandler.instance.ProcessAudioData(transform, footstepSoundKey);
 
                 timer = 0.0f;
             }

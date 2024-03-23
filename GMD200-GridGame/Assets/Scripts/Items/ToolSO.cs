@@ -17,6 +17,7 @@ public class ToolSO : ItemSO
             CurrentDurability -= 2;
 
             if(CurrentDurability <= 0) {
+                AudioHandler.instance.ProcessAudioData(ctx.raycast.collider.transform, "tool_break");
                 ctx.mySlot.ResetSlot();
             }
         }

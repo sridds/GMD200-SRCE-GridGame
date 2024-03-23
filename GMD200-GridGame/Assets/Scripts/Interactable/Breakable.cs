@@ -30,6 +30,9 @@ public class Breakable : MonoBehaviour, IBreakable
     [SerializeField] private Health myHealth;
     [SerializeField] private ItemDropper dropper;
 
+    [SerializeField] private string damageSoundKey;
+    [SerializeField] private string destroySoundKey;
+
     [field: SerializeField] public List<BreakableData> BreakableDatas { get; private set; }
 
     [Header("Visuals")]
@@ -45,6 +48,8 @@ public class Breakable : MonoBehaviour, IBreakable
     public void Damage(ToolSO tool)
     {
         BreakEffects();
+
+        AudioHandler.instance.ProcessAudioData(transform, damageSoundKey);
 
         // handle the damage
         foreach (BreakableData data in BreakableDatas)
@@ -66,6 +71,8 @@ public class Breakable : MonoBehaviour, IBreakable
     /// </summary>
     private void Break()
     {
+        AudioHandler.instance.ProcessAudioData(transform, destroySoundKey);
+
         BreakEffects();
         if (destroyParticle != null) Instantiate(destroyParticle, transform.position, Quaternion.identity);
 
