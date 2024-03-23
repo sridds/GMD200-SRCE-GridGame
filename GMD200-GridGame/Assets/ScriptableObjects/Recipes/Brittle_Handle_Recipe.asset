@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Brittle_Handle_Recipe
   m_EditorClassIdentifier: 
   materials:
-  - {fileID: 11400000, guid: ab89d4c6a2eec4f889b6c049a3bc12a9, type: 2}
+  - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
   - {fileID: 0}
-  - {fileID: 11400000, guid: ab89d4c6a2eec4f889b6c049a3bc12a9, type: 2}
-  - {fileID: 11400000, guid: ab89d4c6a2eec4f889b6c049a3bc12a9, type: 2}
-  - {fileID: 11400000, guid: ab89d4c6a2eec4f889b6c049a3bc12a9, type: 2}
-  - {fileID: 11400000, guid: ab89d4c6a2eec4f889b6c049a3bc12a9, type: 2}
-  - {fileID: 11400000, guid: ab89d4c6a2eec4f889b6c049a3bc12a9, type: 2}
-  - {fileID: 11400000, guid: ab89d4c6a2eec4f889b6c049a3bc12a9, type: 2}
-  - {fileID: 11400000, guid: ab89d4c6a2eec4f889b6c049a3bc12a9, type: 2}
+  - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
+  - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
+  - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
+  - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
+  - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
+  - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
+  - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
   OutputItem: {fileID: 11400000, guid: f1619c7122d28410d8adbc0c3609b4a7, type: 2}
   OutputAmount: 1
