@@ -210,13 +210,13 @@ TextureImporter:
       name: islandsprites_23
       rect:
         serializedVersion: 2
-        x: 240
-        y: 144
-        width: 96
-        height: 80
+        x: 208
+        y: 151
+        width: 20
+        height: 20
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 5, y: 5, z: 5, w: 5}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -3625,6 +3625,27 @@ TextureImporter:
       bones: []
       spriteID: 2fbcfdd11ec334994bb8c2663dc0a498
       internalID: -1566564952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: islandsprites_55
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 58
+        width: 58
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed3f539867896411ba07ede85aa85616
+      internalID: 743553193
       vertices: []
       indices: 
       edges: []

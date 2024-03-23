@@ -16,12 +16,28 @@ public class CraftingGrid : MonoBehaviour
     [SerializeField]
     private List<RecipeSO> recipies = new();
 
+    public List<RecipeSO> Recipes { get { return recipies; } }
+    public delegate void RecipeAdded(RecipeSO recipe);
+    public RecipeAdded OnRecipeAdded;
+
     RecipeSO activeRecipe = null;
 
     private void Start()
     {
         myItemGrid.Slots.OnGridObjectChanged += GridModified;
         outputSlotUI.OnSlotTaken += OutputChanged;
+    }
+
+    /// <summary>
+    /// Adds a recipe to the list
+    /// </summary>
+    /// <param name="recipe"></param>
+    public void AddRecipe(RecipeSO recipe)
+    {
+        if (recipies.Contains(recipe)) return;
+
+        recipies.Add(recipe);
+        OnRecipeAdded?.Invoke(recipe);
     }
 
     private void OutputChanged()
