@@ -22,16 +22,21 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField]
     private WeaponSO weapon;
 
+    InteractionText text;
+
     float interactionCooldownTimer = 0.0f;
 
     private void Start() {
         movement = GetComponent<NewMovement>();
         controller = FindObjectOfType<InventoryController>();
+        text = FindObjectOfType<InteractionText>();
     }
 
     void Update()
     {
         if (GameManager.Instance.currentGameState == GameState.Paused || GameManager.Instance.currentGameState == GameState.UI) return;
+
+        ShowInteractionText();
 
         //DEBUG
 #if UNITY_EDITOR
@@ -65,6 +70,17 @@ public class PlayerInteractor : MonoBehaviour
 
         // use
         item.OnUse(new UseContext(hit, GameManager.Instance.inventory.GetSlot(controller.CurrentSlot, 0)));
+    }
+
+    private void ShowInteractionText()
+    {
+        if (!TryCastInteractionRay(out RaycastHit2D hit) || !hit.collider.TryGetComponent<Interactable>(out Interactable interactable))
+        {
+            text.HideInteractionText();
+            return;
+        }
+
+        text.SetInteractionText(interactable.InteractText);
     }
 
     /// <summary>
