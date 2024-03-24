@@ -16,19 +16,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI dayTransitionText;
 
-    [Tooltip("The target alpha")]
-    [Range(0, 1)]
-    [SerializeField] private float targetTransitionAlpha = 1f;
-
-    [Tooltip("The time it takes to fade into black")]
-    [SerializeField] private float transitionTime = 1f;
-
-    [Tooltip("The time until it fades out of black")]
-    [SerializeField] private float fadeOutWaitTime = 1f;
-
 
     [SerializeField] private TextMeshProUGUI dayText;
-
     public static UIManager Instance { get; private set; }
     private void Awake()
     {
@@ -39,21 +28,6 @@ public class UIManager : MonoBehaviour
 
         transitionManager = GetComponentInChildren<Transition>();
     }
-    private void Update()
-    {
-        /*timer -= Time.deltaTime;
-        float minutes = Mathf.FloorToInt(timer / 60);
-        float seconds = Mathf.FloorToInt(timer % 60);
-        timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);*/
-
-        /*//Resize and regenerate map
-        if (timer <= 0)
-        {
-            PerlinData.Instance.GenerateNewGrid(85, 85);
-            timer = 2;
-        }*/
-    }
-
     public void Pause(bool isPaused)
     {
         if (!isPaused)
@@ -61,12 +35,15 @@ public class UIManager : MonoBehaviour
         else
             pauseMenu.SetActive(true);
     }
+    /// <summary>
+    /// Displays the day transition
+    /// </summary>
     public void DayTransitionUI()
     {
         //Transition text and background
-        transitionManager.StartTransition(dayTransitionBG, targetTransitionAlpha, transitionTime, fadeOutWaitTime);
-        transitionManager.StartTransition(dayTransitionText, targetTransitionAlpha, transitionTime, fadeOutWaitTime);
+        transitionManager.StartTransition(dayTransitionBG);
+        transitionManager.StartTransition(dayTransitionText);
 
-        dayText.text = $"Day {GameManager.Instance.day}";
+        dayText.text = $"DAY {GameManager.Instance.day}";
     }
 }
