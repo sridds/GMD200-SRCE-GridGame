@@ -45,8 +45,11 @@ public class Health : MonoBehaviour, IStatHandler
     private bool healthDepleted = false;
 
     // EVENTS
-    public delegate void HealthUpdate(int oldHealth, int newHealth);
-    public HealthUpdate OnHealthUpdate;
+    public delegate void HealthIncrease(int newHealth);
+    public HealthIncrease OnHealthIncrease;
+
+    public delegate void HealthDecrease(int newHealth);
+    public HealthIncrease OnHealthDecrease;
 
     public delegate void HealthDepleted();
     public HealthDepleted OnHealthDepleted;
@@ -63,8 +66,9 @@ public class Health : MonoBehaviour, IStatHandler
         if (!canDamage) return;
         if (healthDepleted) return;
 
+        int value = (int)(mode == HealthMode.Value ? damageAmount : 1);
         // Decrease stat
-        myStat.Decrease(mode == HealthMode.Value ? damageAmount : 1);
+        myStat.Decrease(value);
 
         // call the iframes coroutine
         if (_doIFrames) StartCoroutine(HandleIFrames(_maxIFrames, _IFrameInterval));
@@ -72,7 +76,7 @@ public class Health : MonoBehaviour, IStatHandler
         // Create hitmarker
         if (_doHitmarker) {
             Vector2 pos = new Vector2(Random.Range(transform.position.x - 0.4f, transform.position.x + 0.4f), Random.Range(transform.position.y - 0.4f, transform.position.y + 0.4f));
-            Hitmarker.CreateHitmarker(pos, (int)(mode == HealthMode.Value ? damageAmount : 1));
+            Hitmarker.CreateHitmarker(pos, value);
         }
 
         // call events
@@ -81,7 +85,7 @@ public class Health : MonoBehaviour, IStatHandler
             healthDepleted = true;
         }
         else {
-            OnHealthUpdate?.Invoke(CurrentHealth + (int)damageAmount, CurrentHealth);
+            OnHealthDecrease?.Invoke(CurrentHealth);
         }
     }
 
@@ -122,6 +126,8 @@ public class Health : MonoBehaviour, IStatHandler
 
     public void IncreaseStat(float amount)
     {
-        throw new System.NotImplementedException();
+        myStat.Increase(amount);
+
+        OnHealthIncrease?.Invoke(CurrentHealth);
     }
 }

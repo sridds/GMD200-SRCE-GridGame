@@ -39,11 +39,14 @@ public class Slime : MonoBehaviour
 
     private void Start()
     {
+        // vary enemy move patterns
+        moveTimer -= Random.Range(1.0f, 7.0f);
+
         health = GetComponent<Health>();
         rb = GetComponent<Rigidbody2D>();
 
         health.OnHealthDepleted += HealthDepleted;
-        health.OnHealthUpdate += HealthUpdate;
+        health.OnHealthDecrease += HealthUpdate;
     }
 
     private void Update()
@@ -74,7 +77,7 @@ public class Slime : MonoBehaviour
         
     }
 
-    private void HealthUpdate(int oldHealth, int newHealth) => AudioHandler.instance.ProcessAudioData(transform, slimeHurtKey);
+    private void HealthUpdate(int newHealth) => AudioHandler.instance.ProcessAudioData(transform, slimeHurtKey);
 
     private void HealthDepleted()
     {

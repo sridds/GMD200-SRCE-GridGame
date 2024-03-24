@@ -23,6 +23,12 @@ public class Hunger : MonoBehaviour, IStatHandler
     private float hungerDecreaseRate;
 
     [SerializeField]
+    private float regenThreshold;
+
+    [SerializeField]
+    private float regenTime = 2.0f;
+
+    [SerializeField]
     private float saturationDecreaseRate;
 
     [SerializeField]
@@ -69,12 +75,25 @@ public class Hunger : MonoBehaviour, IStatHandler
 
     public void IncreaseSaturation(float amount) => saturation.Increase(amount);
 
+    private float regenTimer;
+
     private void Update()
     {
         if (GameManager.Instance.currentGameState == GameState.Paused) return;
 
         UpdateSaturation();
         UpdateHunger();
+
+        if(playerHealth.myStat.CurrentValue < playerHealth.myStat.MaxValue && myStat.CurrentValue > regenThreshold) {
+            regenTimer += Time.deltaTime;
+
+            if(regenTimer >= regenTime) {
+                playerHealth.IncreaseStat(3);
+                saturation.Decrease(5);
+
+                regenTimer = 0.0f;
+            }
+        }
 
         // decrease health
         if(myStat.CurrentValue == 0) {

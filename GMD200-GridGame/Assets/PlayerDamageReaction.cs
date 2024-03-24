@@ -17,10 +17,10 @@ public class PlayerDamageReaction : MonoBehaviour
     void Start()
     {
         health = GetComponent<Health>();
-        health.OnHealthUpdate += React;
+        health.OnHealthDecrease += React;
     }
 
-    private void React(int oldHP, int newHP)
+    private void React(int newHP)
     {
         CameraShake.instance.Shake(0.3f, 0.2f);
         AudioHandler.instance.ProcessAudioData(transform, playerDamageSoundKey);
