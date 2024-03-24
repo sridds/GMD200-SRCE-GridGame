@@ -14,9 +14,6 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Image dayTransitionBG;
 
-    [SerializeField] private TextMeshProUGUI dayTransitionText;
-
-
     [SerializeField] private TextMeshProUGUI dayText;
     public static UIManager Instance { get; private set; }
     private void Awake()
@@ -42,7 +39,7 @@ public class UIManager : MonoBehaviour
     {
         //Transition text and background
         transitionManager.StartTransition(dayTransitionBG);
-        transitionManager.StartTransition(dayTransitionText);
+        transitionManager.StartTransition(dayText);
 
         dayText.text = $"DAY {GameManager.Instance.day}";
     }
