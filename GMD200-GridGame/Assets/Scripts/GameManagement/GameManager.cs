@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Current Day")]
     public int day;
+    public Transform startPos;
 
     public float currentDayTimer;
     public float maxDayTimer = 20;
@@ -40,7 +41,10 @@ public class GameManager : MonoBehaviour
         currentDayTimer += Time.deltaTime;
 
         if (currentDayTimer >= maxDayTimer)
+        {
             GameManager.Instance.NextDay();
+            player.transform.position = startPos.transform.position;
+        }
     }
     /// <summary>
     /// Changes the current state of the game, will call UImanagers etc.
