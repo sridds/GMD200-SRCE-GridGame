@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
 
     public GameState currentGameState;
     private bool lateFlag;
+
+    public delegate void DayUpdate();
+    public DayUpdate OnDayUpdate;
+
     void Awake()
     {
         //Destroy if instance already exsists
@@ -58,8 +62,9 @@ public class GameManager : MonoBehaviour
 
             DialogueHandler.Instance.QueueDialogue(new DialogueData { Line = "You passed out and your items dropped!" });
         }
-       
     }
+
+
     /// <summary>
     /// Changes the current state of the game, will call UImanagers etc.
     /// </summary>
@@ -91,5 +96,6 @@ public class GameManager : MonoBehaviour
         day++;
         currentDayTimer = 0;
         UIManager.Instance.DayTransitionUI();
+        OnDayUpdate?.Invoke();
     }
 }
