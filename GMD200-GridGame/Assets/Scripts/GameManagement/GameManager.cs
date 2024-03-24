@@ -38,6 +38,9 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         currentDayTimer += Time.deltaTime;
+
+        if (currentDayTimer >= maxDayTimer)
+            GameManager.Instance.NextDay();
     }
     /// <summary>
     /// Changes the current state of the game, will call UImanagers etc.
