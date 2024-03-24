@@ -37,6 +37,9 @@ public class Slime : MonoBehaviour
     private Rigidbody2D rb;
     private float moveTimer;
 
+    public delegate void EnemyDeath(GameObject enemyInstance);
+    public event EnemyDeath OnEnemyDeath;
+
     private void Start()
     {
         // vary enemy move patterns
@@ -64,17 +67,19 @@ public class Slime : MonoBehaviour
         animator.SetTrigger("Jump");
         animator.SetBool("Idle", true);
 
-        if (Vector2.Distance(GameManager.Instance.player.transform.position, transform.position) < playerDetectRadius) {
+        if (Vector2.Distance(GameManager.Instance.player.transform.position, transform.position) < playerDetectRadius)
+        {
             rb.AddForce((GameManager.Instance.player.transform.position - transform.position).normalized * moveStrength, ForceMode2D.Impulse);
         }
-        else {
+        else
+        {
             rb.AddForce(Random.insideUnitCircle * moveStrength, ForceMode2D.Impulse);
         }
     }
 
     private void FixedUpdate()
     {
-        
+
     }
 
     private void HealthUpdate(int newHealth) => AudioHandler.instance.ProcessAudioData(transform, slimeHurtKey);
@@ -82,6 +87,7 @@ public class Slime : MonoBehaviour
     private void HealthDepleted()
     {
         AudioHandler.instance.ProcessAudioData(transform, slimeDeathKey);
+        OnDeath();
         Destroy(gameObject);
     }
 
@@ -89,8 +95,14 @@ public class Slime : MonoBehaviour
     {
         if (other.gameObject.tag != "Player") return;
 
-        if(other.gameObject.TryGetComponent<Health>(out Health health)) {
+        if (other.gameObject.TryGetComponent<Health>(out Health health))
+        {
             health.DecreaseStat(damageAmount);
         }
     }
+
+    /// <summary>
+    /// Call any listeners to OnEnemyDeath delegate when slime dies
+    /// </summary>
+    private void OnDeath() => OnEnemyDeath?.Invoke(gameObject);
 }
