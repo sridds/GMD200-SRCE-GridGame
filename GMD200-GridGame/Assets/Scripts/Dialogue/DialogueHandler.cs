@@ -25,6 +25,10 @@ public class DialogueHandler : MonoBehaviour
     [SerializeField]
     private float _longPauseTime = 0.8f;
 
+    [Header("SFX")]
+    [SerializeField]
+    private string _defaultDialogueSFX = "dialogue_default";
+
     private Queue<DialogueData> dialogueQueue = new Queue<DialogueData>();
     private Coroutine activeDialogueCoroutine;
 
@@ -32,7 +36,7 @@ public class DialogueHandler : MonoBehaviour
     private bool specialCharacter = false;
     private bool continueFlag = false;
 
-    private void Awake()
+    private void Start()
     {
         // Setup instance
         if(Instance == null) Instance = this;
@@ -68,6 +72,8 @@ public class DialogueHandler : MonoBehaviour
 
         // handle dialogue by checking if dialogue can be dequeued and started
         if (CanHandleDialogue()) {
+            GameManager.Instance.currentGameState = GameState.UI;
+
             currentLine = dialogueQueue.Dequeue();
             activeDialogueCoroutine = StartCoroutine(HandleDialogue(currentLine));
         }
@@ -91,6 +97,8 @@ public class DialogueHandler : MonoBehaviour
 
     private void CloseDialogueBox()
     {
+        GameManager.Instance.currentGameState = GameState.Playing;
+
         _dialogueUI.text = "";
         _dialogueBox.SetActive(false);
     }
@@ -187,6 +195,8 @@ public class DialogueHandler : MonoBehaviour
 
             // add to the text
             _dialogueUI.text += data.Line[i];
+
+            AudioHandler.instance.ProcessAudioData(transform, _defaultDialogueSFX);
             yield return new WaitForSeconds(_textSpeed);
         }
 
