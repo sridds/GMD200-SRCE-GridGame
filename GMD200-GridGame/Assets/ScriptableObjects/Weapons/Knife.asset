@@ -22,5 +22,6 @@ MonoBehaviour:
   HasDurability: 1
   MaxDurability: 40
   CurrentDurability: -1
+  UseCooldown: 0.3
   Attack: 3
   KnockbackStrength: 4

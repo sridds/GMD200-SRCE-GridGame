@@ -44,6 +44,8 @@ public abstract class ItemSO : ScriptableObject
     [HideInInspector]
     public int CurrentDurability = -1;
 
+    [Header("Use Settings")]
+    public float UseCooldown;
 
     // this method must be overwritten by inheriting types to call the CloneGeneric method, passing in the type of item it is
     public abstract ItemSO Clone();

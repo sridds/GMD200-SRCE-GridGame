@@ -22,5 +22,6 @@ MonoBehaviour:
   HasDurability: 0
   MaxDurability: 0
   CurrentDurability: -1
+  UseCooldown: 0.5
   HealAmount: 5
   SaturationAmount: 30

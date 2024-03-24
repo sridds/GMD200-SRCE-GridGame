@@ -53,7 +53,7 @@ public class PlayerInteractor : MonoBehaviour
         // increment timers
         interactionCooldownTimer += Time.deltaTime;
 
-        if (CanUseItem()) UseItem();
+        if (Input.GetMouseButton(0)) UseItem();
         if (CanInteract()) Interact();
     }
 
@@ -108,18 +108,6 @@ public class PlayerInteractor : MonoBehaviour
     {
         hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y) + rayOffset, movement.GetDirectionFacing(), rayDistance, interactableLayer);
         if (hit.collider == null) return false;
-
-        return true;
-    }
-
-    /// <summary>
-    /// Returns true if the player can use an item. Otherwise, return false. Just a wrapped boolean for readability
-    /// </summary>
-    /// <returns></returns>
-    private bool CanUseItem()
-    {
-        if (interactionCooldownTimer < interactionCooldown) return false;
-        if (!Input.GetMouseButton(0)) return false;
 
         return true;
     }

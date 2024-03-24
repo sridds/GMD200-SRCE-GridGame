@@ -22,3 +22,4 @@ MonoBehaviour:
   HasDurability: 1
   MaxDurability: 20
   CurrentDurability: -1
+  UseCooldown: 0.8

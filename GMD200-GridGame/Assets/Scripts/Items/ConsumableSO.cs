@@ -7,12 +7,14 @@ public class ConsumableSO : ItemSO
 {
     public int HealAmount;
     public int SaturationAmount;
+    private float nextUseTime;
 
     public override ItemSO Clone() => CloneGeneric<ConsumableSO>();
 
     Hunger hungerInstance;
 
     public override void OnUse(UseContext ctx) {
+        if (Time.time < nextUseTime) return;
         if (hungerInstance == null) hungerInstance = FindObjectOfType<Hunger>();
 
         // dont surpass current hunger
@@ -25,5 +27,7 @@ public class ConsumableSO : ItemSO
         // increase stats
         hungerInstance.IncreaseStat(HealAmount);
         hungerInstance.IncreaseSaturation(SaturationAmount);
+
+        nextUseTime = UseCooldown + Time.time;
     }
 }
