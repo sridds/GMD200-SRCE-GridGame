@@ -161,5 +161,14 @@ MonoBehaviour:
     RandomizePitch: 1
     Pitch: 0.9
     MaxPitch: 1
+  - Key: tall_grass
+    Clips:
+    - {fileID: 8300000, guid: debbeb2837daf4959bbbc27be2bd4f5c, type: 3}
+    - {fileID: 8300000, guid: a8395c673c7cb4cb29e92bced6d845b3, type: 3}
+    - {fileID: 8300000, guid: 762fa680700ea4723b0cc93ea471567f, type: 3}
+    DefaultVolume: 0.6
+    RandomizePitch: 1
+    Pitch: 0.9
+    MaxPitch: 1.3
   HitmarkerAsset: {fileID: 678568415337537932, guid: 1ad7b4a5396f84fd3ac6b1f49e648b83, type: 3}
   ItemDropPrefab: {fileID: 2675989421615546945, guid: 4f71da143494040798cf062af7ab037c, type: 3}

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
-using static UnityEditor.Progress;
 
 public class ItemDropper : MonoBehaviour
 {
@@ -27,6 +26,7 @@ public class ItemDropper : MonoBehaviour
     private bool _randomizeDropCount = false;
 
     [ShowIf(nameof(_randomizeDropCount))]
+    [SerializeField]
     private int _maxDefaultDropCount = 1;
 
     public void DropItem(int count) {

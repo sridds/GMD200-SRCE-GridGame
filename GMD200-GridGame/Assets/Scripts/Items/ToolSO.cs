@@ -5,6 +5,9 @@ using NaughtyAttributes;
 [CreateAssetMenu(fileName = "Tool_SO", menuName = "Items/Tool", order = 1)]
 public class ToolSO : ItemSO
 {
+    [Header("Use Settings")]
+    public float UseCooldown;
+
     private float nextUseTime;
 
     public override ItemSO Clone() => CloneGeneric<ToolSO>();
@@ -16,8 +19,7 @@ public class ToolSO : ItemSO
 
         if (ctx.raycast.collider.TryGetComponent<IBreakable>(out IBreakable breakable))
         {
-            breakable.Damage(this);
-            CurrentDurability -= 2;
+            if(breakable.Damage(this)) CurrentDurability -= 2;
 
             if(CurrentDurability <= 0) {
                 AudioHandler.instance.ProcessAudioData(ctx.raycast.collider.transform, "tool_break");

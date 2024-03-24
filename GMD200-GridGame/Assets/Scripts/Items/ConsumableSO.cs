@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Consumable_SO", menuName = "Items/Consumable", order = 1)]
 public class ConsumableSO : ItemSO
 {
+    [Header("Use Settings")]
+    public float UseCooldown;
+
+    [Header("Stats")]
     public int HealAmount;
     public int SaturationAmount;
     private float nextUseTime;

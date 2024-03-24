@@ -5,7 +5,7 @@ using NaughtyAttributes;
 [System.Serializable]
 public struct BreakableData
 {
-    public ToolSO CachedTool;
+    public ItemSO CachedTool;
     public int DamageDealt;
 
     public bool IsRandomDamage;
@@ -19,7 +19,7 @@ public interface IBreakable
 {
     public List<BreakableData> BreakableDatas { get; }
 
-    public void Damage(ToolSO tool);
+    public bool Damage(ItemSO tool);
 }
 
 public class Breakable : MonoBehaviour, IBreakable
@@ -33,6 +33,8 @@ public class Breakable : MonoBehaviour, IBreakable
     [SerializeField] private string damageSoundKey;
     [SerializeField] private string destroySoundKey;
 
+    [SerializeField] private bool showDamageEffectIfWrongTool = true;
+
     [field: SerializeField] public List<BreakableData> BreakableDatas { get; private set; }
 
     [Header("Visuals")]
@@ -45,12 +47,8 @@ public class Breakable : MonoBehaviour, IBreakable
     }
 
 
-    public void Damage(ToolSO tool)
+    public bool Damage(ItemSO tool)
     {
-        BreakEffects();
-
-        AudioHandler.instance.ProcessAudioData(transform, damageSoundKey);
-
         // handle the damage
         foreach (BreakableData data in BreakableDatas)
         {
@@ -58,12 +56,16 @@ public class Breakable : MonoBehaviour, IBreakable
             {
                 myHealth.DecreaseStat(data.IsRandomDamage ? Random.Range(data.DamageDealt, data.MaxDamageDealt + 1) : data.DamageDealt);
 
-                return;
+                BreakEffects();
+                return true;
             }
         }
 
+        if (!showDamageEffectIfWrongTool) return false;
         // take no damage if tool is too weak
+        BreakEffects();
         myHealth.DecreaseStat(0);
+        return true;
     }
 
     /// <summary>
@@ -85,5 +87,6 @@ public class Breakable : MonoBehaviour, IBreakable
     private void BreakEffects()
     {
         CameraShake.instance.Shake(0.2f, 0.15f);
+        AudioHandler.instance.ProcessAudioData(transform, damageSoundKey);
     }
 }
