@@ -26,31 +26,6 @@ public class Transition : MonoBehaviour
         => StartCoroutine(LerpFadeIn(targetImage, targetTransitionAlpha, transitionTime, fadeOutWaitTime));
     IEnumerator LerpFadeIn(Image targetImage, float alphaTarget, float duration, float fadeWaitTime)
     {
-        //Local Variables
-        float startAlpha = targetImage.color.a;
-        float time = 0;
-
-        while (time <= duration)
-        {
-            time += Time.deltaTime;
-
-            //Find current time elapsed
-            float timeElapsed = time / duration;
-
-            //Calculate current alpha
-            float currentAlpha = Mathf.Lerp(startAlpha, alphaTarget, timeElapsed);
-
-            //Set current alpha
-            targetImage.color = new Color(
-                targetImage.color.r,
-                targetImage.color.g,
-                targetImage.color.b,
-                currentAlpha
-                );
-
-            yield return null;
-        }
-
         //Set alpha to target alpha
         targetImage.color = new Color(
                 targetImage.color.r,
@@ -105,31 +80,6 @@ public class Transition : MonoBehaviour
         => StartCoroutine(LerpFadeIn(targetImage, targetTransitionAlpha, transitionTime, fadeOutWaitTime));
     IEnumerator LerpFadeIn(TextMeshProUGUI targetImage, float alphaTarget, float duration, float fadeWaitTime)
     {
-        //Local Variables
-        float startAlpha = targetImage.color.a;
-        float time = 0;
-
-        while (time <= duration)
-        {
-            time += Time.deltaTime;
-
-            //Find current time elapsed
-            float timeElapsed = time / duration;
-
-            //Calculate current alpha
-            float currentAlpha = Mathf.Lerp(startAlpha, alphaTarget, timeElapsed);
-
-            //Set current alpha
-            targetImage.color = new Color(
-                targetImage.color.r,
-                targetImage.color.g,
-                targetImage.color.b,
-                currentAlpha
-                );
-
-            yield return null;
-        }
-
         //Set alpha to target alpha
         targetImage.color = new Color(
                 targetImage.color.r,
