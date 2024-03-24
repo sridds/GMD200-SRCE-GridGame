@@ -3843,9 +3843,9 @@ TextureImporter:
       name: islandsprites_69
       rect:
         serializedVersion: 2
-        x: 209
+        x: 208
         y: 174
-        width: 31
+        width: 32
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
