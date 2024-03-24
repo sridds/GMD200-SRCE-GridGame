@@ -82,8 +82,7 @@ public class Hunger : MonoBehaviour, IStatHandler
 
             if(healthDecreaseTimer > healthDecreaseRate) {
                 // decrease health
-                playerHealth.DecreaseStat(5);
-                CameraShake.instance.Shake(0.3f, 0.2f);
+                playerHealth.DecreaseStat(1);
 
                 healthDecreaseTimer = 0.0f;
             }

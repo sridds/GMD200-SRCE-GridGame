@@ -10,6 +10,9 @@ public class InventoryController : MonoBehaviour
     [SerializeField]
     private float _slotSwitchCooldown = 0.05f;
 
+    [SerializeField]
+    private string bagSoundKey = "bag";
+
     public int CurrentSlot { get; private set; }
     private bool inventoryDisplaying;
 
@@ -43,6 +46,7 @@ public class InventoryController : MonoBehaviour
 
         if (inventoryDisplaying)
         {
+            AudioHandler.instance.ProcessAudioData(transform, bagSoundKey);
             GameManager.Instance.currentGameState = GameState.UI;
         }
         else

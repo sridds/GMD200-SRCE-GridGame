@@ -119,5 +119,26 @@ MonoBehaviour:
     RandomizePitch: 1
     Pitch: 0.8
     MaxPitch: 1.2
+  - Key: bag
+    Clips:
+    - {fileID: 8300000, guid: 62aaebb4ee8264cc583bbb26dc2eaa4c, type: 3}
+    DefaultVolume: 0.8
+    RandomizePitch: 1
+    Pitch: 0.9
+    MaxPitch: 1.2
+  - Key: ui_click
+    Clips:
+    - {fileID: 8300000, guid: 6a603965d06474ea3a9c66d708293e94, type: 3}
+    DefaultVolume: 0.3
+    RandomizePitch: 0
+    Pitch: 1.2
+    MaxPitch: 1.2
+  - Key: player_hurt
+    Clips:
+    - {fileID: 8300000, guid: b93647635c35b4a77978e0c170ef93ee, type: 3}
+    DefaultVolume: 0.8
+    RandomizePitch: 1
+    Pitch: 0.9
+    MaxPitch: 1.2
   HitmarkerAsset: {fileID: 678568415337537932, guid: 1ad7b4a5396f84fd3ac6b1f49e648b83, type: 3}
   ItemDropPrefab: {fileID: 2675989421615546945, guid: 4f71da143494040798cf062af7ab037c, type: 3}

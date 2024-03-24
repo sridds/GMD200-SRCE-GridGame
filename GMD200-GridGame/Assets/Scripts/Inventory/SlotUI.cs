@@ -25,6 +25,9 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     [SerializeField]
     private bool takeOnlySlot;
 
+    [SerializeField]
+    private string uiClickKey = "ui_click";
+
     private ItemGrid myItemGrid;
     private Slot mySlot;
 
@@ -122,6 +125,8 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        AudioHandler.instance.ProcessAudioData(transform, uiClickKey);
+
         if(eventData.button == PointerEventData.InputButton.Left)
         {
             // GRAB ALL
