@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     [Header("Current Day")]
     public int day;
 
+    public float currentDayTimer;
+    public float maxDayTimer = 20;
+
     public GameState currentGameState;
     void Awake()
     {
@@ -30,6 +33,11 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         else
             Instance = this;
+    }
+
+    private void Update()
+    {
+        currentDayTimer += Time.deltaTime;
     }
     /// <summary>
     /// Changes the current state of the game, will call UImanagers etc.
@@ -60,6 +68,7 @@ public class GameManager : MonoBehaviour
     public void NextDay()
     {
         day++;
+        currentDayTimer = 0;
         UIManager.Instance.DayTransitionUI();
     }
 }

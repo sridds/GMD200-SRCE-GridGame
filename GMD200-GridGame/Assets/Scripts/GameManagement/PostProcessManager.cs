@@ -38,8 +38,9 @@ public class PostProcessManager : MonoBehaviour
 
         var timeElapsed = Time.time - startTime;
         //Debug.Log(timeElapsed);
-        var percentage = Mathf.Sin(timeElapsed / duration * Mathf.PI * 2) * 0.5f + 0.5f;
-        percentage = Mathf.Clamp01(percentage);
+        //var percentage = Mathf.Sin(timeElapsed / duration * Mathf.PI * 2) * 0.5f + 0.5f;
+        var percentage = GameManager.Instance.currentDayTimer / GameManager.Instance.maxDayTimer;
+        //percentage = Mathf.Clamp01(percentage);
         Debug.Log(percentage);
        
         colorGrading.colorFilter.value = gradient.Evaluate(percentage);
