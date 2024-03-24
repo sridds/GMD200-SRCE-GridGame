@@ -67,6 +67,6 @@ public class UIManager : MonoBehaviour
         transitionManager.StartTransition(dayTransitionBG, targetTransitionAlpha, transitionTime, fadeOutWaitTime);
         transitionManager.StartTransition(dayTransitionText, targetTransitionAlpha, transitionTime, fadeOutWaitTime);
 
-        dayText.text = GameManager.Instance.day.ToString();
+        dayText.text = $"Day {GameManager.Instance.day}";
     }
 }
