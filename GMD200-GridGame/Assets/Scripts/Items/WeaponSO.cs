@@ -8,18 +8,18 @@ public class WeaponSO : ItemSO
     [Min(1)]
     public int Attack;
 
+    public float KnockbackStrength;
+
     public override ItemSO Clone() => CloneGeneric<WeaponSO>();
 
     public override void OnUse(UseContext ctx)
     {
         if (ctx.raycast.collider == null) return;
-
-        // don't try breakign it
         if (ctx.raycast.collider.TryGetComponent<IBreakable>(out IBreakable breakable)) return;
 
-        if (ctx.raycast.collider.TryGetComponent<Health>(out Health health))
-        {
-            health.DecreaseStat(Attack);
-        }
+        // decrease health
+        if (ctx.raycast.collider.TryGetComponent<Health>(out Health health)) health.DecreaseStat(Attack);
+        // apply knockback
+        if (ctx.raycast.collider.TryGetComponent<KnockbackHandler>(out KnockbackHandler knockback)) knockback.ApplyKnockback(GameManager.Instance.player, KnockbackStrength);
     }
 }

@@ -19,7 +19,8 @@ MonoBehaviour:
   Stack:
     CanStack: 0
     MaxStack: 0
+  HasDurability: 1
+  MaxDurability: 40
+  CurrentDurability: -1
   Attack: 3
-  Durability:
-    HasDurability: 1
-    MaxDurability: 15
+  KnockbackStrength: 4

@@ -147,5 +147,19 @@ MonoBehaviour:
     RandomizePitch: 0
     Pitch: 1
     MaxPitch: 1.2
+  - Key: slime_hurt
+    Clips:
+    - {fileID: 8300000, guid: 0a199e6a1015f40018ac799015e94d8b, type: 3}
+    DefaultVolume: 0.9
+    RandomizePitch: 1
+    Pitch: 0.9
+    MaxPitch: 1.2
+  - Key: slime_death
+    Clips:
+    - {fileID: 8300000, guid: 125a6afd93c624cc6853011b369f67f8, type: 3}
+    DefaultVolume: 0.7
+    RandomizePitch: 1
+    Pitch: 0.9
+    MaxPitch: 1
   HitmarkerAsset: {fileID: 678568415337537932, guid: 1ad7b4a5396f84fd3ac6b1f49e648b83, type: 3}
   ItemDropPrefab: {fileID: 2675989421615546945, guid: 4f71da143494040798cf062af7ab037c, type: 3}
