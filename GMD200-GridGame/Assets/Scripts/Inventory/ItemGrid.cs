@@ -310,6 +310,20 @@ public class ItemGrid : MonoBehaviour
     }
 
     /// <summary>
+    /// Drops everything from the inventory
+    /// </summary>
+    public void DropAll()
+    {
+        for(int x = 0; x < dimensions.x; x++)
+        {
+            for(int y = 0; y < dimensions.y; y++)
+            {
+                DropFromSlot(x, y);
+            }
+        }
+    }
+
+    /// <summary>
     /// Drops all from the carried slot onto the ground as item drops
     /// </summary>
     public static void DropCarried()

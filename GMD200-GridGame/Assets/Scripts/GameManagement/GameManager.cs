@@ -22,11 +22,13 @@ public class GameManager : MonoBehaviour
     [Header("Current Day")]
     public int day;
     public Transform startPos;
+    public float lateIndicationTime = 270;
 
     public float currentDayTimer;
     public float maxDayTimer = 20;
 
     public GameState currentGameState;
+    private bool lateFlag;
     void Awake()
     {
         //Destroy if instance already exsists
@@ -40,11 +42,23 @@ public class GameManager : MonoBehaviour
     {
         currentDayTimer += Time.deltaTime;
 
+        if(currentDayTimer >= lateIndicationTime && !lateFlag)
+        {
+            AudioHandler.instance.ProcessAudioData(transform, "bell");
+            DialogueHandler.Instance.QueueDialogue(new DialogueData { Line = "It's getting late..." });
+            lateFlag = true;
+        }
+
         if (currentDayTimer >= maxDayTimer)
         {
+            inventory.DropAll();
             GameManager.Instance.NextDay();
             player.transform.position = startPos.transform.position;
+            lateFlag = false;
+
+            DialogueHandler.Instance.QueueDialogue(new DialogueData { Line = "You passed out and your items dropped!" });
         }
+       
     }
     /// <summary>
     /// Changes the current state of the game, will call UImanagers etc.
