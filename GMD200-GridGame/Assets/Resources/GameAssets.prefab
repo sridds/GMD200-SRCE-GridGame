@@ -140,5 +140,12 @@ MonoBehaviour:
     RandomizePitch: 1
     Pitch: 0.9
     MaxPitch: 1.2
+  - Key: recipe
+    Clips:
+    - {fileID: 8300000, guid: b2a9ceb44628e45c0acb37e9de8f9308, type: 3}
+    DefaultVolume: 0.7
+    RandomizePitch: 0
+    Pitch: 1
+    MaxPitch: 1.2
   HitmarkerAsset: {fileID: 678568415337537932, guid: 1ad7b4a5396f84fd3ac6b1f49e648b83, type: 3}
   ItemDropPrefab: {fileID: 2675989421615546945, guid: 4f71da143494040798cf062af7ab037c, type: 3}

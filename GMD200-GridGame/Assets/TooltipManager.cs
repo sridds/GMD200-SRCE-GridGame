@@ -14,6 +14,9 @@ public class TooltipManager : MonoBehaviour
     [SerializeField]
     private Tooltip tooltip;
 
+    [SerializeField]
+    private string tooltipKey = "recipe";
+
     Queue<TooltipData> datas = new Queue<TooltipData>();
 
     private void Update()
@@ -23,6 +26,7 @@ public class TooltipManager : MonoBehaviour
 
         // dequeue and initialize
         tooltip.Initialize(datas.Dequeue());
+        AudioHandler.instance.ProcessAudioData(transform, tooltipKey);
     }
 
     public void CreateTooltip(TooltipData tooltip) => datas.Enqueue(tooltip);
