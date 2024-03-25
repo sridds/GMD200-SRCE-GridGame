@@ -52,8 +52,9 @@ public class PostProcessManager : MonoBehaviour
     {
         vignetteIntensity += Time.deltaTime;
         if (vignetteIntensity >= 0.8f)
+        {
             vignetteIntensity = 0.8f;
-
-        SceneLoader.loadScene(2);
+            SceneLoader.loadScene(2);
+        }
     }
 }
