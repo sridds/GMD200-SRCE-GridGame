@@ -26,13 +26,14 @@ public class PostProcessManager : MonoBehaviour
     {
         profile = GetComponent<PostProcessVolume>().profile;
     }
-
+     
     private void Update()
     {
         if (profile == null) return;
 
         if (colorGrading == null) profile.TryGetSettings(out colorGrading);
 
+        if (vignette == null) profile.TryGetSettings(out vignette);
 
         //Daytime visuals
         var timeElapsed = Time.time - startTime;
@@ -47,11 +48,14 @@ public class PostProcessManager : MonoBehaviour
         if (percentage >= 0.99f)
             GameManager.Instance.NextDay();
     }
-
+    /// <summary>
+    /// Displays the visuals when you die
+    /// </summary>
     public void DeathVisuals()
     {
-        vignetteIntensity += Time.deltaTime;
-        if (vignetteIntensity >= 0.8f)
+        if (vignetteIntensity <= 0.8f)
+            vignetteIntensity += Time.deltaTime;
+        else
         {
             vignetteIntensity = 0.8f;
             SceneLoader.loadScene(2);
