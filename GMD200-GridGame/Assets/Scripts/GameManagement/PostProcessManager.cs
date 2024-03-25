@@ -10,6 +10,8 @@ public class PostProcessManager : MonoBehaviour
 
     private ColorGrading colorGrading;
 
+    private Vignette vignette;
+
     private float startTime;
 
     [Header("Day Night Cycle Settings")]
@@ -22,6 +24,9 @@ public class PostProcessManager : MonoBehaviour
 
     [SerializeField] private float brightness;
 
+    [Header("Vignette Settings")]
+
+    [SerializeField] private float vignetteIntensity;
 
     private void Start()
     {
@@ -34,19 +39,34 @@ public class PostProcessManager : MonoBehaviour
 
         if (colorGrading == null) profile.TryGetSettings(out colorGrading);
 
+        if (vignette == null) profile.TryGetSettings(out vignette);
+
         colorGrading.brightness.value = this.brightness;
 
-        var timeElapsed = Time.time - startTime;
-        //Debug.Log(timeElapsed);
-        //var percentage = Mathf.Sin(timeElapsed / duration * Mathf.PI * 2) * 0.5f + 0.5f;
+        vignette.intensity.value = this.vignetteIntensity;
+
+        //Daytime visuals
         var percentage = GameManager.Instance.currentDayTimer / GameManager.Instance.maxDayTimer;
-        //percentage = Mathf.Clamp01(percentage);
-        Debug.Log(percentage);
-       
+
         colorGrading.colorFilter.value = gradient.Evaluate(percentage);
 
+        //Transition to next day
         if (percentage >= 0.99f)
             GameManager.Instance.NextDay();
     }
+
+    public void DeathVisuals()
+    {
+        vignetteIntensity += Time.deltaTime;
+        if (vignetteIntensity >= 0.8f)
+            vignetteIntensity = 0.8f;
+
+        SceneLoader.loadScene(2);
+    }
+
+    /// <summary>
+    /// Set game brightness
+    /// </summary>
+    /// <param name="brightness"></param>
     public void SetParam(float brightness) => this.brightness = brightness;
 }

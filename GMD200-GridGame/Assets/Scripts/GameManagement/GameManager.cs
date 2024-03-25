@@ -33,6 +33,9 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         else
             Instance = this;
+
+        //Subscribe death to OnHealthDepleted event 
+        player.GetComponent<Health>().OnHealthDepleted += Death;
     }
 
     private void Update()
@@ -64,11 +67,19 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-    [ContextMenu("Button")]
+    /// <summary>
+    /// Transitions to the next day
+    /// </summary>
     public void NextDay()
     {
         day++;
         currentDayTimer = 0;
         UIManager.Instance.DayTransitionUI();
+    }
+
+    private void Death()
+    {
+        GetComponent<PostProcessManager>().DeathVisuals();
+
     }
 }
