@@ -51,8 +51,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myHealth: {fileID: 5408694630321835858}
   dropper: {fileID: 7606053601927975567}
+  lightDropper: {fileID: 50938740695441142}
   damageSoundKey: mine_wood
   destroySoundKey: break
+  showDamageEffectIfWrongTool: 1
   <BreakableDatas>k__BackingField:
   - CachedTool: {fileID: 11400000, guid: 25b93ebdf7bd143c1bab31381de5a004, type: 2}
     DamageDealt: 2
@@ -108,6 +110,7 @@ MonoBehaviour:
   _requiredDrops: []
   _defaultDropCount: 3
   _randomizeDropCount: 0
+  _maxDefaultDropCount: 1
 --- !u!61 &8799883415851640985
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -247,6 +250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7229861539143657520}
   - component: {fileID: 1519364461402023764}
+  - component: {fileID: 50938740695441142}
   m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
@@ -321,3 +325,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &50938740695441142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5921403404045899493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca18d2f0746344d35be7b83f4181b4f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemDrops:
+    list:
+    - item: {fileID: 11400000, guid: 58633829f3971444a8aac3ac006b4bcc, type: 2}
+      weight: 5
+    - item: {fileID: 11400000, guid: fef0e95eab5654cebb2e478b2c65eb9d, type: 2}
+      weight: 1
+  _requiredDrops: []
+  _defaultDropCount: 1
+  _randomizeDropCount: 0
+  _maxDefaultDropCount: 1

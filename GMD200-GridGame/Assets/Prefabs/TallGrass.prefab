@@ -135,6 +135,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myHealth: {fileID: 4294488944405688566}
   dropper: {fileID: 7806222789063150846}
+  lightDropper: {fileID: 0}
+  breakFromFists: 1
   damageSoundKey: 
   destroySoundKey: tall_grass
   showDamageEffectIfWrongTool: 0
@@ -242,3 +244,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 4724540066681843898}
+  swaySoundKey: tall_grass_sway

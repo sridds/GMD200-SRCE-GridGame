@@ -29,6 +29,9 @@ public class Breakable : MonoBehaviour, IBreakable
     [Tooltip("The health of the resource")]
     [SerializeField] private Health myHealth;
     [SerializeField] private ItemDropper dropper;
+    [SerializeField] private ItemDropper lightDropper;
+
+    public bool breakFromFists = false;
 
     [SerializeField] private string damageSoundKey;
     [SerializeField] private string destroySoundKey;
@@ -46,6 +49,15 @@ public class Breakable : MonoBehaviour, IBreakable
         myHealth.OnHealthDepleted += Break;
     }
 
+
+    public void LightDamage()
+    {
+        if (lightDropper != null) lightDropper.DropItem();
+        BreakEffects();
+        myHealth.DecreaseStat(0);
+
+        if (breakFromFists) Break();
+    }
 
     public bool Damage(ItemSO tool)
     {

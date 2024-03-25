@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5126679735633468791}
   - component: {fileID: 5233914095191281796}
+  - component: {fileID: 1631352761687355495}
   m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
@@ -84,6 +85,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &1631352761687355495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5027518144156340060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca18d2f0746344d35be7b83f4181b4f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemDrops:
+    list:
+    - item: {fileID: 11400000, guid: d160b1d3f79e34581b82bd47edf2bed3, type: 2}
+      weight: 1
+  _requiredDrops: []
+  _defaultDropCount: 1
+  _randomizeDropCount: 0
+  _maxDefaultDropCount: 1
 --- !u!1 &9137166849026349953
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,8 +155,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myHealth: {fileID: 2605142496553302590}
   dropper: {fileID: 8547707548132801298}
+  lightDropper: {fileID: 1631352761687355495}
   damageSoundKey: mine_stone
   destroySoundKey: break
+  showDamageEffectIfWrongTool: 1
   <BreakableDatas>k__BackingField:
   - CachedTool: {fileID: 11400000, guid: 8aad20be8d4524668b1d2c8647855393, type: 2}
     DamageDealt: 4
@@ -185,6 +208,7 @@ MonoBehaviour:
   _requiredDrops: []
   _defaultDropCount: 5
   _randomizeDropCount: 0
+  _maxDefaultDropCount: 1
 --- !u!61 &3225407609693927437
 BoxCollider2D:
   m_ObjectHideFlags: 0
