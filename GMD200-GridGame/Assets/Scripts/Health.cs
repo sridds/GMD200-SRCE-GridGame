@@ -15,6 +15,9 @@ public class Health : MonoBehaviour, IStatHandler
     [SerializeField]
     private HealthMode mode;
 
+    [SerializeField]
+    private bool resetHealthOnDayEnd = false;
+
     [field: SerializeField]
     public Stat myStat { get; private set; }
 
@@ -55,7 +58,16 @@ public class Health : MonoBehaviour, IStatHandler
     public HealthDepleted OnHealthDepleted;
 
     // set health
-    private void Start() => myStat.Init();
+    private void Start()
+    {
+        myStat.Init();
+
+        if (resetHealthOnDayEnd) {
+            GameManager.Instance.OnDayUpdate += ResetHealth;
+        }
+    }
+
+    private void ResetHealth() => myStat.Increase(999);
 
     /// <summary>
     /// Takes damage and calls an event
