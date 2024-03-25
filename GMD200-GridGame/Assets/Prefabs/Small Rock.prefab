@@ -51,14 +51,19 @@ MonoBehaviour:
   myHealth: {fileID: 4409603146542870166}
   dropper: {fileID: 7206191076602220001}
   lightDropper: {fileID: 7082408837681968677}
+  breakFromFists: 0
   damageSoundKey: mine_stone
   destroySoundKey: break
   showDamageEffectIfWrongTool: 1
   <BreakableDatas>k__BackingField:
-  - CachedTool: {fileID: 11400000, guid: b6be8bce089f848e7be55ca6ac2af495, type: 2}
-    DamageDealt: 1
+  - CachedTool: {fileID: 11400000, guid: ad37a23a772814e5fa9296ce786a03a8, type: 2}
+    DamageDealt: 2
     IsRandomDamage: 1
     MaxDamageDealt: 3
+  - CachedTool: {fileID: 11400000, guid: b6be8bce089f848e7be55ca6ac2af495, type: 2}
+    DamageDealt: 4
+    IsRandomDamage: 1
+    MaxDamageDealt: 5
   - CachedTool: {fileID: 11400000, guid: 8aad20be8d4524668b1d2c8647855393, type: 2}
     DamageDealt: 6
     IsRandomDamage: 1
@@ -98,14 +103,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemDrops:
     list:
-    - item: {fileID: 11400000, guid: d160b1d3f79e34581b82bd47edf2bed3, type: 2}
-      weight: 3
+    - item: {fileID: 11400000, guid: ab89d4c6a2eec4f889b6c049a3bc12a9, type: 2}
+      weight: 2
     - item: {fileID: 11400000, guid: a8945b748293c4146b5c03186c5324d7, type: 2}
       weight: 4
   _requiredDrops: []
   _defaultDropCount: 3
   _randomizeDropCount: 0
   _maxDefaultDropCount: 1
+  _allowedDropCalls: 1
 --- !u!61 &404692588354456248
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -256,3 +262,4 @@ MonoBehaviour:
   _defaultDropCount: 1
   _randomizeDropCount: 0
   _maxDefaultDropCount: 1
+  _allowedDropCalls: 3

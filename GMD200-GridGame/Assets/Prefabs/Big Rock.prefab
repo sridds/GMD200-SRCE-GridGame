@@ -105,6 +105,7 @@ MonoBehaviour:
   _defaultDropCount: 1
   _randomizeDropCount: 0
   _maxDefaultDropCount: 1
+  _allowedDropCalls: 5
 --- !u!1 &9137166849026349953
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,6 +157,7 @@ MonoBehaviour:
   myHealth: {fileID: 2605142496553302590}
   dropper: {fileID: 8547707548132801298}
   lightDropper: {fileID: 1631352761687355495}
+  breakFromFists: 0
   damageSoundKey: mine_stone
   destroySoundKey: break
   showDamageEffectIfWrongTool: 1
@@ -209,6 +211,7 @@ MonoBehaviour:
   _defaultDropCount: 5
   _randomizeDropCount: 0
   _maxDefaultDropCount: 1
+  _allowedDropCalls: 1
 --- !u!61 &3225407609693927437
 BoxCollider2D:
   m_ObjectHideFlags: 0

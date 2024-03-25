@@ -52,6 +52,7 @@ MonoBehaviour:
   myHealth: {fileID: 5408694630321835858}
   dropper: {fileID: 7606053601927975567}
   lightDropper: {fileID: 50938740695441142}
+  breakFromFists: 0
   damageSoundKey: mine_wood
   destroySoundKey: break
   showDamageEffectIfWrongTool: 1
@@ -111,6 +112,7 @@ MonoBehaviour:
   _defaultDropCount: 3
   _randomizeDropCount: 0
   _maxDefaultDropCount: 1
+  _allowedDropCalls: 1
 --- !u!61 &8799883415851640985
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -341,9 +343,10 @@ MonoBehaviour:
     list:
     - item: {fileID: 11400000, guid: 58633829f3971444a8aac3ac006b4bcc, type: 2}
       weight: 5
-    - item: {fileID: 11400000, guid: fef0e95eab5654cebb2e478b2c65eb9d, type: 2}
-      weight: 1
+    - item: {fileID: 11400000, guid: bafd724e5be3142f8850c882aec8f91f, type: 2}
+      weight: 3
   _requiredDrops: []
   _defaultDropCount: 1
   _randomizeDropCount: 0
   _maxDefaultDropCount: 1
+  _allowedDropCalls: 3

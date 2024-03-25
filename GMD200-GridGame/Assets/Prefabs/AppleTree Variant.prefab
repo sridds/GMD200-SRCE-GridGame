@@ -260,6 +260,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 50938740695441142, guid: 65958149a48a64368b8e29e04f72b741, type: 3}
+      propertyPath: _itemDrops.list.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 50938740695441142, guid: 65958149a48a64368b8e29e04f72b741, type: 3}
+      propertyPath: _itemDrops.list.Array.data[2].item
+      value: 
+      objectReference: {fileID: 11400000, guid: fef0e95eab5654cebb2e478b2c65eb9d, type: 2}
+    - target: {fileID: 50938740695441142, guid: 65958149a48a64368b8e29e04f72b741, type: 3}
+      propertyPath: _itemDrops.list.Array.data[2].weight
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 229023082861931700, guid: 65958149a48a64368b8e29e04f72b741, type: 3}
       propertyPath: m_Name
       value: AppleTree Variant

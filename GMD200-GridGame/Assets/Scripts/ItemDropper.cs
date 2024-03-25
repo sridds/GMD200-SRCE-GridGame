@@ -29,10 +29,21 @@ public class ItemDropper : MonoBehaviour
     [SerializeField]
     private int _maxDefaultDropCount = 1;
 
-    public void DropItem(int count) {
+    [SerializeField]
+    private int _allowedDropCalls = 1;
 
+    int dropCalls = 0;
+
+    private void Start()
+    {
+        GameManager.Instance.OnDayUpdate += ResetDropCalls;
+    }
+
+    private void ResetDropCalls() => dropCalls = 0;
+
+    public void DropItem(int count) {
         // Drop random items
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             ItemSO item = _itemDrops.GetRandom();
 
@@ -59,6 +70,9 @@ public class ItemDropper : MonoBehaviour
 
     public void DropItem()
     {
+        dropCalls++;
+
+        if (dropCalls > _allowedDropCalls) return;
         int count = _randomizeDropCount ? Random.Range(_defaultDropCount, _maxDefaultDropCount) : _defaultDropCount;
 
         DropItem(count);
