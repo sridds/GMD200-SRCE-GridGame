@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0b28720584754ef4903466ba0aa63cc, type: 3}
   m_Name: BrodyArmor
   m_EditorClassIdentifier: 
-  materials: []
-  OutputItem: {fileID: 0}
+  materials:
+  - {fileID: 11400000, guid: 549f7be57764945ab8fa9bd399ed82f9, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 549f7be57764945ab8fa9bd399ed82f9, type: 2}
+  - {fileID: 11400000, guid: 549f7be57764945ab8fa9bd399ed82f9, type: 2}
+  - {fileID: 11400000, guid: 549f7be57764945ab8fa9bd399ed82f9, type: 2}
+  - {fileID: 11400000, guid: 549f7be57764945ab8fa9bd399ed82f9, type: 2}
+  - {fileID: 11400000, guid: 549f7be57764945ab8fa9bd399ed82f9, type: 2}
+  - {fileID: 11400000, guid: 549f7be57764945ab8fa9bd399ed82f9, type: 2}
+  - {fileID: 11400000, guid: 549f7be57764945ab8fa9bd399ed82f9, type: 2}
+  OutputItem: {fileID: 11400000, guid: b26d0f3302c8942b2bcdfb2322cc9b8c, type: 2}
   OutputAmount: 1
