@@ -67,8 +67,8 @@ public class DialogueHandler : MonoBehaviour
     private void Update()
     {
         // get input to continue / skip dialogue
-        if (Input.GetKeyDown(KeyCode.Z)) Continue();
-        if (Input.GetKeyDown(KeyCode.X)) Skip();
+        if (Input.GetMouseButtonDown(0)) Continue();
+        if (Input.GetMouseButtonDown(1)) Skip();
 
         // handle dialogue by checking if dialogue can be dequeued and started
         if (CanHandleDialogue()) {

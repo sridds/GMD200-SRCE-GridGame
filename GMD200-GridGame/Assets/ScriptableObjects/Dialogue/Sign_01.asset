@@ -13,11 +13,19 @@ MonoBehaviour:
   m_Name: Sign_01
   m_EditorClassIdentifier: 
   dialogue:
-  - Line: 'Marley''s Humble Abode
-
-'
+  - Line: 'DEAR ISLANDER:'
     HasCharacter: 0
     Character: {fileID: 0}
-  - Line: Welcome,\@ visitor!
+  - Line: 10 DAYS.
+    HasCharacter: 0
+    Character: {fileID: 0}
+  - Line: It takes 10 days for the island to sink.
+    HasCharacter: 0
+    Character: {fileID: 0}
+  - Line: Build your boat and escape before then.\@ The island is not merciful to
+      strangers.
+    HasCharacter: 0
+    Character: {fileID: 0}
+  - Line: Luck be with you.
     HasCharacter: 0
     Character: {fileID: 0}

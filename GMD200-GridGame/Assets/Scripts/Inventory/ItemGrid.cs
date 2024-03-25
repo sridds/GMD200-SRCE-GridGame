@@ -310,6 +310,29 @@ public class ItemGrid : MonoBehaviour
     }
 
     /// <summary>
+    /// Drops everything from the inventory
+    /// </summary>
+    public void DropAll()
+    {
+        for(int x = 0; x < dimensions.x; x++)
+        {
+            for(int y = 0; y < dimensions.y; y++)
+            {
+                Slot slot = slots.GetGridObject(x, y);
+
+                // if already removed, dont bother
+                if (slot.Item == null) continue;
+
+                // create drop
+                ItemDrop drop = Instantiate(GameAssets.Instance.ItemDropPrefab, GameManager.Instance.player.transform.position, Quaternion.identity);
+                drop.Init(GameManager.Instance.player.transform, slot.Item.Clone(), slot.Stack);
+
+                slot.ResetSlot();
+            }
+        }
+    }
+
+    /// <summary>
     /// Drops all from the carried slot onto the ground as item drops
     /// </summary>
     public static void DropCarried()

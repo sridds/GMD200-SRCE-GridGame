@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0b28720584754ef4903466ba0aa63cc, type: 3}
+  m_Name: Stone_Pickaxe_Recipe
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 11400000, guid: a8945b748293c4146b5c03186c5324d7, type: 2}
+  - {fileID: 11400000, guid: a8945b748293c4146b5c03186c5324d7, type: 2}
+  - {fileID: 11400000, guid: a8945b748293c4146b5c03186c5324d7, type: 2}
+  - {fileID: 11400000, guid: 7a947a655e9ba422ea6332ace025ee86, type: 2}
+  - {fileID: 11400000, guid: bafd724e5be3142f8850c882aec8f91f, type: 2}
+  - {fileID: 11400000, guid: 7a947a655e9ba422ea6332ace025ee86, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: bafd724e5be3142f8850c882aec8f91f, type: 2}
+  - {fileID: 0}
+  OutputItem: {fileID: 11400000, guid: b6be8bce089f848e7be55ca6ac2af495, type: 2}
+  OutputAmount: 1

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3435a8e65f7fb47b68492b1c4cbb4b8c, type: 3}
   m_Name: Boat
   m_EditorClassIdentifier: 
-  ItemName: Sail
+  ItemName: Boat
   ItemDescription: 
   ItemSprite: {fileID: -346227959, guid: a8a66fb4f978f46cc922b0f6a9451a16, type: 3}
   SellPrice: 15

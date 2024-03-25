@@ -37,6 +37,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void DayTransitionUI()
     {
+        AudioHandler.instance.ProcessAudioData(transform, "day");
         //Transition text and background
         transitionManager.StartTransition(dayTransitionBG);
         transitionManager.StartTransition(dayText);

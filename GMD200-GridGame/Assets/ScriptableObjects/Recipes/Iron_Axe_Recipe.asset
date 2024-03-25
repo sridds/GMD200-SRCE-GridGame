@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0b28720584754ef4903466ba0aa63cc, type: 3}
-  m_Name: Brittle_Handle_Recipe
+  m_Name: Iron_Axe_Recipe
   m_EditorClassIdentifier: 
   materials:
-  - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
   - {fileID: 0}
   - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
   - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
+  - {fileID: 11400000, guid: 16a79286673324cccadbdf8961854dbd, type: 2}
+  - {fileID: 11400000, guid: bafd724e5be3142f8850c882aec8f91f, type: 2}
   - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
-  - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
-  - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
-  - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
-  - {fileID: 11400000, guid: d5cb68121306b449caef4fff6b73a8fe, type: 2}
-  OutputItem: {fileID: 11400000, guid: f1619c7122d28410d8adbc0c3609b4a7, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: bafd724e5be3142f8850c882aec8f91f, type: 2}
+  - {fileID: 0}
+  OutputItem: {fileID: 11400000, guid: 62665622f3647445b9496664b23281bd, type: 2}
   OutputAmount: 1

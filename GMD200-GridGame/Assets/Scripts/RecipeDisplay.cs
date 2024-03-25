@@ -41,6 +41,8 @@ public class RecipeDisplay : MonoBehaviour
 
     public void SelectRecipe(RecipeSO recipe)
     {
+        AudioHandler.instance.ProcessAudioData(transform, "ui_click");
+
         for(int i = 0; i < _slots.Length; i++)
         {
             if (recipe.materials[i] != null) {

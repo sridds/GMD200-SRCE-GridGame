@@ -184,5 +184,19 @@ MonoBehaviour:
     RandomizePitch: 0
     Pitch: 1
     MaxPitch: 0.51
+  - Key: bell
+    Clips:
+    - {fileID: 8300000, guid: a53fa3a9524a24fd5aac86b3f2d05ba0, type: 3}
+    DefaultVolume: 0.6
+    RandomizePitch: 0
+    Pitch: 1
+    MaxPitch: 0.51
+  - Key: day
+    Clips:
+    - {fileID: 8300000, guid: e08ef673ba4b94a159d60b8ce4d54ece, type: 3}
+    DefaultVolume: 0.7
+    RandomizePitch: 0
+    Pitch: 1
+    MaxPitch: 0.51
   HitmarkerAsset: {fileID: 678568415337537932, guid: 1ad7b4a5396f84fd3ac6b1f49e648b83, type: 3}
   ItemDropPrefab: {fileID: 2675989421615546945, guid: 4f71da143494040798cf062af7ab037c, type: 3}

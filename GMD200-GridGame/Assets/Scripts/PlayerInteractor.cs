@@ -57,6 +57,8 @@ public class PlayerInteractor : MonoBehaviour
         if (CanInteract()) Interact();
     }
 
+    float nextFistUseTimestamp;
+
     /// <summary>
     /// Handles the usage of an item
     /// </summary>
@@ -66,7 +68,18 @@ public class PlayerInteractor : MonoBehaviour
 
         TryCastInteractionRay(out RaycastHit2D hit);
         ItemSO item = GameManager.Instance.inventory.GetSlot(controller.CurrentSlot, 0).Item;
-        if (item == null) return;
+
+
+        if (item == null || item is MaterialSO) {
+            // use fists
+            if (hit.collider != null && hit.collider.TryGetComponent<Breakable>(out Breakable breakable) && Time.time >= nextFistUseTimestamp)
+            {
+                breakable.LightDamage();
+                nextFistUseTimestamp = Time.time + 0.5f;
+            }
+
+            return;
+        }
 
         // use
         item.OnUse(new UseContext(hit, GameManager.Instance.inventory.GetSlot(controller.CurrentSlot, 0)));

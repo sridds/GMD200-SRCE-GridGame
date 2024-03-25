@@ -7,22 +7,16 @@ using UnityEngine.Rendering.PostProcessing;
 public class PostProcessManager : MonoBehaviour
 {
     private PostProcessProfile profile;
-
     private ColorGrading colorGrading;
 
     private Vignette vignette;
 
     private float startTime;
 
-    [Header("Day Night Cycle Settings")]
-
-    public float duration = 5f;
-
     [Header("Color Grading Settings")]
 
     [SerializeField] private Gradient gradient;
-
-    [SerializeField] private float brightness;
+    [SerializeField] private AnimationCurve brightnessOvertime;
 
     [Header("Vignette Settings")]
 
@@ -39,16 +33,15 @@ public class PostProcessManager : MonoBehaviour
 
         if (colorGrading == null) profile.TryGetSettings(out colorGrading);
 
-        if (vignette == null) profile.TryGetSettings(out vignette);
-
-        colorGrading.brightness.value = this.brightness;
-
-        vignette.intensity.value = this.vignetteIntensity;
 
         //Daytime visuals
+        var timeElapsed = Time.time - startTime;
         var percentage = GameManager.Instance.currentDayTimer / GameManager.Instance.maxDayTimer;
 
         colorGrading.colorFilter.value = gradient.Evaluate(percentage);
+        colorGrading.brightness.value = brightnessOvertime.Evaluate(percentage);
+
+        vignette.intensity.value = this.vignetteIntensity;
 
         //Transition to next day
         if (percentage >= 0.99f)
@@ -63,10 +56,4 @@ public class PostProcessManager : MonoBehaviour
 
         SceneLoader.loadScene(2);
     }
-
-    /// <summary>
-    /// Set game brightness
-    /// </summary>
-    /// <param name="brightness"></param>
-    public void SetParam(float brightness) => this.brightness = brightness;
 }

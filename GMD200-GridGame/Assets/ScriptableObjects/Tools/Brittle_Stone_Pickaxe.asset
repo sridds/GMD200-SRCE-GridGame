@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ae8686fe760a4670b5717c64712a9b4, type: 3}
   m_Name: Brittle_Stone_Pickaxe
   m_EditorClassIdentifier: 
-  ItemName: Brittle Stone Pickaxe
+  ItemName: Stone Pickaxe
   ItemDescription: 
   ItemSprite: {fileID: -1008539496, guid: a8a66fb4f978f46cc922b0f6a9451a16, type: 3}
   SellPrice: 7
@@ -20,6 +20,6 @@ MonoBehaviour:
     CanStack: 0
     MaxStack: 0
   HasDurability: 1
-  MaxDurability: 20
+  MaxDurability: 80
   CurrentDurability: -1
   UseCooldown: 0.8
