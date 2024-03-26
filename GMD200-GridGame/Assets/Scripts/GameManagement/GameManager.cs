@@ -102,9 +102,14 @@ public class GameManager : MonoBehaviour
         currentDayTimer = 0;
         UIManager.Instance.DayTransitionUI();
         OnDayUpdate?.Invoke();
+
+        if (day >= 10)
+        {
+            Death();
+        }
     }
 
-    public void Death()
+    private void Death()
     {
         GetComponent<PostProcessManager>().DeathVisuals();
         player.GetComponent<NewMovement>().enabled = false;

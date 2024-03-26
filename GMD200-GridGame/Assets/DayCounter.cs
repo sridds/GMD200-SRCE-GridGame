@@ -11,17 +11,7 @@ public class DayCounter : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnDayUpdate += UpdateCount;
-        GameManager.Instance.OnDayUpdate += CheckDay;
         UpdateCount();
     }
-
-    void CheckDay()
-    {
-        if (GameManager.Instance.day >= 10)
-        {
-            GameManager.Instance.Death();
-        }
-    }
-
     void UpdateCount() => text.SetText("DAY " + GameManager.Instance.day);
 }
