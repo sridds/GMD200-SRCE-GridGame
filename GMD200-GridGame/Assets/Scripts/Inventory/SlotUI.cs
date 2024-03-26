@@ -85,6 +85,10 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
             ResetSlot();
             return;
         }
+        else {
+            itemImage.enabled = true;
+            itemImage.sprite = mySlot.Item.ItemSprite;
+        }
 
         if ((lastItem == null && mySlot.Item != null) || lastItem.name != mySlot.Item.name) lastItem = mySlot.Item;
         else if (lastStack != mySlot.Stack) lastStack = mySlot.Stack;
@@ -100,8 +104,6 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
 
     private void UpdateDurability()
     {
-        UpdateItem();
-
         if (!mySlot.Item.HasDurability)
         {
             durabilitySlider.gameObject.SetActive(false);
