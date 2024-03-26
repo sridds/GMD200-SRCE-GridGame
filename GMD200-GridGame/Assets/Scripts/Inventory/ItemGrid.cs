@@ -62,6 +62,21 @@ public class ItemGrid : MonoBehaviour
         return false;
     }
 
+    public bool CheckForItem(ItemSO item)
+    {
+        for (int x = 0; x < dimensions.x; x++)
+        {
+            for (int y = 0; y < dimensions.y; y++)
+            {
+                Slot slot = slots.GetGridObject(x, y);
+
+                if (slot.Item != null && item != null && slot.Item.ItemName == item.ItemName) return true;
+            }
+        }
+
+        return false;
+    }
+
     /// <summary>
     /// Removes item at the specified position, either entirely wiped or removed from the stack.
     /// </summary>
