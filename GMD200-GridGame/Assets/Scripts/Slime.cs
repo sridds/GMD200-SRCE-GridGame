@@ -104,5 +104,9 @@ public class Slime : MonoBehaviour
     /// <summary>
     /// Call any listeners to OnEnemyDeath delegate when slime dies
     /// </summary>
-    private void OnDeath() => OnEnemyDeath?.Invoke(gameObject);
+    private void OnDeath()
+    {
+        GameManager.Instance.AddScore(50);
+        OnEnemyDeath?.Invoke(gameObject);
+    }
 }

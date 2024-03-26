@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     private Transition transitionManager;
 
     [Header("Pause Settings")]
+
     [SerializeField] private GameObject pauseMenu;
 
     [Header("Day Transition Refrences")]
@@ -15,6 +16,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image dayTransitionBG;
 
     [SerializeField] private TextMeshProUGUI dayText;
+
+    [Header("Score Refrences")]
+
+    [SerializeField] private TextMeshProUGUI scoreText;
     public static UIManager Instance { get; private set; }
     private void Awake()
     {
@@ -44,4 +49,9 @@ public class UIManager : MonoBehaviour
 
         dayText.text = $"DAY {GameManager.Instance.day}";
     }
+    /// <summary>
+    /// Update the UI for score
+    /// </summary>
+    /// <param name="score"></param>
+    public void UpdateScore(int score) => scoreText.text = $"{score}";
 }

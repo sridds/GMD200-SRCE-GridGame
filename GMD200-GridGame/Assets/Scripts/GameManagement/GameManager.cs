@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
 
     public ItemGrid inventory;
 
+    [Header("Score")]
+
+    public int score;
+
     [Header("Current Day")]
     public int day;
     public Transform startPos;
@@ -114,5 +118,15 @@ public class GameManager : MonoBehaviour
     {
         GetComponent<PostProcessManager>().DeathVisuals();
         player.GetComponent<NewMovement>().enabled = false;
+    }
+
+    /// <summary>
+    /// Adds to player score
+    /// </summary>
+    /// <param name="points"></param>
+    public void AddScore(int points)
+    {
+        score += points;
+        UIManager.Instance.UpdateScore(score);
     }
 }
