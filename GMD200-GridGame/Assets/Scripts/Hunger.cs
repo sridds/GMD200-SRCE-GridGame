@@ -88,8 +88,8 @@ public class Hunger : MonoBehaviour, IStatHandler
             regenTimer += Time.deltaTime;
 
             if(regenTimer >= regenTime) {
-                playerHealth.IncreaseStat(3);
-                saturation.Decrease(5);
+                playerHealth.IncreaseStat(1);
+                saturation.Decrease(2);
 
                 regenTimer = 0.0f;
             }

@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour
         currentDayTimer = 0;
         UIManager.Instance.DayTransitionUI();
         OnDayUpdate?.Invoke();
+        lateFlag = false;
 
         if (day >= 10)
         {

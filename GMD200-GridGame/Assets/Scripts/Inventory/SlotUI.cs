@@ -100,6 +100,8 @@ public class SlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
 
     private void UpdateDurability()
     {
+        UpdateItem();
+
         if (!mySlot.Item.HasDurability)
         {
             durabilitySlider.gameObject.SetActive(false);

@@ -53,10 +53,6 @@ public class PostProcessManager : MonoBehaviour
         vignette.intensity.value = this.vignetteIntensity;
 
         vignette.color.value = this.vignetteColor;
-
-        //Transition to next day
-        if (percentage >= 0.99f)
-            GameManager.Instance.NextDay();
     }
     /// <summary>
     /// Displays the visuals when you die
