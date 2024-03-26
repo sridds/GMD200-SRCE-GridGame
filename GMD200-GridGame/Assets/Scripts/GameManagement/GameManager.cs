@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     {
         currentDayTimer += Time.deltaTime;
 
-        if(currentDayTimer >= lateIndicationTime && !lateFlag)
+        if (currentDayTimer >= lateIndicationTime && !lateFlag)
         {
             AudioHandler.instance.ProcessAudioData(transform, "bell");
             DialogueHandler.Instance.QueueDialogue(new DialogueData { Line = "It's getting late..." });
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.Playing:
-//                UIManager.Instance.Pause(false);
+                //                UIManager.Instance.Pause(false);
                 Cursor.lockState = CursorLockMode.Locked;
                 Time.timeScale = 1f;
                 break;
@@ -104,9 +104,9 @@ public class GameManager : MonoBehaviour
         OnDayUpdate?.Invoke();
     }
 
-    private void Death()
+    public void Death()
     {
         GetComponent<PostProcessManager>().DeathVisuals();
-
+        player.GetComponent<NewMovement>().enabled = false;
     }
 }

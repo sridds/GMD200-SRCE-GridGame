@@ -22,6 +22,14 @@ public class PostProcessManager : MonoBehaviour
 
     [SerializeField] private float vignetteIntensity;
 
+    [SerializeField] private Color vignetteColor;
+
+    [Tooltip("How long the vignette will hold before loading death scene")]
+    [SerializeField] private float vignetteHoldTime = 1f;
+
+    [Tooltip("The vignette intesity that will be set when the player dies")]
+    [SerializeField] private float targetVingette = 0.7f;
+
     private void Start()
     {
         profile = GetComponent<PostProcessVolume>().profile;
@@ -44,6 +52,8 @@ public class PostProcessManager : MonoBehaviour
 
         vignette.intensity.value = this.vignetteIntensity;
 
+        vignette.color.value = this.vignetteColor;
+
         //Transition to next day
         if (percentage >= 0.99f)
             GameManager.Instance.NextDay();
@@ -51,14 +61,16 @@ public class PostProcessManager : MonoBehaviour
     /// <summary>
     /// Displays the visuals when you die
     /// </summary>
-    public void DeathVisuals()
+    public void DeathVisuals() => StartCoroutine(PlayDeathVisual(vignetteHoldTime, targetVingette));
+    IEnumerator PlayDeathVisual(float loadSceneWait, float targetVignette)
     {
-        if (vignetteIntensity <= 0.8f)
-            vignetteIntensity += Time.deltaTime;
-        else
+        while (vignetteIntensity <= targetVignette)
         {
-            vignetteIntensity = 0.8f;
-            SceneLoader.loadScene(2);
+            vignetteIntensity += Time.deltaTime;
+            yield return null;
         }
+        vignetteIntensity = targetVignette;
+        yield return new WaitForSeconds(loadSceneWait);
+        SceneLoader.loadScene(2);
     }
 }

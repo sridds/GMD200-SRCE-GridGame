@@ -41,7 +41,5 @@ public class UIManager : MonoBehaviour
         //Transition text and background
         transitionManager.StartTransition(dayTransitionBG);
         transitionManager.StartTransition(dayText);
-
-        dayText.text = $"DAY {GameManager.Instance.day}";
     }
 }
