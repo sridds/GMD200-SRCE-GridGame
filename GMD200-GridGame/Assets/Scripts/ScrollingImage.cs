@@ -1,0 +1,15 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ScrollingImage : MonoBehaviour
+{
+    private RawImage _img;
+    [SerializeField] private float _x, _y;
+
+
+    private void Start() => _img = GetComponent<RawImage>();
+    void Update()
+    {
+        _img.uvRect = new Rect(_img.uvRect.position + new Vector2(_x, _y) * Time.deltaTime, _img.uvRect.size);
+    }
+}
